@@ -2,10 +2,11 @@ import './globals.css'
 
 import {SpeedInsights} from '@vercel/speed-insights/next'
 import type {Metadata} from 'next'
-import {draftMode} from 'next/headers'
+import {draftMode, cookies} from 'next/headers'
 import {toPlainText} from 'next-sanity'
 import {VisualEditing} from 'next-sanity/visual-editing'
 import {Toaster} from 'sonner'
+import {verifySession} from '@/lib/auth'
 
 import ClientLayoutWrapper from '@/app/components/ClientLayoutWrapper'
 import DraftModeToast from '@/app/components/DraftModeToast'
@@ -69,6 +70,15 @@ const ibmPlexMono = {
 export default async function RootLayout({children}: LayoutProps<'/'>) {
   const {isEnabled: isDraftMode} = await draftMode()
 
+  let session: any = null
+  try {
+    const cookieStore = await cookies()
+    const token = cookieStore.get('examforge_session')?.value
+    session = verifySession(token)
+  } catch {
+    // ignore
+  }
+
   return (
     <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable} bg-neutral-950 text-white dark`}>
       <body>
@@ -83,6 +93,7 @@ export default async function RootLayout({children}: LayoutProps<'/'>) {
         <ClientLayoutWrapper
           header={<Header />}
           footer={<Footer />}
+          initialSession={session}
         >
           {children}
         </ClientLayoutWrapper>
