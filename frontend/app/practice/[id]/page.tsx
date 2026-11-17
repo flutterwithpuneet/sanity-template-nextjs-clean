@@ -829,7 +829,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                       </div>
 
                       {/* Option Text */}
-                      <span className={`text-base font-semibold ${isSelected ? 'text-blue-950 font-bold' : 'text-slate-800'}`}>
+                      <span className={`text-base font-semibold ${isSelected ? 'text-black font-bold' : 'text-slate-800'}`}>
                         {opt.text}
                       </span>
                     </div>
@@ -883,7 +883,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
               <button
                 type="button"
                 onClick={handleSaveAndNext}
-                className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer"
+                className="px-6 py-2.5 rounded-xl bg-black hover:bg-neutral-800 text-white font-bold text-xs transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer"
               >
                 <span>Save & Next</span>
                 <Icons.ChevronRight size={14} />
