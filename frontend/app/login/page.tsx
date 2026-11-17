@@ -2,15 +2,14 @@
 
 import React, { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
 
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirectParam = searchParams.get('redirect') || '/'
 
-  const [username, setUsername] = useState('puneet_a1')
-  const [password, setPassword] = useState("asdfghjkl;'")
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -47,12 +46,6 @@ function LoginForm() {
     }
   }
 
-  const handleFillCredentials = () => {
-    setUsername('puneet_a1')
-    setPassword("asdfghjkl;'")
-    setError(null)
-  }
-
   return (
     <div className="w-full max-w-md">
       {/* Brand Header */}
@@ -70,29 +63,12 @@ function LoginForm() {
 
       {/* Main Card */}
       <div className="bg-neutral-900/90 border border-neutral-800 rounded-2xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl shadow-black/80">
-        <div className="mb-6 pb-5 border-b border-neutral-800">
-          <div className="flex items-center justify-between text-xs text-neutral-400 mb-2">
-            <span className="uppercase tracking-wider font-semibold text-neutral-300">Authorized Access Only</span>
-            <span className="flex items-center gap-1.5 text-emerald-400 font-mono">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              Secure DB
-            </span>
-          </div>
-          <div className="p-3 bg-black/60 rounded-xl border border-neutral-800/80 flex items-center justify-between">
-            <div className="text-xs text-neutral-300">
-              <div className="font-medium text-white">Default Candidate Credentials:</div>
-              <div className="font-mono text-neutral-400 mt-0.5">
-                User: <span className="text-white font-semibold">puneet_a1</span> | Pass: <span className="text-white font-semibold">asdfghjkl;&apos;</span>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={handleFillCredentials}
-              className="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-200 transition-colors border border-neutral-700"
-            >
-              Autofill
-            </button>
-          </div>
+        <div className="mb-6 pb-4 border-b border-neutral-800 flex items-center justify-between text-xs text-neutral-400">
+          <span className="uppercase tracking-wider font-semibold text-neutral-300">Authorized Access</span>
+          <span className="flex items-center gap-1.5 text-emerald-400 font-mono">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Secure DB
+          </span>
         </div>
 
         {error && (
@@ -132,7 +108,7 @@ function LoginForm() {
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="puneet_a1"
+                placeholder="Enter username"
                 autoComplete="username"
                 className="w-full pl-10 pr-4 py-3 bg-black/60 border border-neutral-700 rounded-xl text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all font-mono"
               />
