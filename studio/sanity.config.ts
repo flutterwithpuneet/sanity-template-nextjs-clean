@@ -21,11 +21,10 @@ import {assist} from '@sanity/assist'
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'your-projectID'
 const dataset = process.env.SANITY_STUDIO_DATASET || 'production'
 
-// URL for preview functionality, defaults to FRONTEND_URL (Vercel service binding), SANITY_STUDIO_PREVIEW_URL, or localhost:3000
+// URL for preview functionality, defaults to SANITY_STUDIO_PREVIEW_URL, current window origin, or localhost:3000
 const SANITY_STUDIO_PREVIEW_URL =
-  process.env.FRONTEND_URL ||
   process.env.SANITY_STUDIO_PREVIEW_URL ||
-  'http://localhost:3000'
+  (typeof window !== 'undefined' && window.location.origin ? window.location.origin : 'http://localhost:3000')
 
 // Base path when Studio is hosted under a subpath (e.g. /studio)
 const basePath = process.env.SANITY_STUDIO_BASE_PATH || undefined

@@ -15,15 +15,7 @@
     },
     "studio": {
       "root": "studio",
-      "framework": "sanity",
-      "bindings": [
-        {
-          "type": "service",
-          "service": "frontend",
-          "format": "url",
-          "env": "FRONTEND_URL"
-        }
-      ]
+      "framework": "sanity"
     }
   },
   "rewrites": [
