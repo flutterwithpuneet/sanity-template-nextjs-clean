@@ -46,8 +46,14 @@ export async function GET(req: NextRequest) {
     }
 
     if (difficulty && difficulty !== 'all') {
-      query += ` AND LOWER(a.difficulty_level) = LOWER(?)`
-      params.push(difficulty)
+      const diffLower = difficulty.toLowerCase()
+      if (diffLower === 'easy' || diffLower === 'low') {
+        query += ` AND (LOWER(a.difficulty_level) = 'low' OR LOWER(a.difficulty_level) = 'easy')`
+      } else if (diffLower === 'hard' || diffLower === 'high') {
+        query += ` AND (LOWER(a.difficulty_level) = 'high' OR LOWER(a.difficulty_level) = 'hard')`
+      } else {
+        query += ` AND (LOWER(a.difficulty_level) = 'medium' OR LOWER(a.difficulty_level) = 'moderate')`
+      }
     }
 
     query += ` ORDER BY a.id ASC`

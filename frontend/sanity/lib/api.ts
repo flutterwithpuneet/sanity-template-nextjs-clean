@@ -32,5 +32,9 @@ export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2025-09
 
 /**
  * Used to configure edit intent links, for Presentation Mode, as well as to configure where the Studio is mounted in the router.
+ * In Vercel Services mode, reads the bound STUDIO_URL environment variable if present.
  */
-export const studioUrl = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL || 'http://localhost:3333'
+export const studioUrl =
+  process.env.STUDIO_URL ||
+  process.env.NEXT_PUBLIC_SANITY_STUDIO_URL ||
+  'http://localhost:3333'

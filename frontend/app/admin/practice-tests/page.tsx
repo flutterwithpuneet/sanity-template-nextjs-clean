@@ -26,6 +26,7 @@ function PracticeTestsContent() {
   const [assessmentType, setAssessmentType] = useState<
     'mock' | 'sectional' | 'topic_test' | 'full_length' | 'practice'
   >('mock')
+  const [difficultyLevel, setDifficultyLevel] = useState<'low' | 'medium' | 'high'>('medium')
   const [durationMinutes, setDurationMinutes] = useState<number>(60)
   const [passingPercentage, setPassingPercentage] = useState<number>(40)
   const [marksPerQuestion, setMarksPerQuestion] = useState<number>(1.0)
@@ -70,6 +71,7 @@ function PracticeTestsContent() {
     setTitle('')
     setDescription('')
     setAssessmentType('mock')
+    setDifficultyLevel('medium')
     setDurationMinutes(60)
     setPassingPercentage(40)
     setMarksPerQuestion(1.0)
@@ -109,6 +111,8 @@ function PracticeTestsContent() {
         title,
         description,
         assessment_type: assessmentType,
+        difficulty_level: difficultyLevel,
+        subject_id: builderSubjectId !== 'all' ? Number(builderSubjectId) : null,
         duration_minutes: durationMinutes,
         passing_percentage: passingPercentage,
         selected_question_ids: selectedQuestionIds,
@@ -210,6 +214,15 @@ function PracticeTestsContent() {
                   <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-gray-100 text-black border border-gray-200 font-mono">
                     {test.assessment_type}
                   </span>
+                  <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded font-mono ${
+                    (test.difficulty_level || 'medium') === 'low'
+                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                      : (test.difficulty_level || 'medium') === 'high'
+                      ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                      : 'bg-amber-50 text-amber-700 border border-amber-200'
+                  }`}>
+                    {test.difficulty_level || 'medium'}
+                  </span>
                   <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-black text-white">
                     {test.status}
                   </span>
@@ -303,6 +316,20 @@ function PracticeTestsContent() {
                 <option value="sectional">Sectional Test</option>
                 <option value="topic_test">Topic Test</option>
                 <option value="practice">Practice Drill</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+                Difficulty Category (कठिनाई स्तर) *
+              </label>
+              <select
+                value={difficultyLevel}
+                onChange={(e) => setDifficultyLevel(e.target.value as any)}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-xs bg-white focus:outline-none focus:border-black font-medium"
+              >
+                <option value="low">Low Level (सरल / Basic)</option>
+                <option value="medium">Medium Level (मध्यम / Standard)</option>
+                <option value="high">High Level (कठिन / Advanced)</option>
               </select>
             </div>
           </div>

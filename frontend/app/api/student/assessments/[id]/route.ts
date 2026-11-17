@@ -15,6 +15,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         a.total_questions,
         a.total_marks,
         a.passing_percentage,
+        COALESCE(a.difficulty_level, 'medium') as difficulty_level,
         s.name as subject_name,
         e.name as exam_name
       FROM assessments a
@@ -86,4 +87,3 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }
-

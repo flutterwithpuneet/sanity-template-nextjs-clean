@@ -21,8 +21,14 @@ import {assist} from '@sanity/assist'
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'your-projectID'
 const dataset = process.env.SANITY_STUDIO_DATASET || 'production'
 
-// URL for preview functionality, defaults to localhost:3000 if not set
-const SANITY_STUDIO_PREVIEW_URL = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:3000'
+// URL for preview functionality, defaults to FRONTEND_URL (Vercel service binding), SANITY_STUDIO_PREVIEW_URL, or localhost:3000
+const SANITY_STUDIO_PREVIEW_URL =
+  process.env.FRONTEND_URL ||
+  process.env.SANITY_STUDIO_PREVIEW_URL ||
+  'http://localhost:3000'
+
+// Base path when Studio is hosted under a subpath (e.g. /studio)
+const basePath = process.env.SANITY_STUDIO_BASE_PATH || undefined
 
 // Define the home location for the presentation tool
 const homeLocation = {
@@ -48,6 +54,7 @@ function resolveHref(documentType?: string, slug?: string): string | undefined {
 export default defineConfig({
   name: 'default',
   title: 'Sanity + Next.js Starter Template',
+  ...(basePath ? {basePath} : {}),
 
   projectId,
   dataset,

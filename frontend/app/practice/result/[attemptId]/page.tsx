@@ -105,7 +105,7 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
           <div className="space-y-2 text-center md:text-left">
             <span
               className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${
-                attempt.passed ? 'bg-black text-white' : 'bg-gray-200 text-gray-800'
+                attempt.passed ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 text-amber-800 border border-amber-300'
               }`}
             >
               {attempt.passed ? '✓ PASSED EXAMINATION' : '⚠ RETAKE RECOMMENDED'}
@@ -208,7 +208,7 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
                   <div className="flex-1 bg-gray-100 rounded-full h-3 overflow-hidden border border-gray-200">
                     <div
                       className={`h-full rounded-full transition-all ${
-                        ans.is_correct === 1 ? 'bg-black' : 'bg-gray-400'
+                        ans.is_correct === 1 ? 'bg-emerald-500' : 'bg-rose-400'
                       }`}
                       style={{ width: `${pct}%` }}
                     />
