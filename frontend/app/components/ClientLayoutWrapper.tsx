@@ -21,15 +21,14 @@ export default function ClientLayoutWrapper({
   return (
     <ExamStoreProvider>
       {isAdminOrPractice ? (
-        <div className="min-h-screen bg-gray-50">{children}</div>
+        <div className="min-h-screen bg-gray-50 text-gray-900">{children}</div>
       ) : (
-        <section className="min-h-screen pt-24">
+        <section className="min-h-screen pt-20 bg-neutral-950 text-white flex flex-col justify-between">
           {header}
-          <main className="">{children}</main>
+          <main className="bg-neutral-950 text-white flex-1">{children}</main>
           {footer}
         </section>
       )}
     </ExamStoreProvider>
   )
 }
-

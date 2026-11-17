@@ -27,25 +27,25 @@ export default async function Page() {
   ]
 
   return (
-    <div className="space-y-20 pb-24 text-slate-800">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-28 bg-gradient-to-b from-blue-50/70 via-indigo-50/30 to-white border-b border-slate-200/70">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]"></div>
+    <div className="space-y-20 pb-24 bg-neutral-950 text-white min-h-screen">
+      {/* Dark Mode Hero Section */}
+      <section className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-28 bg-gradient-to-b from-neutral-900 via-neutral-950 to-neutral-950 border-b border-neutral-800">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(255,255,255,0.06),rgba(0,0,0,0))]"></div>
 
         <div className="container mx-auto px-4 sm:px-6 max-w-5xl text-center space-y-8">
-          {/* Top Pill */}
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white text-blue-700 text-xs font-semibold shadow-xs border border-blue-200/80">
-            <span className="flex h-2 w-2 rounded-full bg-blue-600 animate-pulse"></span>
+          {/* Top Pill Badge */}
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-neutral-900 text-neutral-300 text-xs font-semibold shadow-xs border border-neutral-700">
+            <span className="flex h-2 w-2 rounded-full bg-white animate-pulse"></span>
             <span>Rajasthan Informatics Assistant (सूचना सहायक) 2026 Test Series</span>
           </div>
 
           {/* Heading */}
           <div className="space-y-4 max-w-4xl mx-auto">
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.1]">
-              Master Government Exams with <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-700">Precision & Speed</span>
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white leading-[1.1]">
+              Master Government Exams with <span className="underline decoration-neutral-700 decoration-wavy">Precision & Speed</span>
             </h1>
 
-            <p className="text-base sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg text-neutral-400 max-w-2xl mx-auto leading-relaxed">
               Targeted bilingual practice drills, verified standard question repository, authentic exam environment, and second-by-second performance analytics.
             </p>
           </div>
@@ -54,7 +54,7 @@ export default async function Page() {
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <Link
               href="/practice"
-              className="px-7 py-4 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2.5 group"
+              className="px-7 py-4 rounded-2xl bg-white hover:bg-neutral-200 text-black font-black text-sm shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2.5 group cursor-pointer"
             >
               <span>Start Free Practice Drill</span>
               <svg
@@ -75,14 +75,14 @@ export default async function Page() {
 
             <Link
               href="/admin/questions"
-              className="px-6 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm border border-slate-200 shadow-xs hover:border-slate-300 transition-all duration-200 flex items-center gap-2"
+              className="px-6 py-4 rounded-2xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 font-semibold text-sm border border-neutral-700 shadow-xs transition-all duration-200 flex items-center gap-2 cursor-pointer"
             >
               <span>Explore Question Bank</span>
             </Link>
 
             <Link
               href="/admin"
-              className="px-5 py-4 rounded-2xl bg-slate-100 hover:bg-slate-200/80 text-slate-700 font-semibold text-sm transition-all duration-200"
+              className="px-5 py-4 rounded-2xl bg-neutral-900 hover:bg-neutral-800 text-neutral-300 font-semibold text-sm border border-neutral-800 transition-all duration-200 cursor-pointer"
             >
               Admin Dashboard
             </Link>
@@ -90,25 +90,25 @@ export default async function Page() {
 
           {/* Highlights Grid */}
           <div className="pt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto text-left">
-            <div className="p-4 rounded-2xl bg-white/90 backdrop-blur-xs border border-slate-200/80 shadow-xs hover:shadow-md transition-shadow">
+            <div className="p-4 rounded-2xl bg-neutral-900/90 border border-neutral-800 shadow-xs hover:border-neutral-600 transition-colors">
               <div className="text-2xl mb-1">⏱️</div>
-              <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider">Time Analytics</span>
-              <div className="text-sm font-bold text-slate-900 mt-0.5">Per-Question Timing</div>
+              <span className="text-xs text-neutral-500 font-semibold uppercase tracking-wider">Time Analytics</span>
+              <div className="text-sm font-bold text-white mt-0.5">Per-Question Timing</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white/90 backdrop-blur-xs border border-slate-200/80 shadow-xs hover:shadow-md transition-shadow">
+            <div className="p-4 rounded-2xl bg-neutral-900/90 border border-neutral-800 shadow-xs hover:border-neutral-600 transition-colors">
               <div className="text-2xl mb-1">🌐</div>
-              <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider">Language</span>
-              <div className="text-sm font-bold text-slate-900 mt-0.5">Hindi & English Dual</div>
+              <span className="text-xs text-neutral-500 font-semibold uppercase tracking-wider">Language</span>
+              <div className="text-sm font-bold text-white mt-0.5">Hindi & English Dual</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white/90 backdrop-blur-xs border border-slate-200/80 shadow-xs hover:shadow-md transition-shadow">
+            <div className="p-4 rounded-2xl bg-neutral-900/90 border border-neutral-800 shadow-xs hover:border-neutral-600 transition-colors">
               <div className="text-2xl mb-1">📊</div>
-              <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider">Marking Scheme</span>
-              <div className="text-sm font-bold text-slate-900 mt-0.5">+1.00 / -0.25 Negative</div>
+              <span className="text-xs text-neutral-500 font-semibold uppercase tracking-wider">Marking Scheme</span>
+              <div className="text-sm font-bold text-white mt-0.5">+1.00 / -0.25 Negative</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white/90 backdrop-blur-xs border border-slate-200/80 shadow-xs hover:shadow-md transition-shadow">
+            <div className="p-4 rounded-2xl bg-neutral-900/90 border border-neutral-800 shadow-xs hover:border-neutral-600 transition-colors">
               <div className="text-2xl mb-1">⚡</div>
-              <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider">Exam Format</span>
-              <div className="text-sm font-bold text-slate-900 mt-0.5">TCS iON CBT Pattern</div>
+              <span className="text-xs text-neutral-500 font-semibold uppercase tracking-wider">Exam Format</span>
+              <div className="text-sm font-bold text-white mt-0.5">TCS iON CBT Pattern</div>
             </div>
           </div>
         </div>
@@ -117,13 +117,13 @@ export default async function Page() {
       {/* Syllabus / Subject Cards Section */}
       <section className="container mx-auto px-4 sm:px-6 max-w-5xl space-y-8">
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-blue-100/70 text-blue-700">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-neutral-900 text-neutral-300 border border-neutral-700">
             Syllabus Coverage
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+          <h2 className="text-2xl sm:text-3xl font-black text-white">
             Structured Government Exam Modules
           </h2>
-          <p className="text-sm text-slate-600 max-w-xl mx-auto">
+          <p className="text-sm text-neutral-400 max-w-xl mx-auto">
             Comprehensive curriculum aligned with RSMSSB Rajasthan Informatics Assistant & State Examination standards.
           </p>
         </div>
@@ -132,30 +132,30 @@ export default async function Page() {
           {subjects.map((sub) => (
             <div
               key={sub.id}
-              className="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:shadow-md hover:border-blue-300 hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between group"
+              className="p-6 rounded-2xl bg-neutral-900/80 border border-neutral-800 shadow-xs hover:border-neutral-600 hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between group"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-2xl">{sub.icon}</span>
-                  <span className="text-[11px] font-bold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">
+                  <span className="text-[11px] font-mono font-bold text-neutral-300 bg-neutral-800 px-2.5 py-0.5 rounded-full border border-neutral-700">
                     {sub.code}
                   </span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-base text-slate-900 group-hover:text-blue-600 transition-colors">
+                  <h3 className="font-bold text-base text-white group-hover:text-neutral-200 transition-colors">
                     {sub.name}
                   </h3>
-                  <p className="text-xs text-slate-500 mt-1 line-clamp-2">
+                  <p className="text-xs text-neutral-400 mt-1 line-clamp-2 leading-relaxed">
                     {sub.desc}
                   </p>
                 </div>
               </div>
 
-              <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span className="font-semibold text-slate-400">{sub.count}</span>
+              <div className="mt-5 pt-4 border-t border-neutral-800 flex items-center justify-between text-xs">
+                <span className="font-semibold text-neutral-500">{sub.count}</span>
                 <Link
                   href="/practice"
-                  className="font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 group-hover:underline"
+                  className="font-bold text-white hover:text-neutral-300 flex items-center gap-1 group-hover:underline cursor-pointer"
                 >
                   <span>Practice</span>
                   <span>→</span>
@@ -170,7 +170,7 @@ export default async function Page() {
       <section className="container mx-auto px-4 max-w-4xl space-y-6">
         {settings?.description && (
           <div
-            className="prose text-slate-700 mx-auto text-center"
+            className="prose prose-invert text-neutral-300 mx-auto text-center"
             data-sanity={dataAttr({
               id: settings._id,
               type: 'settings',
@@ -181,7 +181,7 @@ export default async function Page() {
           </div>
         )}
 
-        <Suspense fallback={<div className="text-center text-xs text-slate-400 py-6">Loading announcements...</div>}>
+        <Suspense fallback={<div className="text-center text-xs text-neutral-500 py-6">Loading announcements...</div>}>
           <AllPosts />
         </Suspense>
       </section>

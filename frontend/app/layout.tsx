@@ -70,7 +70,7 @@ export default async function RootLayout({children}: LayoutProps<'/'>) {
   const {isEnabled: isDraftMode} = await draftMode()
 
   return (
-    <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable} bg-white text-black`}>
+    <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable} bg-neutral-950 text-white dark`}>
       <body>
         <Toaster position="top-right" richColors />
         {isDraftMode && (

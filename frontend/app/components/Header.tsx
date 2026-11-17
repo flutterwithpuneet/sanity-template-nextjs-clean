@@ -14,14 +14,14 @@ export default async function Header() {
   }
 
   return (
-    <header className="fixed z-50 h-20 inset-x-0 top-0 bg-white/90 backdrop-blur-md border-b border-slate-200/80 flex items-center shadow-2xs">
-      <div className="container py-4 px-4 sm:px-6">
+    <header className="fixed z-50 h-20 inset-x-0 top-0 bg-neutral-950/90 backdrop-blur-md border-b border-neutral-800 flex items-center shadow-lg text-white">
+      <div className="container py-4 px-4 sm:px-6 max-w-6xl mx-auto w-full">
         <div className="flex items-center justify-between gap-5">
           <Link className="flex items-center gap-2.5 group" href="/">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white font-extrabold text-sm flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-white text-black font-black text-sm flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
               EF
             </div>
-            <span className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
+            <span className="text-lg sm:text-xl font-extrabold tracking-tight text-white group-hover:text-neutral-300 transition-colors">
               ExamForge
             </span>
           </Link>
@@ -29,22 +29,22 @@ export default async function Header() {
           <nav>
             <ul
               role="list"
-              className="flex items-center gap-3 sm:gap-5 leading-5 text-xs sm:text-sm font-semibold text-slate-600"
+              className="flex items-center gap-3 sm:gap-5 leading-5 text-xs sm:text-sm font-semibold text-neutral-300"
             >
               <li>
                 <Link
                   href="/practice"
-                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-xs hover:shadow-md transition-all flex items-center gap-1.5"
+                  className="px-4 py-2 rounded-xl bg-white hover:bg-neutral-200 text-black font-bold text-xs shadow-xs transition-all flex items-center gap-1.5"
                 >
                   <span>Practice Tests</span>
-                  <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-300"></span>
+                  <span className="flex h-1.5 w-1.5 rounded-full bg-black"></span>
                 </Link>
               </li>
 
               <li className="hidden sm:block">
                 <Link
                   href="/admin/questions"
-                  className="text-slate-600 hover:text-blue-600 transition-colors"
+                  className="text-neutral-300 hover:text-white transition-colors"
                 >
                   Question Bank
                 </Link>
@@ -53,7 +53,7 @@ export default async function Header() {
               <li>
                 <Link
                   href="/admin"
-                  className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-slate-800 text-xs font-bold transition-colors"
+                  className="px-3.5 py-2 rounded-xl bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 text-white text-xs font-bold transition-colors"
                 >
                   Admin Panel
                 </Link>
