@@ -50,7 +50,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         aa.answer_status,
         q.id as question_id,
         q.question_text,
+        q.question_text_hi,
         q.explanation,
+        q.explanation_hi,
         q.difficulty,
         sub.name as subject_name,
         top.name as topic_name,
@@ -70,7 +72,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     if (answers.length > 0) {
       const qIds = answers.map((a: any) => a.question_id)
       const [options]: any = await db.query(
-        `SELECT question_id, option_key, option_text, is_correct 
+        `SELECT question_id, option_key, option_text, option_text_hi, is_correct 
          FROM question_options 
          WHERE question_id IN (${qIds.map(() => '?').join(',')}) 
          ORDER BY order_index ASC`,
@@ -83,6 +85,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         optMap[opt.question_id].push({
           key: opt.option_key,
           text: opt.option_text,
+          text_hi: opt.option_text_hi || opt.option_text,
           isCorrect: Boolean(opt.is_correct),
         })
       }
@@ -103,4 +106,3 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }
-

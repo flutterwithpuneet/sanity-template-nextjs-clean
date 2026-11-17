@@ -1,7 +1,23 @@
 import pg from 'pg'
-import type { Pool as PgPool, QueryResult } from 'pg'
+import type { Pool as PgPool, Client as PgClient, QueryResult } from 'pg'
 
-const { Pool } = pg
+const { Pool, Client } = pg
+
+export const dbConfig = {
+  host: process.env.DB_HOST || '1m3ur6d1ukkdkt94.gateway01.us-east-1.prod.aws.pg.tidbcloud.com',
+  port: Number(process.env.DB_PORT) || 5432,
+  user: process.env.DB_USER || '1m3ur6d1ukkdkt94.postgres',
+  password: process.env.DB_PASSWORD || 'OI9j3fqXI41kT2ciiCLd9fm1Du2dHKwR',
+  database: process.env.DB_NAME || 'exam',
+  ssl: { rejectUnauthorized: false },
+}
+
+export function createClient(customConfig: Record<string, any> = {}): PgClient {
+  return new Client({ ...dbConfig, ...customConfig })
+}
+
+// Common single client instance
+export const client: PgClient = createClient()
 
 const globalForDb = globalThis as unknown as {
   pgPool: PgPool | undefined
@@ -10,12 +26,7 @@ const globalForDb = globalThis as unknown as {
 export const pool =
   globalForDb.pgPool ??
   new Pool({
-    host: process.env.DB_HOST || '1m3ur6d1ukkdkt94.gateway01.us-east-1.prod.aws.pg.tidbcloud.com',
-    port: Number(process.env.DB_PORT) || 5432,
-    user: process.env.DB_USER || '1m3ur6d1ukkdkt94.postgres',
-    password: process.env.DB_PASSWORD || 'OI9j3fqXI41kT2ciiCLd9fm1Du2dHKwR',
-    database: process.env.DB_NAME || 'exam',
-    ssl: { rejectUnauthorized: false },
+    ...dbConfig,
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 10000,

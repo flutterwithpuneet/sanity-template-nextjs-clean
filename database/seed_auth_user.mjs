@@ -1,15 +1,5 @@
-import pg from 'pg'
-const { Client } = pg
 import crypto from 'crypto'
-
-const client = new Client({
-  host: '1m3ur6d1ukkdkt94.gateway01.us-east-1.prod.aws.pg.tidbcloud.com',
-  port: 5432,
-  user: '1m3ur6d1ukkdkt94.postgres',
-  password: 'OI9j3fqXI41kT2ciiCLd9fm1Du2dHKwR',
-  database: 'exam',
-  ssl: { rejectUnauthorized: false }
-})
+import { client } from './db.mjs'
 
 async function run() {
   await client.connect()

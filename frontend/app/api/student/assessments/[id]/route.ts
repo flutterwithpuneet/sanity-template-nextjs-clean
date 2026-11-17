@@ -38,6 +38,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         aq.marks,
         aq.negative_marks,
         q.question_text,
+        q.question_text_hi,
         q.question_type,
         q.difficulty,
         q.language_code,
@@ -56,7 +57,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       const qIds = questions.map((q: any) => q.question_id)
       // Note: EXCLUDING is_correct for exam integrity!
       const [options]: any = await db.query(
-        `SELECT id, question_id, option_key, option_text 
+        `SELECT id, question_id, option_key, option_text, option_text_hi 
          FROM question_options 
          WHERE question_id IN (${qIds.map(() => '?').join(',')}) 
          ORDER BY order_index ASC`,
@@ -70,6 +71,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
           id: opt.id,
           key: opt.option_key,
           text: opt.option_text,
+          text_hi: opt.option_text_hi || opt.option_text,
         })
       }
 

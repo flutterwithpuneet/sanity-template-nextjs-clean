@@ -273,10 +273,17 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
                     </div>
                   </div>
 
-                  {/* Question Statement */}
-                  <h4 className="text-base font-bold text-gray-900 leading-relaxed">
-                    {ans.question_text}
-                  </h4>
+                  {/* Question Statement (Bilingual support) */}
+                  <div className="space-y-1.5">
+                    <h4 className="text-base font-bold text-gray-900 leading-relaxed">
+                      {ans.question_text}
+                    </h4>
+                    {ans.question_text_hi && ans.question_text_hi !== ans.question_text && (
+                      <p className="text-sm font-semibold text-neutral-700 leading-relaxed">
+                        {ans.question_text_hi}
+                      </p>
+                    )}
+                  </div>
 
                   {/* Options List (Styled exactly as per reference design) */}
                   <div className="space-y-3 pt-1">
@@ -297,9 +304,16 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
                                 <span className="w-7 h-7 rounded-full border-2 border-emerald-700 bg-emerald-100 text-emerald-950 font-mono font-bold text-xs flex items-center justify-center shrink-0">
                                   {opt.key}
                                 </span>
-                                <span className="text-sm font-bold text-emerald-950">
-                                  {opt.text}
-                                </span>
+                                <div className="flex flex-col">
+                                  <span className="text-sm font-bold text-emerald-950">
+                                    {opt.text}
+                                  </span>
+                                  {opt.text_hi && opt.text_hi !== opt.text && (
+                                    <span className="text-xs font-semibold text-emerald-900 mt-0.5">
+                                      {opt.text_hi}
+                                    </span>
+                                  )}
+                                </div>
                               </div>
 
                               <div className="flex items-center gap-2 shrink-0">
@@ -315,12 +329,15 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
                             </div>
 
                             {/* Detailed Explanation Compartment beneath divider */}
-                            {ans.explanation && (
-                              <div className="px-4 py-3 bg-white/80 border-t border-emerald-200 text-xs text-emerald-950 leading-relaxed font-medium">
+                            {(ans.explanation || ans.explanation_hi) && (
+                              <div className="px-4 py-3 bg-white/80 border-t border-emerald-200 text-xs text-emerald-950 leading-relaxed font-medium space-y-1">
                                 <span className="font-bold text-emerald-900 block mb-0.5 text-[11px] uppercase tracking-wider">
                                   Correct Explanation (सही उत्तर का स्पष्टीकरण):
                                 </span>
-                                <p>{ans.explanation}</p>
+                                {ans.explanation && <p>{ans.explanation}</p>}
+                                {ans.explanation_hi && ans.explanation_hi !== ans.explanation && (
+                                  <p className="pt-1 text-neutral-800 border-t border-emerald-100">{ans.explanation_hi}</p>
+                                )}
                               </div>
                             )}
                           </div>
@@ -340,9 +357,16 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
                                 <span className="w-7 h-7 rounded-full border-2 border-rose-700 bg-rose-100 text-rose-950 font-mono font-bold text-xs flex items-center justify-center shrink-0">
                                   {opt.key}
                                 </span>
-                                <span className="text-sm font-bold text-rose-950">
-                                  {opt.text}
-                                </span>
+                                <div className="flex flex-col">
+                                  <span className="text-sm font-bold text-rose-950">
+                                    {opt.text}
+                                  </span>
+                                  {opt.text_hi && opt.text_hi !== opt.text && (
+                                    <span className="text-xs font-semibold text-rose-900 mt-0.5">
+                                      {opt.text_hi}
+                                    </span>
+                                  )}
+                                </div>
                               </div>
 
                               <div className="flex items-center gap-2 shrink-0">
@@ -379,7 +403,12 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
                               <span className="w-7 h-7 rounded-full border border-gray-300 bg-gray-100 text-gray-700 font-mono font-bold text-xs flex items-center justify-center shrink-0">
                                 {opt.key}
                               </span>
-                              <span className="font-semibold text-gray-800 text-sm">{opt.text}</span>
+                              <div className="flex flex-col">
+                                <span className="font-semibold text-gray-800 text-sm">{opt.text}</span>
+                                {opt.text_hi && opt.text_hi !== opt.text && (
+                                  <span className="text-xs text-neutral-600 mt-0.5">{opt.text_hi}</span>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>

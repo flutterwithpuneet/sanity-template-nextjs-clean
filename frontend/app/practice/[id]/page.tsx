@@ -10,6 +10,7 @@ interface Option {
   id: number
   key: string
   text: string
+  text_hi?: string
 }
 
 interface Question {
@@ -19,6 +20,7 @@ interface Question {
   marks: string | number
   negative_marks: string | number
   question_text: string
+  question_text_hi?: string
   question_type: string
   difficulty: string
   language_code: string
@@ -80,6 +82,9 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
   // Fullscreen & Question Palette Expand/Collapse State
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [paletteOpen, setPaletteOpen] = useState(true)
+
+  // Language Mode: 'both' (Bilingual) | 'hi' (Hindi) | 'en' (English)
+  const [langMode, setLangMode] = useState<'both' | 'hi' | 'en'>('both')
 
   // Listen to fullscreen changes
   useEffect(() => {
@@ -788,21 +793,62 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                     <Icons.ChevronRight size={13} />
                   </button>
                 )}
-                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-gray-100 text-black border border-gray-200">
-                  {currentQ?.language_code === 'hi' ? 'हिंदी' : 'English'}
-                </span>
+
+                {/* Interactive Multi-Language Switcher */}
+                <div className="flex items-center rounded-xl bg-gray-100 p-0.5 border border-gray-300">
+                  <button
+                    type="button"
+                    onClick={() => setLangMode('both')}
+                    title="Show Bilingual (English + Hindi)"
+                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      langMode === 'both' ? 'bg-black text-white shadow-xs' : 'text-gray-700 hover:text-black'
+                    }`}
+                  >
+                    दोनों (Both)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLangMode('hi')}
+                    title="हिंदी में देखें"
+                    className={`px-2 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      langMode === 'hi' ? 'bg-black text-white shadow-xs' : 'text-gray-700 hover:text-black'
+                    }`}
+                  >
+                    हिंदी
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLangMode('en')}
+                    title="View in English"
+                    className={`px-2 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      langMode === 'en' ? 'bg-black text-white shadow-xs' : 'text-gray-700 hover:text-black'
+                    }`}
+                  >
+                    English
+                  </button>
+                </div>
+
                 <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-gray-100 text-gray-700">
                   +{Number(currentQ?.marks || 1).toFixed(1)} / -{Number(currentQ?.negative_marks || 0.25).toFixed(2)}
                 </span>
               </div>
             </div>
 
-            {/* Question Statement (High Legibility Devanagari Hindi font) */}
-            <div className="text-lg md:text-xl font-bold text-black leading-relaxed mb-8">
-              {currentQ?.question_text}
+            {/* Question Statement (Supports Bilingual Hindi & English) */}
+            <div className="space-y-2.5 mb-8">
+              {(langMode === 'both' || langMode === 'en') && currentQ?.question_text && (
+                <div className="text-lg md:text-xl font-bold text-black leading-relaxed">
+                  {currentQ.question_text}
+                </div>
+              )}
+              {(langMode === 'both' || langMode === 'hi') && (currentQ?.question_text_hi || (langMode === 'hi' && currentQ?.question_text)) && (
+                <div className={`text-base md:text-lg leading-relaxed ${langMode === 'both' && currentQ?.question_text ? 'pt-2 border-t border-gray-100 text-neutral-800 font-semibold' : 'text-black font-bold'}`}>
+                  {currentQ?.question_text_hi || currentQ?.question_text}
+                </div>
+              )}
             </div>
 
-            {/* 4 Clean MCQ Option Cards */}
+            {/* 4 Clean MCQ Option Cards (Supports Bilingual Hindi & English) */}
             <div className="space-y-3.5">
               {currentQ?.options?.map((opt) => {
                 const isSelected = currentSelectedOption === opt.key
@@ -819,7 +865,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                     <div className="flex items-center gap-4">
                       {/* Letter badge / Radio Indicator */}
                       <div
-                        className={`w-9 h-9 rounded-xl font-mono font-bold text-sm flex items-center justify-center transition-colors ${
+                        className={`w-9 h-9 rounded-xl font-mono font-bold text-sm flex items-center justify-center transition-colors shrink-0 ${
                           isSelected
                             ? 'bg-black text-white'
                             : 'bg-gray-100 text-gray-800 border border-gray-300'
@@ -828,15 +874,24 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                         {opt.key}
                       </div>
 
-                      {/* Option Text */}
-                      <span className={`text-base font-semibold ${isSelected ? 'text-black font-bold' : 'text-slate-800'}`}>
-                        {opt.text}
-                      </span>
+                      {/* Option Text in Bilingual / Hindi / English */}
+                      <div className="flex flex-col">
+                        {(langMode === 'both' || langMode === 'en') && opt.text && (
+                          <span className={`text-base ${isSelected ? 'text-black font-bold' : 'text-slate-900 font-semibold'}`}>
+                            {opt.text}
+                          </span>
+                        )}
+                        {(langMode === 'both' || langMode === 'hi') && (opt.text_hi || (langMode === 'hi' && opt.text)) && (
+                          <span className={`text-sm ${langMode === 'both' && opt.text ? 'text-neutral-600 mt-0.5 font-medium' : isSelected ? 'text-black font-bold text-base' : 'text-slate-900 font-semibold text-base'}`}>
+                            {opt.text_hi || opt.text}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     {/* Radio Dot */}
                     <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
                         isSelected ? 'border-black bg-black' : 'border-gray-300'
                       }`}
                     >
