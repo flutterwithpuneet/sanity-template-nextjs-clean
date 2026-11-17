@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import Modal from '@/components/admin/Modal'
 import { Icons } from '@/components/admin/Icons'
+import { TableSkeleton } from '@/app/components/Shimmer'
 
 export default function AdminsManagementPage() {
   const [admins, setAdmins] = useState<any[]>([])
@@ -119,7 +120,7 @@ export default function AdminsManagementPage() {
         </div>
 
         {loading ? (
-          <div className="py-16 text-center text-sm text-gray-400 font-medium">Loading admin users...</div>
+          <TableSkeleton cols={4} rows={3} />
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">

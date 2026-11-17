@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef, use } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Icons } from '@/components/admin/Icons'
+import { ExamPortalSkeleton } from '@/app/components/Shimmer'
 
 interface Option {
   id: number
@@ -445,14 +446,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
   // PHASE 1: Loading
   // -------------------------------------------------------------
   if (examPhase === 'loading') {
-    return (
-      <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6 space-y-4 font-sans">
-        <div className="w-10 h-10 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-sm font-semibold tracking-wider uppercase font-mono text-neutral-300">
-          Loading Examination Portal...
-        </p>
-      </div>
-    )
+    return <ExamPortalSkeleton />
   }
 
   // -------------------------------------------------------------

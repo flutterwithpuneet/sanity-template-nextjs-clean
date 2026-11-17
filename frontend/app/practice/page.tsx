@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Icons } from '@/components/admin/Icons'
+import { TestCatalogSkeleton } from '@/app/components/Shimmer'
 
 export default function StudentPracticePortalPage() {
   const [assessments, setAssessments] = useState<any[]>([])
@@ -173,7 +174,7 @@ export default function StudentPracticePortalPage() {
           </div>
 
           {loading ? (
-            <div className="py-16 text-center text-sm text-gray-400 font-medium">Loading practice test catalog...</div>
+            <TestCatalogSkeleton />
           ) : assessments.length === 0 ? (
             <div className="p-12 text-center text-gray-500 bg-white rounded-2xl border border-gray-200">
               No tests currently published. Create one in Admin Panel &gt; Mock Tests.

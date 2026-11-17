@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Icons } from '@/components/admin/Icons'
+import { TableSkeleton } from '@/app/components/Shimmer'
 
 export default function ExamsManagementPage() {
   const [exams, setExams] = useState<any[]>([])
@@ -137,7 +138,7 @@ export default function ExamsManagementPage() {
 
       {/* Exams Grid */}
       {loading ? (
-        <div className="py-16 text-center text-sm text-gray-400 font-medium">Loading exams...</div>
+        <TableSkeleton cols={5} rows={4} />
       ) : exams.length === 0 ? (
         <div className="py-16 text-center text-sm text-gray-400 border border-dashed rounded-xl bg-white">
           No exams found. Click "Create Exam" to add one.

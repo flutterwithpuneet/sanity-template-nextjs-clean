@@ -6,6 +6,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url)
     const subjectId = searchParams.get('subject_id')
     const type = searchParams.get('type')
+    const difficulty = searchParams.get('difficulty')
 
     let query = `
       SELECT 
@@ -18,7 +19,10 @@ export async function GET(req: NextRequest) {
         a.total_questions,
         a.total_marks,
         a.passing_percentage,
+        COALESCE(a.difficulty_level, 'medium') as difficulty_level,
+        a.subject_id,
         s.name as subject_name,
+        s.code as subject_code,
         e.name as exam_name
       FROM assessments a
       LEFT JOIN subjects s ON a.subject_id = s.id
@@ -28,13 +32,22 @@ export async function GET(req: NextRequest) {
     const params: any[] = []
 
     if (subjectId && subjectId !== 'all') {
-      query += ` AND a.subject_id = ?`
-      params.push(subjectId)
+      if (subjectId === 'full_mock') {
+        query += ` AND a.subject_id IS NULL`
+      } else {
+        query += ` AND a.subject_id = ?`
+        params.push(subjectId)
+      }
     }
 
     if (type && type !== 'all') {
       query += ` AND a.assessment_type = ?`
       params.push(type)
+    }
+
+    if (difficulty && difficulty !== 'all') {
+      query += ` AND LOWER(a.difficulty_level) = LOWER(?)`
+      params.push(difficulty)
     }
 
     query += ` ORDER BY a.id ASC`
@@ -46,4 +59,3 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }
-

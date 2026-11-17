@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import Modal from '@/components/admin/Modal'
 import { Icons } from '@/components/admin/Icons'
+import { CardsGridSkeleton } from '@/app/components/Shimmer'
 
 export default function TopicsPage() {
   const [subjects, setSubjects] = useState<any[]>([])
@@ -231,7 +232,7 @@ export default function TopicsPage() {
         </div>
 
         {loading ? (
-          <div className="p-12 text-center text-sm text-gray-400">Loading topic hierarchy...</div>
+          <CardsGridSkeleton count={6} />
         ) : filteredTree.length === 0 ? (
           <div className="p-12 text-center text-gray-500 space-y-3">
             <p className="text-sm font-semibold text-gray-700">No topics added for this subject yet.</p>

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import Modal from '@/components/admin/Modal'
 import { Icons } from '@/components/admin/Icons'
+import { TableSkeleton } from '@/app/components/Shimmer'
 
 export default function ResultsAnalyticsPage() {
   const [attempts, setAttempts] = useState<any[]>([])
@@ -381,7 +382,7 @@ export default function ResultsAnalyticsPage() {
         </div>
 
         {loading ? (
-          <div className="py-16 text-center text-sm text-gray-400 font-medium">Loading attempts...</div>
+          <TableSkeleton cols={6} rows={5} />
         ) : filteredAttempts.length === 0 ? (
           <div className="py-16 text-center text-sm text-gray-400">
             No submissions matching filter. Take a test in the Student Portal to generate analytics.
@@ -481,7 +482,7 @@ export default function ResultsAnalyticsPage() {
         maxWidth="2xl"
       >
         {drilldownLoading || !drilldownData ? (
-          <div className="py-16 text-center text-sm text-gray-400">Loading candidate metrics...</div>
+          <div className="p-4"><TableSkeleton cols={4} rows={4} /></div>
         ) : (
           <div className="space-y-5">
             {/* Summary strip */}

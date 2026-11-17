@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Icons } from '@/components/admin/Icons'
+import { TableSkeleton } from '@/app/components/Shimmer'
 
 export default function ReportsManagementPage() {
   const [reports, setReports] = useState<any[]>([])
@@ -79,7 +80,7 @@ export default function ReportsManagementPage() {
 
       {/* Reports Grid */}
       {loading ? (
-        <div className="py-16 text-center text-sm text-gray-400 font-medium">Loading reports...</div>
+        <TableSkeleton cols={5} rows={4} />
       ) : reports.length === 0 ? (
         <div className="p-12 text-center text-gray-500 bg-white rounded-2xl border border-gray-200 space-y-2">
           <p className="text-sm font-semibold text-gray-700">No question reports matching filter.</p>

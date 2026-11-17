@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, use } from 'react'
 import Link from 'next/link'
+import { ResultPageSkeleton } from '@/app/components/Shimmer'
 import { Icons } from '@/components/admin/Icons'
 
 export default function ExamResultPage({ params }: { params: Promise<{ attemptId: string }> }) {
@@ -53,16 +54,7 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
   }
 
   if (loading || !data) {
-    return (
-      <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
-        <div className="text-center space-y-3">
-          <div className="w-10 h-10 border-2 border-black border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-xs font-bold uppercase tracking-wider text-gray-700">
-            Calculating score and per-question timing analytics...
-          </p>
-        </div>
-      </div>
-    )
+    return <ResultPageSkeleton />
   }
 
   const { attempt, answers = [] } = data

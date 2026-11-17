@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import Modal from '@/components/admin/Modal'
 import { Icons } from '@/components/admin/Icons'
+import { CardsGridSkeleton } from '@/app/components/Shimmer'
 
 export default function SubjectsPage() {
   const [subjects, setSubjects] = useState<any[]>([])
@@ -148,7 +149,7 @@ export default function SubjectsPage() {
 
       {/* Subjects Grid */}
       {loading ? (
-        <div className="py-16 text-center text-sm text-gray-400 font-medium">Loading subjects from database...</div>
+        <CardsGridSkeleton count={6} />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredSubjects.map((sub) => (

@@ -4,6 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Modal from '@/components/admin/Modal'
 import { Icons } from '@/components/admin/Icons'
+import { QuestionBankSkeleton } from '@/app/components/Shimmer'
 
 function QuestionsContent() {
   const searchParams = useSearchParams()
@@ -381,7 +382,7 @@ function QuestionsContent() {
 
       {/* Questions List */}
       {loading ? (
-        <div className="py-16 text-center text-sm text-gray-400 font-medium">Loading question bank...</div>
+        <QuestionBankSkeleton />
       ) : questions.length === 0 ? (
         <div className="p-12 text-center text-gray-500 bg-white rounded-2xl border border-gray-200 space-y-3">
           <p className="text-sm font-semibold text-gray-700">No questions found matching your filter criteria.</p>

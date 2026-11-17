@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Modal from '@/components/admin/Modal'
 import { Icons } from '@/components/admin/Icons'
+import { TableSkeleton } from '@/app/components/Shimmer'
 
 function PracticeTestsContent() {
   const searchParams = useSearchParams()
@@ -185,7 +186,7 @@ function PracticeTestsContent() {
 
       {/* Tests Grid */}
       {loading ? (
-        <div className="py-16 text-center text-sm text-gray-400 font-medium">Loading assessments from MySQL...</div>
+        <TableSkeleton cols={6} rows={5} />
       ) : tests.length === 0 ? (
         <div className="p-12 text-center text-gray-500 bg-white rounded-2xl border border-gray-200 space-y-3">
           <p className="text-sm font-semibold text-gray-700">No mock tests created yet.</p>

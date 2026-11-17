@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import Modal from '@/components/admin/Modal'
 import { Icons } from '@/components/admin/Icons'
+import { TableSkeleton } from '@/app/components/Shimmer'
 
 export default function StudentsManagementPage() {
   const [students, setStudents] = useState<any[]>([])
@@ -171,7 +172,7 @@ export default function StudentsManagementPage() {
       {/* Table */}
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-xs">
         {loading ? (
-          <div className="py-16 text-center text-sm text-gray-400 font-medium">Loading student accounts...</div>
+          <TableSkeleton cols={6} rows={5} />
         ) : students.length === 0 ? (
           <div className="py-16 text-center text-sm text-gray-400">No candidates found.</div>
         ) : (
