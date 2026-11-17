@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
       FROM students s
       LEFT JOIN assessment_attempts att ON s.id = att.student_id
       ${whereSql}
-      GROUP BY s.id
+      GROUP BY s.id, s.full_name, s.username, s.email, s.mobile, s.account_status, s.state, s.district, s.last_login_at, s.created_at
       ORDER BY s.id DESC`,
       params
     )

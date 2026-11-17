@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     const [res]: any = await db.query(
       `INSERT INTO students (full_name, username, email, account_status, created_at)
        VALUES (?, ?, ?, 'active', NOW())
-       ON DUPLICATE KEY UPDATE full_name = VALUES(full_name)`,
+       ON CONFLICT (email) DO UPDATE SET full_name = EXCLUDED.full_name`,
       [full_name, uname, userEmail]
     )
 

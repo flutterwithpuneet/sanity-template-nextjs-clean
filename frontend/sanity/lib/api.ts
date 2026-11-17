@@ -17,6 +17,14 @@ export const dataset =
 export const projectId =
   process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'examforge'
 
+export const isSanityConfigured = Boolean(
+  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID &&
+    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID.trim() !== '' &&
+    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID !== 'examforge' &&
+    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID !== 'your-projectID' &&
+    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID !== '<your project ID>'
+)
+
 /**
  * see https://www.sanity.io/docs/api-versioning for how versioning works
  */

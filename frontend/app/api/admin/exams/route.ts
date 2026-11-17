@@ -16,7 +16,7 @@ export async function GET() {
       FROM exams e
       LEFT JOIN exam_subjects es ON e.id = es.exam_id
       LEFT JOIN assessments a ON e.id = a.exam_id
-      GROUP BY e.id
+      GROUP BY e.id, e.name, e.code, e.description, e.status, e.created_at
       ORDER BY e.id ASC
     `)
 

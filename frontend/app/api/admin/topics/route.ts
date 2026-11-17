@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
       params.push(subjectId)
     }
 
-    query += ` GROUP BY t.id ORDER BY s.id ASC, t.level ASC, t.order_index ASC, t.name ASC`
+    query += ` GROUP BY t.id, t.subject_id, t.parent_id, t.name, t.slug, t.code, t.priority, t.level, t.order_index, t.status, s.name, p.name, s.id ORDER BY s.id ASC, t.level ASC, t.order_index ASC, t.name ASC`
 
     const [topics]: any = await db.query(query, params)
 

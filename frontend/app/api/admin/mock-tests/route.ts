@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
       LEFT JOIN assessment_questions aq ON a.id = aq.assessment_id
       LEFT JOIN assessment_attempts att ON a.id = att.assessment_id
       ${whereSql}
-      GROUP BY a.id
+      GROUP BY a.id, a.title, a.slug, a.description, a.exam_id, a.subject_id, a.topic_id, a.assessment_type, a.duration_minutes, a.total_questions, a.total_marks, a.passing_percentage, a.status, a.created_at, e.name, s.name
       ORDER BY a.id DESC`,
       params
     )

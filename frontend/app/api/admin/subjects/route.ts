@@ -17,7 +17,7 @@ export async function GET() {
       FROM subjects s
       LEFT JOIN topics t ON s.id = t.subject_id
       LEFT JOIN questions q ON s.id = q.subject_id
-      GROUP BY s.id
+      GROUP BY s.id, s.name, s.code, s.description, s.icon, s.status, s.created_at
       ORDER BY s.id ASC
     `)
 
