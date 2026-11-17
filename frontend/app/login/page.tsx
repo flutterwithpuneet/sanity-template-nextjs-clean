@@ -7,6 +7,7 @@ function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirectParam = searchParams.get('redirect') || '/'
+  const reasonParam = searchParams.get('reason')
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -70,6 +71,18 @@ function LoginForm() {
             Secure DB
           </span>
         </div>
+
+        {reasonParam === 'inactivity' && !error && (
+          <div className="mb-5 p-3.5 rounded-xl bg-neutral-800/80 border border-neutral-700 text-neutral-200 text-sm flex items-start gap-2.5 animate-fadeIn">
+            <svg className="w-5 h-5 text-neutral-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div>
+              <p className="font-semibold text-white">Session Expired</p>
+              <p className="text-xs text-neutral-400 mt-0.5">You were logged out automatically due to 20 minutes of inactivity. Please sign in again.</p>
+            </div>
+          </div>
+        )}
 
         {error && (
           <div className="mb-5 p-3.5 rounded-xl bg-red-950/50 border border-red-800/60 text-red-200 text-sm flex items-start gap-2.5 animate-fadeIn">

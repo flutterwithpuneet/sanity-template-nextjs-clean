@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { ExamStoreProvider } from '@/lib/store'
 
@@ -10,6 +10,9 @@ interface ClientLayoutWrapperProps {
   children: React.ReactNode
   initialSession: any | null
 }
+
+const INACTIVITY_LIMIT_MS = 20 * 60 * 1000 // 20 minutes of continuous inactivity
+const REFRESH_INTERVAL_MS = 60 * 1000 // Ping server at most once per minute during active use
 
 export default function ClientLayoutWrapper({
   header,
@@ -22,11 +25,87 @@ export default function ClientLayoutWrapper({
   const [session, setSession] = useState<any | null>(initialSession)
   const [checking, setChecking] = useState<boolean>(!initialSession && pathname !== '/login')
 
+  const lastActivityRef = useRef<number>(Date.now())
+  const lastRefreshRef = useRef<number>(Date.now())
+  const isLoggingOutRef = useRef<boolean>(false)
+
   const isAuthPage = pathname === '/login'
   const isAdminOrPractice = pathname.startsWith('/admin') || pathname.startsWith('/practice')
 
+  const handleInactivityLogout = useCallback(async () => {
+    if (isLoggingOutRef.current) return
+    isLoggingOutRef.current = true
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+    } catch {
+      // ignore
+    }
+    setSession(null)
+    router.replace('/login?reason=inactivity')
+  }, [router])
+
+  // Inactivity and activity refresh tracker
   useEffect(() => {
-    // If we already have initialSession from Server Component
+    if (isAuthPage || !session) return
+
+    // Reset activity timestamps on mount / route change
+    lastActivityRef.current = Date.now()
+    lastRefreshRef.current = Date.now()
+
+    // Activity listener to detect mouse movement, keystrokes, clicks, scrolls
+    const onUserActivity = () => {
+      lastActivityRef.current = Date.now()
+
+      // Refresh session token on server at most once every minute while user is active
+      const now = Date.now()
+      if (now - lastRefreshRef.current >= REFRESH_INTERVAL_MS) {
+        lastRefreshRef.current = now
+        fetch('/api/auth/refresh', { method: 'POST' })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data && data.expired) {
+              handleInactivityLogout()
+            }
+          })
+          .catch(() => {
+            // ignore network glitch
+          })
+      }
+    }
+
+    const activityEvents = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click']
+    activityEvents.forEach((ev) => window.addEventListener(ev, onUserActivity, { passive: true }))
+
+    // Background interval checking idle time every 5 seconds
+    const intervalId = setInterval(() => {
+      const idleTime = Date.now() - lastActivityRef.current
+      if (idleTime >= INACTIVITY_LIMIT_MS) {
+        handleInactivityLogout()
+      }
+    }, 5000)
+
+    // Handle tab visibility change (e.g. user returns after being away)
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        const idleTime = Date.now() - lastActivityRef.current
+        if (idleTime >= INACTIVITY_LIMIT_MS) {
+          handleInactivityLogout()
+        } else {
+          onUserActivity()
+        }
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange)
+
+    return () => {
+      activityEvents.forEach((ev) => window.removeEventListener(ev, onUserActivity))
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+      clearInterval(intervalId)
+    }
+  }, [session, isAuthPage, handleInactivityLogout])
+
+  // Initial authentication check
+  useEffect(() => {
     if (initialSession) {
       setSession(initialSession)
       setChecking(false)
@@ -36,13 +115,11 @@ export default function ClientLayoutWrapper({
       return
     }
 
-    // If on /login page and not authenticated, no need to check or redirect
     if (isAuthPage) {
       setChecking(false)
       return
     }
 
-    // Verify session client-side if initialSession was null
     let isMounted = true
     const checkAuth = async () => {
       try {
@@ -54,7 +131,6 @@ export default function ClientLayoutWrapper({
           setSession(data.user)
           setChecking(false)
         } else {
-          // Not authenticated: redirect immediately to /login
           const currentPath = window.location.pathname + window.location.search
           router.replace(`/login?redirect=${encodeURIComponent(currentPath)}`)
         }
@@ -81,7 +157,7 @@ export default function ClientLayoutWrapper({
     )
   }
 
-  // If not authenticated and checking/redirecting, block access completely with black shield
+  // If not authenticated, block access completely with black shield
   if (!session || checking) {
     return (
       <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6 text-center">

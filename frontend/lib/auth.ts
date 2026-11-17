@@ -3,22 +3,28 @@ import db from '@/lib/db'
 
 const SESSION_SECRET = process.env.SESSION_SECRET || 'examforge-secure-secret-key-992019283-sha512'
 
+// Inactivity timeout: 20 minutes in milliseconds
+export const INACTIVITY_TIMEOUT_MS = 20 * 60 * 1000
+
 export interface SessionUser {
   id: number
   username: string
   fullName: string
   email: string
   role: 'admin' | 'student'
+  lastActivity?: number
 }
 
 /**
- * Signs a session payload using HMAC-SHA256
+ * Signs a session payload using HMAC-SHA256 with rolling activity timestamp
  */
 export function signSession(user: SessionUser): string {
+  const now = Date.now()
   const payload = {
     ...user,
-    exp: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 days
-    iat: Date.now(),
+    lastActivity: now,
+    exp: now + 7 * 24 * 60 * 60 * 1000, // 7 days max lifetime
+    iat: now,
   }
   const payloadStr = Buffer.from(JSON.stringify(payload)).toString('base64url')
   const signature = crypto
@@ -29,7 +35,8 @@ export function signSession(user: SessionUser): string {
 }
 
 /**
- * Verifies and decodes a session cookie
+ * Verifies and decodes a session cookie.
+ * Expires automatically if idle for > 20 minutes without activity.
  */
 export function verifySession(token?: string | null): SessionUser | null {
   if (!token || typeof token !== 'string') return null
@@ -50,13 +57,24 @@ export function verifySession(token?: string | null): SessionUser | null {
 
   try {
     const payload = JSON.parse(Buffer.from(payloadStr, 'base64url').toString('utf8'))
-    if (!payload.exp || Date.now() > payload.exp) return null
+    const now = Date.now()
+
+    // 1. Max absolute expiration
+    if (!payload.exp || now > payload.exp) return null
+
+    // 2. 20-minute inactivity timeout check:
+    // If user has been inactive for more than 20 minutes, session is terminated
+    if (payload.lastActivity && now - payload.lastActivity > INACTIVITY_TIMEOUT_MS) {
+      return null
+    }
+
     return {
       id: payload.id,
       username: payload.username,
       fullName: payload.fullName || payload.username,
       email: payload.email,
       role: payload.role || 'student',
+      lastActivity: payload.lastActivity || now,
     }
   } catch {
     return null
