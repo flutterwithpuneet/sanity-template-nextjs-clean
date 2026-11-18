@@ -22,6 +22,8 @@ export async function GET(req: NextRequest) {
         t.level,
         t.order_index,
         t.status,
+        COALESCE(t.is_completed, false) as is_completed,
+        t.completed_at,
         s.name as subject_name,
         p.name as parent_name,
         COUNT(q.id) as questions_count
@@ -37,7 +39,7 @@ export async function GET(req: NextRequest) {
       params.push(subjectId)
     }
 
-    query += ` GROUP BY t.id, t.subject_id, t.parent_id, t.name, t.slug, t.code, t.priority, t.level, t.order_index, t.status, s.name, p.name, s.id ORDER BY s.id ASC, t.level ASC, t.order_index ASC, t.name ASC`
+    query += ` GROUP BY t.id, t.subject_id, t.parent_id, t.name, t.slug, t.code, t.priority, t.level, t.order_index, t.status, t.is_completed, t.completed_at, s.name, p.name, s.id ORDER BY s.id ASC, t.level ASC, t.order_index ASC, t.name ASC`
 
     const [topics]: any = await db.query(query, params)
 
@@ -79,10 +81,43 @@ export async function PUT(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const { id, name, priority, status, order_index } = body
+    const { id, name, priority, status, order_index, is_completed, cascade } = body
 
     if (!id) {
       return NextResponse.json({ success: false, error: 'Topic ID is required' }, { status: 400 })
+    }
+
+    // Toggle or set completion status
+    if (typeof is_completed === 'boolean') {
+      const completedAt = is_completed ? new Date().toISOString() : null
+      const targetStatus = is_completed ? 'completed' : 'active'
+
+      if (cascade) {
+        await db.query(
+          `WITH RECURSIVE subtopics AS (
+             SELECT id FROM topics WHERE id = ?
+             UNION ALL
+             SELECT t.id FROM topics t INNER JOIN subtopics s ON t.parent_id = s.id
+           )
+           UPDATE topics 
+           SET is_completed = ?, completed_at = ?, status = ?, updated_at = NOW()
+           WHERE id IN (SELECT id FROM subtopics)`,
+          [id, is_completed, completedAt, targetStatus]
+        )
+      } else {
+        await db.query(
+          `UPDATE topics 
+           SET is_completed = ?, completed_at = ?, status = ?, updated_at = NOW() 
+           WHERE id = ?`,
+          [is_completed, completedAt, targetStatus, id]
+        )
+      }
+
+      return NextResponse.json({
+        success: true,
+        message: is_completed ? 'Topic marked as completed' : 'Topic marked as pending',
+        is_completed,
+      })
     }
 
     await db.query(
