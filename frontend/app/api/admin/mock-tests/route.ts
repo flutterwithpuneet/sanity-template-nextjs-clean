@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import db from '@/lib/db'
+import { requireAdmin, logAudit } from '@/lib/auth'
 
 export async function GET(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const { searchParams } = new URL(req.url)
     const type = searchParams.get('type')
@@ -52,12 +56,14 @@ export async function GET(req: NextRequest) {
         s.name as subject_name,
         COUNT(DISTINCT aq.question_id) as actual_question_count,
         COUNT(DISTINCT att.id) as attempts_count,
+        COUNT(DISTINCT mta.student_id) as assigned_students_count,
         AVG(att.percentage) as avg_score
       FROM assessments a
       LEFT JOIN exams e ON a.exam_id = e.id
       LEFT JOIN subjects s ON a.subject_id = s.id
       LEFT JOIN assessment_questions aq ON a.id = aq.assessment_id
       LEFT JOIN assessment_attempts att ON a.id = att.assessment_id
+      LEFT JOIN mock_test_assignments mta ON a.id = mta.mock_test_id AND mta.assignment_status = 'assigned'
       ${whereSql}
       GROUP BY a.id, a.title, a.slug, a.description, a.exam_id, a.subject_id, a.topic_id, a.assessment_type, a.duration_minutes, a.total_questions, a.total_marks, a.passing_percentage, a.difficulty_level, a.status, a.created_at, e.name, s.name
       ORDER BY a.id DESC`,
@@ -71,6 +77,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const body = await req.json()
     const {
@@ -84,7 +93,7 @@ export async function POST(req: NextRequest) {
       duration_minutes = 60,
       passing_percentage = 40.0,
       status = 'published',
-      selected_question_ids = [], // [id1, id2, ...]
+      selected_question_ids = [],
       marks_per_question = 1.0,
       negative_marks_per_question = 0.25,
     } = body
@@ -133,6 +142,17 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    await logAudit({
+      actorId: auth.user.id,
+      actorRole: 'admin',
+      action: 'MOCK_TEST_CREATED',
+      targetId: assessmentId,
+      targetType: 'assessment',
+      details: { title, total_questions, assessment_type },
+      ipAddress: req.headers.get('x-forwarded-for') || null,
+      userAgent: req.headers.get('user-agent') || null,
+    })
+
     return NextResponse.json({
       success: true,
       assessmentId,
@@ -144,6 +164,9 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('id')
@@ -153,7 +176,18 @@ export async function DELETE(req: NextRequest) {
     }
 
     await db.query(`DELETE FROM assessment_questions WHERE assessment_id = ?`, [id])
+    await db.query(`DELETE FROM mock_test_assignments WHERE mock_test_id = ?`, [id])
     await db.query(`DELETE FROM assessments WHERE id = ?`, [id])
+
+    await logAudit({
+      actorId: auth.user.id,
+      actorRole: 'admin',
+      action: 'MOCK_TEST_DELETED',
+      targetId: Number(id),
+      targetType: 'assessment',
+      ipAddress: req.headers.get('x-forwarded-for') || null,
+      userAgent: req.headers.get('user-agent') || null,
+    })
 
     return NextResponse.json({ success: true, message: 'Assessment deleted' })
   } catch (error: any) {

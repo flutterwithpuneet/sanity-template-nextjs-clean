@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import db from '@/lib/db'
+import { requireAdmin } from '@/lib/auth'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const [subjects]: any = await db.query(`
       SELECT 
@@ -28,6 +32,9 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const body = await req.json()
     const { name, code, description, icon = 'book', status = 'active' } = body
@@ -48,6 +55,9 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const body = await req.json()
     const { id, name, code, description, icon, status } = body
@@ -58,7 +68,7 @@ export async function PUT(req: NextRequest) {
 
     await db.query(
       `UPDATE subjects SET name = ?, code = ?, description = ?, icon = ?, status = ?, updated_at = NOW() WHERE id = ?`,
-      [name, code, description, icon || 'book', status || 'active', id]
+      [name, code.toUpperCase().replace(/\s+/g, '_'), description, icon, status, id]
     )
 
     return NextResponse.json({ success: true, message: 'Subject updated successfully' })
@@ -68,6 +78,9 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('id')
@@ -83,4 +96,3 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }
-

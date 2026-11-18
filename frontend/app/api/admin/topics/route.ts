@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import db from '@/lib/db'
+import { requireAdmin } from '@/lib/auth'
 
 export async function GET(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const { searchParams } = new URL(req.url)
     const subjectId = searchParams.get('subject_id')
@@ -44,15 +48,18 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const body = await req.json()
     const { subject_id, parent_id = null, name, priority = 'medium', level = 1, order_index = 0, status = 'active' } = body
 
     if (!subject_id || !name) {
-      return NextResponse.json({ success: false, error: 'Subject and Topic Name are required' }, { status: 400 })
+      return NextResponse.json({ success: false, error: 'Subject ID and Name are required' }, { status: 400 })
     }
 
-    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
+    const slug = `${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')}-${Date.now()}`
 
     const [result]: any = await db.query(
       `INSERT INTO topics (subject_id, parent_id, name, slug, priority, level, order_index, status, created_at)
@@ -67,29 +74,20 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const body = await req.json()
-    const { id, subject_id, parent_id, name, priority, level, order_index, status } = body
+    const { id, name, priority, status, order_index } = body
 
     if (!id) {
       return NextResponse.json({ success: false, error: 'Topic ID is required' }, { status: 400 })
     }
 
-    const slug = name ? name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') : null
-
     await db.query(
-      `UPDATE topics 
-       SET subject_id = COALESCE(?, subject_id),
-           parent_id = ?,
-           name = COALESCE(?, name),
-           slug = COALESCE(?, slug),
-           priority = COALESCE(?, priority),
-           level = COALESCE(?, level),
-           order_index = COALESCE(?, order_index),
-           status = COALESCE(?, status),
-           updated_at = NOW()
-       WHERE id = ?`,
-      [subject_id, parent_id || null, name, slug, priority, level, order_index, status, id]
+      `UPDATE topics SET name = COALESCE(?, name), priority = COALESCE(?, priority), status = COALESCE(?, status), order_index = COALESCE(?, order_index), updated_at = NOW() WHERE id = ?`,
+      [name, priority, status, order_index, id]
     )
 
     return NextResponse.json({ success: true, message: 'Topic updated successfully' })
@@ -99,6 +97,9 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('id')
@@ -114,4 +115,3 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }
-

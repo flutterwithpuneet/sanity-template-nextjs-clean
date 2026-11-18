@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import db from '@/lib/db'
+import { requireAdmin } from '@/lib/auth'
 
 export async function GET(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const { searchParams } = new URL(req.url)
     const attemptId = searchParams.get('attempt_id')
@@ -153,7 +157,7 @@ export async function GET(req: NextRequest) {
       LIMIT 10
     `)
 
-    // Aggregated Accuracy Breakdown (for Pie / Donut Chart)
+    // Aggregated Accuracy Breakdown
     const [[accuracyRow]]: any = await db.query(`
       SELECT 
         COALESCE(SUM(correct_answers), 0) as total_correct,
@@ -164,7 +168,7 @@ export async function GET(req: NextRequest) {
       WHERE status = 'submitted'
     `)
 
-    // Speed Distribution (for Pie / Donut Chart: Fast vs Moderate vs Slow)
+    // Speed Distribution
     const [[speedRow]]: any = await db.query(`
       SELECT 
         COALESCE(SUM(CASE WHEN time_spent_seconds > 0 AND time_spent_seconds < 20 THEN 1 ELSE 0 END), 0) as fast_count,
@@ -219,6 +223,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const { searchParams } = new URL(req.url)
     const attemptId = searchParams.get('attempt_id')

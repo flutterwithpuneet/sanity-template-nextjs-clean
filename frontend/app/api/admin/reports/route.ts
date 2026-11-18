@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import db from '@/lib/db'
+import { requireAdmin } from '@/lib/auth'
 
 export async function GET(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const { searchParams } = new URL(req.url)
     const status = searchParams.get('status')
@@ -43,9 +47,12 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const body = await req.json()
-    const { id, status, reviewed_by = 1 } = body
+    const { id, status, reviewed_by = auth.user.id } = body
 
     if (!id || !status) {
       return NextResponse.json({ success: false, error: 'Report ID and status are required' }, { status: 400 })
@@ -65,6 +72,9 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const body = await req.json()
     const { student_id = 1, question_id, report_type = 'wrong_answer', description } = body
@@ -84,4 +94,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }
-

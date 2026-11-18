@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Icons } from '@/components/admin/Icons'
 import { ExamForgeLogo } from '@/components/brand'
+import BookmarkModal from '@/components/student/BookmarkModal'
 
 interface SubjectItem {
   id: string
@@ -111,7 +112,6 @@ function PracticePortalContent() {
 
   const [assessments, setAssessments] = useState<AssessmentItem[]>([])
   const [subjects, setSubjects] = useState<SubjectItem[]>([])
-  const [students, setStudents] = useState<any[]>([])
   const [currentStudent, setCurrentStudent] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
@@ -127,9 +127,26 @@ function PracticePortalContent() {
   // Step 3: Search filter for tests
   const [searchQuery, setSearchQuery] = useState('')
 
-  // Candidate quick switcher modal
-  const [newStudentName, setNewStudentName] = useState('')
-  const [showSwitchModal, setShowSwitchModal] = useState(false)
+  // Bookmark management state
+  const [showBookmarksModal, setShowBookmarksModal] = useState(false)
+  const [bookmarkCount, setBookmarkCount] = useState<number>(0)
+
+  // Fetch bookmarks count when current student is selected
+  useEffect(() => {
+    if (!currentStudent?.id) return
+    let active = true
+    fetch(`/api/student/bookmarks?student_id=${currentStudent.id}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (active && data.success) {
+          setBookmarkCount(data.count || 0)
+        }
+      })
+      .catch(() => {})
+    return () => {
+      active = false
+    }
+  }, [currentStudent?.id, showBookmarksModal])
 
   // Initialize from URL query params if present
   useEffect(() => {
@@ -154,38 +171,25 @@ function PracticePortalContent() {
   const loadData = async () => {
     try {
       setLoading(true)
-      const [resTests, resSubs, resStudents] = await Promise.all([
+      const [resProfile, resTests, resSubs] = await Promise.all([
+        fetch('/api/student/profile').then((r) => r.json()),
         fetch('/api/student/assessments').then((r) => r.json()),
         fetch('/api/student/subjects').then((r) => r.json()),
-        fetch('/api/student/profile').then((r) => r.json()),
       ])
 
-      if (resTests.success) setAssessments(resTests.assessments || [])
-      if (resSubs.success && resSubs.subjects?.length > 0) {
-        setSubjects(resSubs.subjects)
+      if (resProfile.success && resProfile.student) {
+        setCurrentStudent(resProfile.student)
+      } else if (resProfile.code === 'UNAUTHENTICATED' || resTests.code === 'UNAUTHENTICATED') {
+        router.push('/login?redirect=/practice')
+        return
       }
 
-      if (resStudents.success && resStudents.students?.length > 0) {
-        setStudents(resStudents.students)
-        const savedStudent = typeof window !== 'undefined' ? localStorage.getItem('examforge_current_student') : null
-        if (savedStudent) {
-          try {
-            const parsed = JSON.parse(savedStudent)
-            const matched = resStudents.students.find((s: any) => s.id === parsed.id)
-            if (matched) {
-              setCurrentStudent(matched)
-            } else {
-              setCurrentStudent(resStudents.students[0])
-              localStorage.setItem('examforge_current_student', JSON.stringify(resStudents.students[0]))
-            }
-          } catch {
-            setCurrentStudent(resStudents.students[0])
-            localStorage.setItem('examforge_current_student', JSON.stringify(resStudents.students[0]))
-          }
-        } else {
-          setCurrentStudent(resStudents.students[0])
-          localStorage.setItem('examforge_current_student', JSON.stringify(resStudents.students[0]))
-        }
+      if (resTests.success) {
+        setAssessments(resTests.assessments || [])
+      }
+
+      if (resSubs.success && resSubs.subjects?.length > 0) {
+        setSubjects(resSubs.subjects)
       }
     } catch (err) {
       console.error('Error loading practice portal data:', err)
@@ -206,32 +210,6 @@ function PracticePortalContent() {
     if (diff) params.set('diff', diff)
     const newUrl = `${window.location.pathname}?${params.toString()}`
     window.history.pushState({ step, subId, diff }, '', newUrl)
-  }
-
-  // Handle Candidate Switching or New Registration
-  const handleRegisterOrSelect = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!newStudentName.trim()) return
-
-    try {
-      const res = await fetch('/api/student/profile', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ full_name: newStudentName.trim() }),
-      })
-      const json = await res.json()
-      if (json.success) {
-        setCurrentStudent(json.student)
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('examforge_current_student', JSON.stringify(json.student))
-        }
-        setShowSwitchModal(false)
-        setNewStudentName('')
-        loadData()
-      }
-    } catch (err) {
-      console.error(err)
-    }
   }
 
   // Normalizer helper: maps difficulty to 'easy', 'medium', or 'hard'
@@ -361,7 +339,22 @@ function PracticePortalContent() {
           </Link>
 
           {/* Right Header Navigation: Candidate info & Admin link */}
-          <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {currentStudent && (
+              <button
+                type="button"
+                onClick={() => setShowBookmarksModal(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#1C1C1C] hover:bg-[#252525] border border-[#303030] text-xs font-semibold text-[#FAFAFA] transition-colors cursor-pointer group"
+                title="View your saved question bookmarks"
+              >
+                <Icons.BookmarkFilled size={14} className="text-white group-hover:scale-110 transition-transform" />
+                <span className="hidden sm:inline">Bookmarks</span>
+                <span className="px-1.5 py-0.2 rounded-full bg-white text-black font-mono font-black text-[10px]">
+                  {bookmarkCount}
+                </span>
+              </button>
+            )}
+
             {currentStudent && (
               <div className="flex items-center gap-2.5 bg-[#1C1C1C] border border-[#303030] px-3 py-1.5 rounded-xl text-xs">
                 <div className="w-6 h-6 rounded-full bg-[#FFFFFF] text-[#111111] font-black flex items-center justify-center text-[10px]">
@@ -372,31 +365,56 @@ function PracticePortalContent() {
                     {currentStudent.full_name}
                   </div>
                   <div className="text-[9px] text-[#737373] font-mono">
-                    Candidate #{currentStudent.id}
+                    {currentStudent.role === 'admin' ? '🛡️ Administrator' : `Student @${currentStudent.username}`}
                   </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setShowSwitchModal(true)}
-                  className="text-[10px] text-[#A3A3A3] underline hover:text-[#FFFFFF] ml-1 font-semibold cursor-pointer"
-                >
-                  Change
-                </button>
               </div>
             )}
 
-            <Link
-              href="/admin"
-              className="px-3.5 py-1.5 rounded-xl bg-[#FFFFFF] text-[#111111] text-xs font-bold hover:bg-[#E5E5E5] transition-colors shadow-sm"
+            {currentStudent?.role === 'admin' && (
+              <Link
+                href="/admin"
+                className="px-3.5 py-1.5 rounded-xl bg-[#FFFFFF] text-[#111111] text-xs font-bold hover:bg-[#E5E5E5] transition-colors shadow-sm"
+              >
+                Admin Panel
+              </Link>
+            )}
+
+            <a
+              href="/api/auth/logout"
+              title="Sign Out"
+              className="p-1.5 rounded-xl text-[#737373] hover:text-[#FAFAFA] hover:bg-[#1C1C1C] border border-[#303030] transition-colors"
             >
-              Admin Panel
-            </Link>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+            </a>
           </div>
         </div>
       </header>
 
       {/* 2. Main Practice Layout */}
       <main className="max-w-5xl mx-auto px-4 py-8 flex-1 w-full space-y-8">
+        {/* Unauthorized alert banner */}
+        {searchParams.get('error') === 'unauthorized' && (
+          <div className="p-4 rounded-xl bg-red-950/40 border border-red-800 text-red-300 text-xs flex items-center gap-2.5">
+            <span className="text-base">🚫</span>
+            <span>
+              <strong>Access Denied:</strong> Administrative routes and APIs are restricted exclusively to verified administrators.
+            </span>
+          </div>
+        )}
+
+        {/* Empty assignments notice */}
+        {!loading && assessments.length === 0 && (
+          <div className="p-6 rounded-2xl bg-[#171717] border border-[#2E2E2E] text-center space-y-2">
+            <div className="text-2xl">📋</div>
+            <h3 className="text-sm font-bold text-white">No Mock Tests Currently Assigned</h3>
+            <p className="text-xs text-[#A3A3A3] max-w-md mx-auto">
+              Your student account does not have any active mock test assignments yet. Administrators assign specific mock tests to individual candidates. Please contact your instructor or administrator to grant test access.
+            </p>
+          </div>
+        )}
         {/* Top Statistics Bar — Compact Dark Metric Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div className="p-4 rounded-2xl bg-[#1C1C1C] border border-[#303030] text-left">
@@ -972,71 +990,14 @@ function PracticePortalContent() {
         )}
       </main>
 
-      {/* 4. Switch Candidate Modal — Soft Monochrome Dark */}
-      {showSwitchModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#1C1C1C] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-[#303030] space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-[#303030]">
-              <h3 className="text-base font-bold text-[#FFFFFF]">Select Candidate Profile</h3>
-              <button
-                type="button"
-                onClick={() => setShowSwitchModal(false)}
-                className="p-1 rounded-lg text-[#737373] hover:text-[#FFFFFF] cursor-pointer"
-              >
-                <Icons.Close size={18} />
-              </button>
-            </div>
-
-            {/* Existing Candidates List */}
-            <div className="space-y-1.5 max-h-40 overflow-y-auto">
-              <span className="text-[10px] font-bold text-[#737373] uppercase block mb-1">
-                Choose Existing Candidate:
-              </span>
-              {students.map((st) => (
-                <button
-                  key={st.id}
-                  type="button"
-                  onClick={() => {
-                    setCurrentStudent(st)
-                    if (typeof window !== 'undefined') {
-                      localStorage.setItem('examforge_current_student', JSON.stringify(st))
-                    }
-                    setShowSwitchModal(false)
-                  }}
-                  className={`w-full p-2.5 rounded-xl text-xs text-left font-semibold flex items-center justify-between transition-colors cursor-pointer ${
-                    currentStudent?.id === st.id
-                      ? 'bg-[#FFFFFF] text-[#111111]'
-                      : 'bg-[#171717] text-[#FFFFFF] hover:bg-[#222222] border border-[#303030]'
-                  }`}
-                >
-                  <span>{st.full_name}</span>
-                  <span className="font-mono text-[10px] opacity-75">{st.email}</span>
-                </button>
-              ))}
-            </div>
-
-            {/* Create New Candidate Form */}
-            <form onSubmit={handleRegisterOrSelect} className="pt-3 border-t border-[#303030] space-y-3">
-              <span className="text-[10px] font-bold text-[#737373] uppercase block">
-                Or Register Candidate Name:
-              </span>
-              <input
-                type="text"
-                required
-                value={newStudentName}
-                onChange={(e) => setNewStudentName(e.target.value)}
-                placeholder="Enter full name..."
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#171717] border border-[#303030] text-[#FFFFFF] placeholder-[#737373] text-xs focus:outline-none focus:border-[#FFFFFF] font-medium"
-              />
-              <button
-                type="submit"
-                className="w-full py-2.5 rounded-xl bg-[#FFFFFF] text-[#111111] text-xs font-bold hover:bg-[#E5E5E5] transition-colors cursor-pointer"
-              >
-                Set as Active Candidate
-              </button>
-            </form>
-          </div>
-        </div>
+      {/* Saved Bookmarks Manager Modal */}
+      {currentStudent && (
+        <BookmarkModal
+          isOpen={showBookmarksModal}
+          onClose={() => setShowBookmarksModal(false)}
+          studentId={currentStudent.id}
+          onBookmarkRemoved={() => setBookmarkCount((c) => Math.max(0, c - 1))}
+        />
       )}
     </div>
   )

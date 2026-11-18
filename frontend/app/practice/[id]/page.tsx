@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Icons } from '@/components/admin/Icons'
 import { ExamPortalSkeleton } from '@/app/components/Shimmer'
 import { ExamForgeLogo } from '@/components/brand'
+import BookmarkModal from '@/components/student/BookmarkModal'
 
 interface Option {
   id: number
@@ -87,6 +88,11 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
   // Language Mode: 'both' (Bilingual) | 'hi' (Hindi) | 'en' (English)
   const [langMode, setLangMode] = useState<'both' | 'hi' | 'en'>('both')
 
+  // Question Bookmark State
+  const [bookmarkedQIds, setBookmarkedQIds] = useState<Set<number>>(new Set())
+  const [showBookmarksModal, setShowBookmarksModal] = useState(false)
+  const [paletteFilter, setPaletteFilter] = useState<'all' | 'bookmarked'>('all')
+
   // Listen to fullscreen changes
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -117,12 +123,22 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
       try {
         setExamPhase('loading')
 
-        // Fetch Assessment Details
+        // 1. Verify Student Authentication Session
+        const resProfile = await fetch('/api/student/profile').then((r) => r.json())
+        if (!resProfile.success || !resProfile.student) {
+          router.push(`/login?redirect=/practice/${id}`)
+          return
+        }
+
+        const activeStudent = resProfile.student
+        setStudent(activeStudent)
+
+        // 2. Fetch Assessment Details (enforces server assignment check)
         const resTest = await fetch(`/api/student/assessments/${id}`)
         const jsonTest = await resTest.json()
 
         if (!jsonTest.success) {
-          alert(jsonTest.error || 'Failed to load test.')
+          alert(jsonTest.error || 'Access to this mock test is not authorized.')
           router.push('/practice')
           return
         }
@@ -131,36 +147,17 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
         setQuestions(jsonTest.questions)
         const durationSec = (jsonTest.assessment.duration_minutes || 20) * 60
         setRemainingSeconds(durationSec)
+        setExamPhase('instructions')
 
-        // Check Local Storage for Verified Candidate Session
-        let activeStudent: StudentSession | null = null
-        const saved = localStorage.getItem('examforge_current_student')
-
-        if (saved) {
-          try {
-            activeStudent = JSON.parse(saved)
-          } catch {
-            activeStudent = null
-          }
-        }
-
-        // Fetch student profiles to validate or provide selection
-        const resProfiles = await fetch('/api/student/profile').then((r) => r.json())
-        if (resProfiles.success && resProfiles.students) {
-          setAvailableStudents(resProfiles.students)
-          if (!activeStudent && resProfiles.students.length > 0) {
-            // Default to Puneet if available
-            activeStudent = resProfiles.students[0]
-            localStorage.setItem('examforge_current_student', JSON.stringify(activeStudent))
-          }
-        }
-
-        if (activeStudent && activeStudent.id) {
-          setStudent(activeStudent)
-          setExamPhase('instructions') // Ready at instructions gatekeeper
-        } else {
-          setExamPhase('auth_required')
-        }
+        // Prefetch existing bookmarks for student
+        fetch(`/api/student/bookmarks?student_id=${activeStudent.id}`)
+          .then((r) => r.json())
+          .then((bData) => {
+            if (bData.success && bData.question_ids) {
+              setBookmarkedQIds(new Set(bData.question_ids))
+            }
+          })
+          .catch(() => {})
 
         // Initialize question statuses
         const initialStatus: Record<number, string> = {}
@@ -388,6 +385,36 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
 
     if (currentIndex < questions.length - 1) {
       goToQuestion(currentIndex + 1)
+    }
+  }
+
+  // Toggle Bookmark for current question
+  const handleToggleBookmark = async () => {
+    const q = questions[currentIndex]
+    if (!q || !student) return
+    const qId = q.question_id
+    const wasBookmarked = bookmarkedQIds.has(qId)
+
+    // Optimistic toggle
+    setBookmarkedQIds((prev) => {
+      const next = new Set(prev)
+      if (wasBookmarked) next.delete(qId)
+      else next.add(qId)
+      return next
+    })
+
+    try {
+      await fetch('/api/student/bookmarks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          student_id: student.id,
+          question_id: qId,
+          action: wasBookmarked ? 'remove' : 'add',
+        }),
+      })
+    } catch (err) {
+      console.error('Failed to toggle bookmark:', err)
     }
   }
 
@@ -718,6 +745,20 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
             </span>
           </div>
 
+          {/* Bookmarks Modal Trigger */}
+          <button
+            type="button"
+            onClick={() => setShowBookmarksModal(true)}
+            title="View saved question bookmarks"
+            className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-700 font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+          >
+            <Icons.BookmarkFilled size={13} className={bookmarkedQIds.size > 0 ? 'text-amber-400' : 'text-neutral-400'} />
+            <span className="hidden md:inline">Bookmarks</span>
+            <span className="px-1.5 py-0.2 rounded-full bg-neutral-800 text-white font-mono font-bold text-[10px]">
+              {bookmarkedQIds.size}
+            </span>
+          </button>
+
           {/* Fullscreen Toggle Button */}
           <button
             type="button"
@@ -786,6 +827,33 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                   >
                     <span>Palette ({answeredCount}/{questions.length})</span>
                     <Icons.ChevronRight size={13} />
+                  </button>
+                )}
+
+                {/* Question Bookmark Toggle Button */}
+                {currentQ && (
+                  <button
+                    type="button"
+                    onClick={handleToggleBookmark}
+                    className={`px-2.5 py-1 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border ${
+                      bookmarkedQIds.has(currentQ.question_id)
+                        ? 'bg-amber-400 border-amber-500 text-black shadow-xs'
+                        : 'bg-gray-100 hover:bg-gray-200 border-gray-300 text-gray-700 hover:text-black'
+                    }`}
+                    title={
+                      bookmarkedQIds.has(currentQ.question_id)
+                        ? 'Question Bookmarked (सहेजा गया)'
+                        : 'Bookmark Question for Revision (बुकमार्क करें)'
+                    }
+                  >
+                    {bookmarkedQIds.has(currentQ.question_id) ? (
+                      <Icons.BookmarkFilled size={13} className="text-black" />
+                    ) : (
+                      <Icons.Bookmark size={13} className="text-gray-600" />
+                    )}
+                    <span className="hidden sm:inline">
+                      {bookmarkedQIds.has(currentQ.question_id) ? 'Bookmarked' : 'Bookmark'}
+                    </span>
                   </button>
                 )}
 
@@ -1013,9 +1081,39 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                 <span>Review</span>
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-sm bg-gray-200 inline-block"></span>
-                <span>Unvisited</span>
+                <span className="w-2 h-2 rounded-full bg-amber-400 inline-block"></span>
+                <span>Saved (★)</span>
               </span>
+            </div>
+
+            {/* Palette Filter Tabs */}
+            <div className="flex items-center rounded-xl bg-gray-100 p-0.5 border border-gray-200 text-xs">
+              <button
+                type="button"
+                onClick={() => setPaletteFilter('all')}
+                className={`flex-1 py-1 rounded-lg font-bold text-center transition-all cursor-pointer ${
+                  paletteFilter === 'all'
+                    ? 'bg-black text-white shadow-xs'
+                    : 'text-gray-600 hover:text-black'
+                }`}
+              >
+                All ({questions.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setPaletteFilter('bookmarked')}
+                className={`flex-1 py-1 rounded-lg font-bold text-center transition-all flex items-center justify-center gap-1 cursor-pointer ${
+                  paletteFilter === 'bookmarked'
+                    ? 'bg-black text-white shadow-xs'
+                    : 'text-gray-600 hover:text-black'
+                }`}
+              >
+                <Icons.BookmarkFilled
+                  size={11}
+                  className={paletteFilter === 'bookmarked' ? 'text-amber-300' : 'text-amber-500'}
+                />
+                <span>Saved ({bookmarkedQIds.size})</span>
+              </button>
             </div>
 
             {/* Numbered Palette Grid (Pixel-Perfect, No Ring Artifacts) */}
@@ -1026,6 +1124,11 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                   const status = questionStatuses[q.question_id]
                   const isAnswered = status === 'answered'
                   const isReview = status === 'marked_for_review'
+                  const isBookmarked = bookmarkedQIds.has(q.question_id)
+
+                  if (paletteFilter === 'bookmarked' && !isBookmarked) {
+                    return null
+                  }
 
                   let style = 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
                   if (isAnswered) {
@@ -1039,17 +1142,28 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                       key={q.question_id}
                       type="button"
                       onClick={() => goToQuestion(idx)}
-                      className={`h-9 w-full rounded-xl font-mono text-xs font-bold transition-all flex items-center justify-center cursor-pointer ${style} ${
+                      className={`relative h-9 w-full rounded-xl font-mono text-xs font-bold transition-all flex items-center justify-center cursor-pointer ${style} ${
                         isCurrent
                           ? 'border-2 border-black font-black scale-105 shadow-sm'
                           : ''
                       }`}
                     >
                       {idx + 1}
+                      {isBookmarked && (
+                        <span
+                          className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 ring-2 ring-white"
+                          title="Bookmarked Question"
+                        />
+                      )}
                     </button>
                   )
                 })}
               </div>
+              {paletteFilter === 'bookmarked' && bookmarkedQIds.size === 0 && (
+                <div className="text-center py-6 text-xs text-gray-400">
+                  No questions saved yet. Click the Bookmark button to save difficult questions for review.
+                </div>
+              )}
             </div>
 
             {/* Bottom Submit CTA Button (No awkward empty space) */}
@@ -1172,6 +1286,22 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
             </div>
           </div>
         </div>
+      )}
+
+      {/* Bookmarks Modal */}
+      {student && (
+        <BookmarkModal
+          isOpen={showBookmarksModal}
+          onClose={() => setShowBookmarksModal(false)}
+          studentId={student.id}
+          onBookmarkRemoved={(qId) => {
+            setBookmarkedQIds((prev) => {
+              const next = new Set(prev)
+              next.delete(qId)
+              return next
+            })
+          }}
+        />
       )}
     </div>
   )

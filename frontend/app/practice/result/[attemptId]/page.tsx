@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { ResultPageSkeleton } from '@/app/components/Shimmer'
 import { Icons } from '@/components/admin/Icons'
 import { ExamForgeLogo } from '@/components/brand'
+import BookmarkModal from '@/components/student/BookmarkModal'
 
 export default function ExamResultPage({ params }: { params: Promise<{ attemptId: string }> }) {
   const { attemptId } = use(params)
@@ -13,6 +14,10 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
 
   // Expandable question solutions
   const [expandedSolutions, setExpandedSolutions] = useState<Record<number, boolean>>({})
+
+  // Question Bookmarks State
+  const [bookmarkedQIds, setBookmarkedQIds] = useState<Set<number>>(new Set())
+  const [showBookmarksModal, setShowBookmarksModal] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchResult = async () => {
@@ -28,6 +33,18 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
             defaultOpen[a.question_id] = true
           })
           setExpandedSolutions(defaultOpen)
+
+          // Fetch student bookmarks if student_id exists
+          if (json.attempt?.student_id) {
+            fetch(`/api/student/bookmarks?student_id=${json.attempt.student_id}`)
+              .then((r) => r.json())
+              .then((bData) => {
+                if (bData.success && bData.question_ids) {
+                  setBookmarkedQIds(new Set(bData.question_ids))
+                }
+              })
+              .catch(() => {})
+          }
         }
       } catch (err) {
         console.error(err)
@@ -44,6 +61,31 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
       ...prev,
       [qId]: !prev[qId],
     }))
+  }
+
+  const handleToggleBookmark = async (qId: number) => {
+    if (!data?.attempt?.student_id) return
+    const wasBookmarked = bookmarkedQIds.has(qId)
+    setBookmarkedQIds((prev) => {
+      const next = new Set(prev)
+      if (wasBookmarked) next.delete(qId)
+      else next.add(qId)
+      return next
+    })
+
+    try {
+      await fetch('/api/student/bookmarks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          student_id: data.attempt.student_id,
+          question_id: qId,
+          action: wasBookmarked ? 'remove' : 'add',
+        }),
+      })
+    } catch (err) {
+      console.error('Failed to toggle bookmark:', err)
+    }
   }
 
   const formatSeconds = (sec: number) => {
@@ -83,6 +125,18 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setShowBookmarksModal(true)}
+            className="px-3 py-1.5 rounded-xl bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+          >
+            <Icons.BookmarkFilled size={13} className={bookmarkedQIds.size > 0 ? 'text-amber-400' : 'text-neutral-400'} />
+            <span>Saved Bookmarks</span>
+            <span className="px-1.5 py-0.2 rounded-full bg-neutral-800 text-white font-mono font-bold text-[10px]">
+              {bookmarkedQIds.size}
+            </span>
+          </button>
+
           <Link
             href="/practice"
             className="px-3.5 py-1.5 rounded-xl bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 text-white font-semibold text-xs transition-colors"
@@ -260,6 +314,31 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
                     </div>
 
                     <div className="flex items-center gap-2">
+                      {/* Bookmark Toggle Button */}
+                      <button
+                        type="button"
+                        onClick={() => handleToggleBookmark(ans.question_id)}
+                        className={`px-2.5 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
+                          bookmarkedQIds.has(ans.question_id)
+                            ? 'bg-amber-400 text-black border-amber-500 shadow-xs'
+                            : 'bg-gray-100 text-gray-700 hover:text-black hover:bg-gray-200 border-gray-300'
+                        }`}
+                        title={
+                          bookmarkedQIds.has(ans.question_id)
+                            ? 'Question Bookmarked (सहेजा गया)'
+                            : 'Bookmark this question for review (बुकमार्क करें)'
+                        }
+                      >
+                        {bookmarkedQIds.has(ans.question_id) ? (
+                          <Icons.BookmarkFilled size={13} className="text-black" />
+                        ) : (
+                          <Icons.Bookmark size={13} />
+                        )}
+                        <span className="hidden sm:inline">
+                          {bookmarkedQIds.has(ans.question_id) ? 'Bookmarked' : 'Bookmark'}
+                        </span>
+                      </button>
+
                       {/* Exact Time Badge */}
                       <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-gray-100 text-black border border-gray-200 flex items-center gap-1">
                         <Icons.Clock size={12} />
@@ -436,6 +515,22 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
           </Link>
         </div>
       </div>
+
+      {/* Bookmarks Modal */}
+      {attempt?.student_id && (
+        <BookmarkModal
+          isOpen={showBookmarksModal}
+          onClose={() => setShowBookmarksModal(false)}
+          studentId={attempt.student_id}
+          onBookmarkRemoved={(qId) => {
+            setBookmarkedQIds((prev) => {
+              const next = new Set(prev)
+              next.delete(qId)
+              return next
+            })
+          }}
+        />
+      )}
     </div>
   )
 }

@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import db from '@/lib/db'
+import { requireAdmin } from '@/lib/auth'
 
 export async function GET(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const { searchParams } = new URL(req.url)
     const subjectId = searchParams.get('subject_id')
@@ -50,7 +54,7 @@ export async function GET(req: NextRequest) {
       params
     )
 
-    // Questions query
+    // Main records with pagination
     const [questions]: any = await db.query(
       `SELECT 
         q.id,
@@ -67,17 +71,20 @@ export async function GET(req: NextRequest) {
         q.source,
         q.created_at,
         s.name as subject_name,
-        t.name as topic_name
+        t.name as topic_name,
+        COUNT(DISTINCT r.id) as reports_count
       FROM questions q
       JOIN subjects s ON q.subject_id = s.id
       JOIN topics t ON q.topic_id = t.id
+      LEFT JOIN student_question_reports r ON q.id = r.question_id AND r.status = 'pending'
       ${whereSql}
+      GROUP BY q.id, q.subject_id, q.topic_id, q.question_text, q.question_type, q.difficulty, q.status, q.explanation, q.default_marks, q.default_negative_marks, q.language_code, q.source, q.created_at, s.name, t.name
       ORDER BY q.id DESC
       LIMIT ? OFFSET ?`,
       [...params, limit, offset]
     )
 
-    // Fetch options for all returned questions
+    // Fetch options for the returned questions
     if (questions.length > 0) {
       const questionIds = questions.map((q: any) => q.id)
       const [options]: any = await db.query(
@@ -90,21 +97,18 @@ export async function GET(req: NextRequest) {
 
       const optionsMap: Record<number, any[]> = {}
       for (const opt of options) {
-        if (!optionsMap[opt.question_id]) {
-          optionsMap[opt.question_id] = []
-        }
+        if (!optionsMap[opt.question_id]) optionsMap[opt.question_id] = []
         optionsMap[opt.question_id].push({
           id: opt.id,
           key: opt.option_key,
           text: opt.option_text,
           isCorrect: Boolean(opt.is_correct),
+          orderIndex: opt.order_index,
         })
       }
 
       for (const q of questions) {
         q.options = optionsMap[q.id] || []
-        const correctOpt = q.options.find((o: any) => o.isCorrect)
-        q.correct_option = correctOpt ? correctOpt.key : null
       }
     }
 
@@ -112,9 +116,9 @@ export async function GET(req: NextRequest) {
       success: true,
       questions,
       pagination: {
+        total: Number(countRow?.total || 0),
         page,
         limit,
-        total: Number(countRow?.total || 0),
         totalPages: Math.ceil(Number(countRow?.total || 0) / limit),
       },
     })
@@ -124,6 +128,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const body = await req.json()
     const {
@@ -138,7 +145,7 @@ export async function POST(req: NextRequest) {
       default_negative_marks = 0.25,
       language_code = 'en',
       source,
-      options = [], // [{ key: 'A', text: '...', isCorrect: true }]
+      options = [],
     } = body
 
     if (!subject_id || !topic_id || !question_text) {
@@ -186,6 +193,9 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const body = await req.json()
     const {
@@ -255,6 +265,9 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const body = await req.json()
     const { id, status } = body
@@ -272,6 +285,9 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('id')
@@ -288,4 +304,3 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }
-

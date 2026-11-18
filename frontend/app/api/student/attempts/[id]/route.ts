@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import db from '@/lib/db'
+import { authenticateUser } from '@/lib/auth'
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const user = await authenticateUser(req)
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: 'Authentication required to view attempt details', code: 'UNAUTHENTICATED' },
+        { status: 401 }
+      )
+    }
+
     const { id } = await params
 
     const [[attempt]]: any = await db.query(
@@ -37,6 +46,14 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 
     if (!attempt) {
       return NextResponse.json({ success: false, error: 'Attempt not found' }, { status: 404 })
+    }
+
+    // Ownership check: Students can only view their own attempts
+    if (user.role === 'student' && Number(attempt.student_id) !== user.id) {
+      return NextResponse.json(
+        { success: false, error: 'Forbidden: You cannot view results belonging to another student', code: 'FORBIDDEN' },
+        { status: 403 }
+      )
     }
 
     // Fetch answers with time_spent_seconds, questions, and explanations

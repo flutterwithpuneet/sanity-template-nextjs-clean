@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { cookies } from 'next/headers'
-import { verifySession } from '@/lib/auth'
+import { validateSessionWithDatabase } from '@/lib/auth'
 import { settingsQuery } from '@/sanity/lib/queries'
 import { sanityFetch } from '@/sanity/lib/live'
 import { ExamForgeLogo } from '@/components/brand'
@@ -20,10 +20,12 @@ export default async function Header() {
   try {
     const cookieStore = await cookies()
     const token = cookieStore.get('examforge_session')?.value
-    session = verifySession(token)
+    session = await validateSessionWithDatabase(token)
   } catch {
     // Session read error
   }
+
+  const isAdmin = session?.role === 'admin'
 
   return (
     <header className="fixed z-50 h-20 inset-x-0 top-0 bg-black/90 backdrop-blur-md border-b border-neutral-800 flex items-center shadow-lg text-white">
@@ -36,7 +38,7 @@ export default async function Header() {
                 ExamForge
               </span>
               <span className="text-[10px] text-neutral-400 font-mono tracking-wider uppercase">
-                {session ? `Logged in: ${session.username}` : 'Auth Required'}
+                {session ? `${session.role === 'admin' ? 'Admin' : 'Student'}: ${session.username}` : 'Auth Required'}
               </span>
             </div>
           </Link>
@@ -56,29 +58,36 @@ export default async function Header() {
                 </Link>
               </li>
 
-              <li className="hidden sm:block">
-                <Link
-                  href="/admin/questions"
-                  className="text-neutral-300 hover:text-white transition-colors"
-                >
-                  Question Bank
-                </Link>
-              </li>
+              {/* Admin-only navigation links */}
+              {isAdmin && (
+                <>
+                  <li className="hidden sm:block">
+                    <Link
+                      href="/admin/questions"
+                      className="text-neutral-300 hover:text-white transition-colors"
+                    >
+                      Question Bank
+                    </Link>
+                  </li>
 
-              <li className="hidden md:block">
-                <Link
-                  href="/admin"
-                  className="px-3.5 py-2 rounded-xl bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 text-white text-xs font-bold transition-colors"
-                >
-                  Admin
-                </Link>
-              </li>
+                  <li className="hidden md:block">
+                    <Link
+                      href="/admin"
+                      className="px-3.5 py-2 rounded-xl bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 text-white text-xs font-bold transition-colors"
+                    >
+                      Admin
+                    </Link>
+                  </li>
+                </>
+              )}
 
               {session ? (
                 <li className="flex items-center gap-2 pl-2 border-l border-neutral-800">
                   <div className="hidden lg:flex flex-col text-right">
                     <span className="text-xs text-white font-medium truncate max-w-[120px]">{session.fullName}</span>
-                    <span className="text-[10px] text-neutral-400 font-mono">@{session.username}</span>
+                    <span className="text-[10px] text-neutral-400 font-mono">
+                      {session.role === 'admin' ? '🛡️ Admin' : '🎓 Student'}
+                    </span>
                   </div>
                   <a
                     href="/api/auth/logout"

@@ -1,9 +1,46 @@
 import { NextRequest, NextResponse } from 'next/server'
 import db from '@/lib/db'
+import { authenticateUser, checkAccountStatus, checkMockTestAssignment } from '@/lib/auth'
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const user = await authenticateUser(req)
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: 'Authentication required to access mock test', code: 'UNAUTHENTICATED' },
+        { status: 401 }
+      )
+    }
+
+    const { active, reason } = await checkAccountStatus(user.id, user.role)
+    if (!active) {
+      return NextResponse.json(
+        { success: false, error: reason || 'Account is inactive or deleted', code: 'ACCOUNT_INACTIVE' },
+        { status: 403 }
+      )
+    }
+
     const { id } = await params
+    const testId = Number(id)
+
+    // Verify student-specific mock test assignment
+    if (user.role === 'student') {
+      const { assigned, status } = await checkMockTestAssignment(user.id, testId)
+      if (!assigned) {
+        return NextResponse.json(
+          {
+            success: false,
+            error:
+              status === 'revoked'
+                ? 'Your access to this mock test has been revoked by an administrator.'
+                : 'This mock test is not assigned to your account. Please contact an administrator.',
+            code: 'NOT_ASSIGNED',
+            assignmentStatus: status,
+          },
+          { status: 403 }
+        )
+      }
+    }
 
     const [[assessment]]: any = await db.query(
       `SELECT 
@@ -22,11 +59,11 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       LEFT JOIN subjects s ON a.subject_id = s.id
       LEFT JOIN exams e ON a.exam_id = e.id
       WHERE a.id = ? AND a.status = 'published'`,
-      [id]
+      [testId]
     )
 
     if (!assessment) {
-      return NextResponse.json({ success: false, error: 'Assessment not found' }, { status: 404 })
+      return NextResponse.json({ success: false, error: 'Assessment not found or unavailable' }, { status: 404 })
     }
 
     // Get linked questions
@@ -50,7 +87,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       JOIN topics t ON q.topic_id = t.id
       WHERE aq.assessment_id = ?
       ORDER BY aq.order_index ASC`,
-      [id]
+      [testId]
     )
 
     if (questions.length > 0) {

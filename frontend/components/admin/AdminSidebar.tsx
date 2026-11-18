@@ -54,6 +54,11 @@ export default function AdminSidebar({
       icon: Icons.PracticeTests,
     },
     {
+      label: 'Test Assignments',
+      href: '/admin/assignments',
+      icon: Icons.Assignments,
+    },
+    {
       label: 'Student Management',
       href: '/admin/students',
       icon: Icons.Students,
@@ -72,6 +77,11 @@ export default function AdminSidebar({
       label: 'Admin & Roles',
       href: '/admin/admins',
       icon: Icons.Admins,
+    },
+    {
+      label: 'Audit & Security',
+      href: '/admin/audit-logs',
+      icon: Icons.AuditLogs,
     },
     {
       label: 'Settings',
@@ -99,82 +109,54 @@ export default function AdminSidebar({
 
       {/* Sidebar container */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 flex flex-col bg-[#0C0C0C] border-r border-[#262626] transition-all duration-300 ease-in-out ${
+        className={`fixed top-0 bottom-0 left-0 z-50 flex flex-col bg-[#0F0F0F] border-r border-[#262626] transition-all duration-300 ease-in-out ${
           collapsed ? 'w-20' : 'w-64'
         } ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
-        {/* Logo / Header */}
-        <div className="h-16 flex items-center justify-between px-4 border-b border-[#262626] bg-[#0C0C0C]">
+        {/* Header / Logo */}
+        <div className="h-16 flex items-center justify-between px-4 border-b border-[#262626]">
           <Link
             href="/admin"
-            className="flex items-center gap-3 overflow-hidden focus:outline-none group"
+            className="flex items-center gap-3 overflow-hidden text-decoration-none group"
           >
-            <ExamForgeLogo variant="badge" size={20} className="w-9 h-9 rounded-xl shrink-0 group-hover:border-[#3F3F46] transition-colors" />
+            <ExamForgeLogo variant="badge" size={18} className="w-8 h-8 rounded-lg group-hover:border-[#FAFAFA]/40 transition-colors" />
             {!collapsed && (
               <div className="flex flex-col">
-                <span className="font-bold text-[#FAFAFA] text-sm leading-tight tracking-tight">
+                <span className="font-semibold text-sm tracking-tight text-[#FAFAFA]">
                   ExamForge
                 </span>
-                <span className="text-[10px] font-mono font-medium text-[#71717A] uppercase tracking-wider">
-                  Admin Platform
+                <span className="text-[10px] text-[#A3A3A3] font-mono tracking-wider uppercase">
+                  Admin Portal
                 </span>
               </div>
             )}
           </Link>
 
-          {/* Toggle button on desktop */}
+          {/* Desktop collapse toggle */}
           <button
-            type="button"
             onClick={() => setCollapsed(!collapsed)}
-            className="hidden lg:flex p-1.5 rounded-lg text-[#71717A] hover:text-[#FAFAFA] hover:bg-[#202020] transition-colors"
+            className="hidden lg:flex items-center justify-center w-7 h-7 rounded-md text-[#737373] hover:text-[#FAFAFA] hover:bg-[#1C1C1C] transition-colors"
             title={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
           >
-            <Icons.ChevronRight
-              size={16}
-              className={`transform transition-transform duration-200 ${
-                collapsed ? '' : 'rotate-180'
-              }`}
-            />
+            {collapsed ? <Icons.Expand size={16} /> : <Icons.Collapse size={16} />}
           </button>
 
-          {/* Close button on mobile */}
+          {/* Mobile close */}
           <button
-            type="button"
             onClick={() => setMobileOpen(false)}
-            className="lg:hidden p-1.5 rounded-lg text-[#71717A] hover:text-[#FAFAFA] hover:bg-[#202020]"
+            className="lg:hidden flex items-center justify-center w-8 h-8 text-[#A3A3A3] hover:text-[#FAFAFA]"
           >
             <Icons.Close size={18} />
           </button>
         </div>
 
-        {/* Candidate Portal Quick Switch Banner */}
-        <div className="px-3 pt-3">
-          <Link
-            href="/practice"
-            target="_blank"
-            className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium bg-[#171717] text-[#A1A1AA] border border-[#262626] hover:bg-[#202020] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-all ${
-              collapsed ? 'justify-center' : ''
-            }`}
-            title="Open Student MCQ Practice Portal"
-          >
-            <Icons.CandidatePortal size={15} className="shrink-0 text-[#FAFAFA]" />
-            {!collapsed && (
-              <span className="truncate flex-1 font-sans">Student Portal ↗</span>
-            )}
-          </Link>
-        </div>
-
         {/* Navigation list */}
-        <div className="flex-1 overflow-y-auto px-3 py-3 space-y-1">
-          <div className="px-3 pb-1 text-[10px] font-mono font-semibold text-[#52525B] uppercase tracking-wider">
-            {!collapsed ? 'Modules' : '•'}
-          </div>
-
+        <div className="flex-1 overflow-y-auto py-3 px-2 space-y-1 custom-scrollbar">
           {navModules.map((item) => {
             const active = isActive(item.href, item.exact)
-            const IconComponent = item.icon
+            const Icon = item.icon
 
             return (
               <Link
@@ -182,48 +164,63 @@ export default function AdminSidebar({
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
                 title={collapsed ? item.label : undefined}
-                className={`group flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150 ${
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium transition-all group ${
                   active
-                    ? 'bg-[#191919] text-[#FAFAFA] border border-[#3F3F46] shadow-2xs font-semibold'
-                    : 'text-[#71717A] hover:bg-[#202020] hover:text-[#FAFAFA] border border-transparent'
+                    ? 'bg-[#1C1C1C] text-[#FAFAFA] border border-[#333333] shadow-xs'
+                    : 'text-[#A3A3A3] hover:text-[#FAFAFA] hover:bg-[#151515] border border-transparent'
                 }`}
               >
                 <div
-                  className={`shrink-0 transition-colors ${
-                    active ? 'text-[#FAFAFA]' : 'text-[#71717A] group-hover:text-[#FAFAFA]'
+                  className={`flex-shrink-0 transition-colors ${
+                    active ? 'text-[#FAFAFA]' : 'text-[#737373] group-hover:text-[#FAFAFA]'
                   }`}
                 >
-                  <IconComponent size={17} />
+                  <Icon size={18} />
                 </div>
-
                 {!collapsed && (
-                  <span className="truncate flex-1">{item.label}</span>
+                  <span className="truncate tracking-tight">{item.label}</span>
+                )}
+                {!collapsed && active && (
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#FAFAFA]" />
                 )}
               </Link>
             )
           })}
         </div>
 
-        {/* Footer info in sidebar */}
-        <div className="p-3 border-t border-[#262626] bg-[#0C0C0C]">
+        {/* Footer info & Logout */}
+        <div className="p-3 border-t border-[#262626] bg-[#0A0A0A]">
           <div
-            className={`flex items-center gap-3 p-2 rounded-xl bg-[#111111] border border-[#262626] ${
-              collapsed ? 'justify-center' : ''
-            }`}
+            className={`flex items-center ${
+              collapsed ? 'justify-center' : 'justify-between'
+            } gap-2`}
           >
-            <div className="w-7 h-7 rounded-lg bg-[#191919] border border-[#3F3F46] text-[#FAFAFA] flex items-center justify-center font-bold text-xs shrink-0">
-              A
-            </div>
             {!collapsed && (
-              <div className="overflow-hidden flex-1">
-                <div className="text-xs font-bold text-[#FAFAFA] truncate">
-                  Super Admin
+              <div className="flex items-center gap-2 overflow-hidden">
+                <div className="w-7 h-7 rounded-full bg-[#262626] flex items-center justify-center text-[11px] font-bold text-[#FAFAFA]">
+                  AD
                 </div>
-                <div className="text-[10px] font-mono text-[#71717A] truncate">
-                  puneet_a1 • IA Console
+                <div className="flex flex-col truncate">
+                  <span className="text-xs font-medium text-[#FAFAFA] truncate">
+                    Administrator
+                  </span>
+                  <span className="text-[10px] text-[#22C55E] flex items-center gap-1 font-mono">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#22C55E]" />
+                    Online
+                  </span>
                 </div>
               </div>
             )}
+
+            <a
+              href="/api/auth/logout"
+              title="Logout"
+              className="flex items-center justify-center w-8 h-8 rounded-lg text-[#737373] hover:text-[#EF4444] hover:bg-[#1A1A1A] transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+            </a>
           </div>
         </div>
       </aside>

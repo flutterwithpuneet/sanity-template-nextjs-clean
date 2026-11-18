@@ -36,9 +36,16 @@ function LoginForm() {
       }
 
       setSuccess(true)
-      // Redirect to the intended destination or home
+      // Redirect to the intended destination or appropriate role dashboard
+      const dest =
+        redirectParam && redirectParam !== '/'
+          ? redirectParam
+          : data.user?.role === 'admin'
+          ? '/admin'
+          : '/practice'
+
       setTimeout(() => {
-        router.push(redirectParam)
+        router.push(dest)
         router.refresh()
       }, 400)
     } catch (err: any) {
