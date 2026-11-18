@@ -341,18 +341,6 @@ function PracticePortalContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const handleJumpToStep = (stepNumber: 1 | 2 | 3) => {
-    if (stepNumber === 1) {
-      handleBackToStep1()
-    } else if (stepNumber === 2 && selectedSubjectId) {
-      setCurrentStep(2)
-      updateUrlParams(2, selectedSubjectId, selectedDifficulty)
-    } else if (stepNumber === 3 && selectedSubjectId && selectedDifficulty) {
-      setCurrentStep(3)
-      updateUrlParams(3, selectedSubjectId, selectedDifficulty)
-    }
-  }
-
   return (
     <div className="min-h-screen bg-[#101010] text-[#FFFFFF] flex flex-col font-sans selection:bg-[#222222] selection:text-[#FFFFFF]">
       {/* 1. Header — Soft Monochrome Dark */}
@@ -449,18 +437,16 @@ function PracticePortalContent() {
           </div>
         </div>
 
-        {/* 3. Three-Step Progress Indicator */}
+        {/* 3. Three-Step Progress Indicator (Non-clickable visual indicator) */}
         <div className="p-3 sm:p-4 rounded-2xl bg-[#171717] border border-[#303030]">
-          <div className="flex items-center justify-between text-xs sm:text-sm font-semibold">
+          <div className="flex items-center justify-between text-xs sm:text-sm font-semibold select-none">
             {/* Step 1 Pill */}
-            <button
-              type="button"
-              onClick={() => handleJumpToStep(1)}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
+            <div
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all cursor-default ${
                 currentStep === 1
                   ? 'bg-[#FFFFFF] text-[#111111] font-bold shadow-sm'
                   : currentStep > 1
-                  ? 'text-[#FFFFFF] hover:text-[#FFFFFF]'
+                  ? 'text-[#FFFFFF]'
                   : 'text-[#737373]'
               }`}
             >
@@ -476,21 +462,18 @@ function PracticePortalContent() {
                 {currentStep > 1 ? '✓' : '1'}
               </span>
               <span>Step 1 — Subject</span>
-            </button>
+            </div>
 
             <span className="text-[#303030] font-bold">→</span>
 
             {/* Step 2 Pill */}
-            <button
-              type="button"
-              onClick={() => handleJumpToStep(2)}
-              disabled={!selectedSubjectId}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all ${
+            <div
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all cursor-default ${
                 currentStep === 2
-                  ? 'bg-[#FFFFFF] text-[#111111] font-bold shadow-sm cursor-pointer'
+                  ? 'bg-[#FFFFFF] text-[#111111] font-bold shadow-sm'
                   : currentStep > 2
-                  ? 'text-[#FFFFFF] hover:text-[#FFFFFF] cursor-pointer'
-                  : 'text-[#737373] cursor-not-allowed'
+                  ? 'text-[#FFFFFF]'
+                  : 'text-[#737373]'
               }`}
             >
               <span
@@ -505,19 +488,16 @@ function PracticePortalContent() {
                 {currentStep > 2 ? '✓' : '2'}
               </span>
               <span>Step 2 — Difficulty</span>
-            </button>
+            </div>
 
             <span className="text-[#303030] font-bold">→</span>
 
             {/* Step 3 Pill */}
-            <button
-              type="button"
-              onClick={() => handleJumpToStep(3)}
-              disabled={!selectedDifficulty}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all ${
+            <div
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all cursor-default ${
                 currentStep === 3
-                  ? 'bg-[#FFFFFF] text-[#111111] font-bold shadow-sm cursor-pointer'
-                  : 'text-[#737373] cursor-not-allowed'
+                  ? 'bg-[#FFFFFF] text-[#111111] font-bold shadow-sm'
+                  : 'text-[#737373]'
               }`}
             >
               <span
@@ -530,7 +510,7 @@ function PracticePortalContent() {
                 3
               </span>
               <span>Step 3 — Practice Test</span>
-            </button>
+            </div>
           </div>
         </div>
 
