@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { ExamStoreProvider } from '@/lib/store'
+import { ExamForgeLogo } from '@/components/brand'
 
 interface ClientLayoutWrapperProps {
   header: React.ReactNode
@@ -161,9 +162,7 @@ export default function ClientLayoutWrapper({
   if (!session || checking) {
     return (
       <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-12 h-12 rounded-2xl bg-neutral-900 border border-neutral-800 text-white font-black text-xl flex items-center justify-center mb-4 shadow-xl animate-pulse">
-          EF
-        </div>
+        <ExamForgeLogo variant="badge" size={26} className="w-12 h-12 rounded-2xl mb-4 shadow-xl border-[#262626] animate-pulse" />
         <h2 className="text-lg font-bold text-white tracking-tight">ExamForge Security</h2>
         <p className="text-xs text-neutral-400 mt-1 max-w-sm">
           Authentication required. Redirecting to login portal...

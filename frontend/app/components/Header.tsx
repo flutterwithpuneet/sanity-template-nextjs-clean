@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { verifySession } from '@/lib/auth'
 import { settingsQuery } from '@/sanity/lib/queries'
 import { sanityFetch } from '@/sanity/lib/live'
+import { ExamForgeLogo } from '@/components/brand'
 
 export default async function Header() {
   let settings: any = null
@@ -29,9 +30,7 @@ export default async function Header() {
       <div className="container py-4 px-4 sm:px-6 max-w-6xl mx-auto w-full">
         <div className="flex items-center justify-between gap-5">
           <Link className="flex items-center gap-2.5 group" href="/">
-            <div className="w-9 h-9 rounded-xl bg-white text-black font-black text-sm flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
-              EF
-            </div>
+            <ExamForgeLogo variant="badge" size={20} className="w-9 h-9 rounded-xl group-hover:border-[#FAFAFA]/40 transition-colors" />
             <div className="flex flex-col">
               <span className="text-lg sm:text-xl font-extrabold tracking-tight text-white group-hover:text-neutral-300 transition-colors leading-tight">
                 ExamForge

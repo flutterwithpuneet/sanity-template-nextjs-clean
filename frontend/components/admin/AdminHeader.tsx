@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Icons } from './Icons'
+import { IALogo } from '@/components/brand'
 
 interface AdminHeaderProps {
   onToggleMobile: () => void
@@ -23,9 +24,7 @@ export default function AdminHeader({ onToggleMobile }: AdminHeaderProps) {
         </button>
 
         <div className="flex items-center gap-2.5">
-          <div className="w-6 h-6 rounded-md bg-[#191919] border border-[#3F3F46] text-[#FAFAFA] flex items-center justify-center font-bold text-[11px] font-mono">
-            IA
-          </div>
+          <IALogo variant="badge" size={15} className="w-6 h-6 rounded-md bg-[#191919] border-[#3F3F46]" />
           <div className="flex flex-col">
             <span className="text-xs font-bold text-[#FAFAFA] leading-tight tracking-tight">
               Rajasthan Informatics Assistant

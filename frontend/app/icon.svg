@@ -1,0 +1,13 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" rx="8" fill="#090909"/>
+  <!-- Top Crown Wedge -->
+  <path d="M16 4.5L25.5 10.2V13.2L16 7.8L6.5 13.2V10.2L16 4.5Z" fill="#FAFAFA"/>
+  <!-- Left Crucible Wing -->
+  <path d="M6 14.8L14.5 11L12.8 16L14.5 21L6 24.8V14.8Z" fill="#E4E4E7"/>
+  <!-- Right Crucible Wing -->
+  <path d="M26 14.8L17.5 11L19.2 16L17.5 21L26 24.8V14.8Z" fill="#FAFAFA"/>
+  <!-- Bottom Hearth Anvil -->
+  <path d="M16 22.5L21.5 19.3L24 21L16 27.5L8 21L10.5 19.3L16 22.5Z" fill="#D4D4D8"/>
+  <!-- Central Milestone Diamond Core -->
+  <path d="M16 13L18 16L16 19L14 16L16 13Z" fill="#FFFFFF"/>
+</svg>

@@ -13,24 +13,41 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const user = await authenticateCredentials(username, password)
+    const ipAddress =
+      req.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+      req.headers.get('x-real-ip') ||
+      '127.0.0.1'
+    const userAgent = req.headers.get('user-agent') || undefined
+
+    const { user, error, sessionToken } = await authenticateCredentials(
+      username,
+      password,
+      ipAddress,
+      userAgent
+    )
 
     if (!user) {
       return NextResponse.json(
-        { success: false, error: 'Invalid username or password' },
+        { success: false, error: error || 'Invalid username or password' },
         { status: 401 }
       )
     }
 
-    const token = signSession(user)
+    const token = signSession(user, sessionToken)
 
     const response = NextResponse.json({
       success: true,
-      user,
+      user: {
+        id: user.id,
+        username: user.username,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role,
+      },
       message: 'Logged in successfully',
     })
 
-    // Set HTTP-only session cookie
+    // Set HTTP-only secure session cookie
     response.cookies.set('examforge_session', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

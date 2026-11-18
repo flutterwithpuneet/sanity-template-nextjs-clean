@@ -2,6 +2,7 @@
 
 import React, { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { ExamForgeLogo } from '@/components/brand'
 
 function LoginForm() {
   const router = useRouter()
@@ -51,9 +52,7 @@ function LoginForm() {
     <div className="w-full max-w-md">
       {/* Brand Header */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-neutral-900 border border-neutral-800 text-white font-black text-2xl mb-4 shadow-xl shadow-black/50">
-          EF
-        </div>
+        <ExamForgeLogo variant="badge" size={30} className="w-14 h-14 rounded-2xl mx-auto mb-4 border-[#262626] bg-[#111111] shadow-xl shadow-black/50" />
         <h1 className="text-2xl font-bold tracking-tight text-white">
           ExamForge Portal
         </h1>

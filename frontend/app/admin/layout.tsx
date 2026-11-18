@@ -1,32 +1,21 @@
-'use client'
+import React from 'react'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { validateSessionWithDatabase } from '@/lib/auth'
+import AdminClientLayout from './AdminClientLayout'
 
-import React, { useState } from 'react'
-import AdminSidebar from '@/components/admin/AdminSidebar'
-import AdminHeader from '@/components/admin/AdminHeader'
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies()
+  const token = cookieStore.get('examforge_session')?.value
+  const user = await validateSessionWithDatabase(token)
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [collapsed, setCollapsed] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
+  if (!user) {
+    redirect('/login?redirect=/admin')
+  }
 
-  return (
-    <div className="min-h-screen bg-[#090909] text-[#FAFAFA] font-sans selection:bg-[#252525] selection:text-[#FAFAFA]">
-      <AdminSidebar
-        collapsed={collapsed}
-        setCollapsed={setCollapsed}
-        mobileOpen={mobileOpen}
-        setMobileOpen={setMobileOpen}
-      />
+  if (user.role !== 'admin') {
+    redirect('/practice?error=unauthorized')
+  }
 
-      <div
-        className={`flex flex-col min-h-screen transition-all duration-300 ease-in-out ${
-          collapsed ? 'lg:pl-20' : 'lg:pl-64'
-        }`}
-      >
-        <AdminHeader onToggleMobile={() => setMobileOpen(true)} />
-        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-7xl w-full mx-auto pb-16">
-          {children}
-        </main>
-      </div>
-    </div>
-  )
+  return <AdminClientLayout user={user}>{children}</AdminClientLayout>
 }

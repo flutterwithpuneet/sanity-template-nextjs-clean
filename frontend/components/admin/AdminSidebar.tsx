@@ -4,6 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Icons } from './Icons'
+import { ExamForgeLogo } from '@/components/brand'
 
 interface AdminSidebarProps {
   collapsed: boolean
@@ -108,11 +109,9 @@ export default function AdminSidebar({
         <div className="h-16 flex items-center justify-between px-4 border-b border-[#262626] bg-[#0C0C0C]">
           <Link
             href="/admin"
-            className="flex items-center gap-3 overflow-hidden focus:outline-none"
+            className="flex items-center gap-3 overflow-hidden focus:outline-none group"
           >
-            <div className="w-9 h-9 rounded-xl bg-[#FAFAFA] text-[#090909] flex items-center justify-center font-black text-sm tracking-tight shrink-0 shadow-xs">
-              EF
-            </div>
+            <ExamForgeLogo variant="badge" size={20} className="w-9 h-9 rounded-xl shrink-0 group-hover:border-[#3F3F46] transition-colors" />
             {!collapsed && (
               <div className="flex flex-col">
                 <span className="font-bold text-[#FAFAFA] text-sm leading-tight tracking-tight">

@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifySession, signSession } from '@/lib/auth'
+import { validateSessionWithDatabase, signSession } from '@/lib/auth'
 
 export async function POST(req: NextRequest) {
   try {
     const token = req.cookies.get('examforge_session')?.value
-    const user = verifySession(token)
+    const user = await validateSessionWithDatabase(token)
 
     if (!user) {
       const response = NextResponse.json(
-        { success: false, expired: true, error: 'Session expired due to inactivity' },
+        { success: false, expired: true, error: 'Session expired or invalidated' },
         { status: 401 }
       )
       response.cookies.delete('examforge_session')
@@ -16,12 +16,18 @@ export async function POST(req: NextRequest) {
     }
 
     // Generate refreshed token with new lastActivity timestamp
-    const newToken = signSession(user)
+    const newToken = signSession(user, user.sessionToken)
 
     const response = NextResponse.json({
       success: true,
       refreshed: true,
-      user,
+      user: {
+        id: user.id,
+        username: user.username,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role,
+      },
     })
 
     response.cookies.set('examforge_session', newToken, {

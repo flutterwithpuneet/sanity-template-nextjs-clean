@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { ExamForgeLogo } from '@/components/brand'
 
 export default function Footer() {
   return (
@@ -6,9 +7,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-neutral-800">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-white text-black font-black text-xs flex items-center justify-center shadow-xs">
-              EF
-            </div>
+            <ExamForgeLogo variant="badge" size={18} className="w-8 h-8 rounded-xl" />
             <div>
               <span className="font-extrabold text-white text-base tracking-tight block">
                 ExamForge Platform

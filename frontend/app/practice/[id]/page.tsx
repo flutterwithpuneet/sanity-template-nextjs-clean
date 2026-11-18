@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Icons } from '@/components/admin/Icons'
 import { ExamPortalSkeleton } from '@/app/components/Shimmer'
+import { ExamForgeLogo } from '@/components/brand'
 
 interface Option {
   id: number
@@ -462,9 +463,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
       <div className="min-h-screen bg-neutral-900 text-white flex items-center justify-center p-4 font-sans">
         <div className="max-w-md w-full bg-black border border-neutral-800 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
           <div className="text-center space-y-2">
-            <div className="w-12 h-12 rounded-2xl bg-white text-black font-black text-lg mx-auto flex items-center justify-center">
-              EF
-            </div>
+            <ExamForgeLogo variant="badge" size={24} className="w-12 h-12 rounded-2xl mx-auto" />
             <h2 className="text-xl font-black text-white">Candidate Verification Required</h2>
             <p className="text-xs text-neutral-400">
               परीक्षा में सम्मिलित होने के लिए कृपया अपना Candidate Profile चुनें।
@@ -530,9 +529,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
         {/* Top Minimal Bar */}
         <header className="h-16 border-b border-neutral-800 px-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-white text-black font-black text-xs flex items-center justify-center">
-              EF
-            </div>
+            <ExamForgeLogo variant="badge" size={18} className="w-8 h-8 rounded-xl" />
             <span className="font-bold text-sm tracking-tight">ExamForge Candidate Gatekeeper</span>
           </div>
           <Link
@@ -689,9 +686,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
       <header className="sticky top-0 z-40 bg-black text-white px-4 md:px-8 py-3.5 border-b border-neutral-800 flex items-center justify-between shadow-md">
         {/* Left: Test info & Candidate */}
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-white text-black font-black flex items-center justify-center text-xs">
-            EF
-          </div>
+          <ExamForgeLogo variant="badge" size={18} className="w-8 h-8 rounded-lg" />
           <div>
             <h1 className="font-extrabold text-xs md:text-sm leading-tight text-white truncate max-w-xs md:max-w-md">
               {assessment.title}

@@ -4,6 +4,7 @@ import React, { useEffect, useState, useMemo, Suspense } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Icons } from '@/components/admin/Icons'
+import { ExamForgeLogo } from '@/components/brand'
 
 interface SubjectItem {
   id: string
@@ -348,9 +349,7 @@ function PracticePortalContent() {
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           {/* Logo & Subtitle */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-xl bg-[#FFFFFF] text-[#111111] font-black text-sm flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
-              EF
-            </div>
+            <ExamForgeLogo variant="badge" size={20} className="w-9 h-9 rounded-xl group-hover:border-[#FAFAFA]/40 transition-colors" />
             <div>
               <span className="font-extrabold text-base tracking-tight text-[#FFFFFF] block leading-tight">
                 ExamForge Practice Portal

@@ -1,10 +1,14 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import db from '@/lib/db'
+import { requireAdmin } from '@/lib/auth'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const auth = await requireAdmin(req)
+  if (auth.response) return auth.response
+
   try {
     // 1. Core Summary Metrics
-    const [[studentsRow]]: any = await db.query('SELECT COUNT(*) as count FROM students')
+    const [[studentsRow]]: any = await db.query('SELECT COUNT(*) as count FROM students WHERE deleted_at IS NULL')
     const [[subjectsRow]]: any = await db.query('SELECT COUNT(*) as count FROM subjects WHERE status = "active"')
     const [[topicsRow]]: any = await db.query('SELECT COUNT(*) as count FROM topics')
     const [[questionsRow]]: any = await db.query('SELECT COUNT(*) as count FROM questions')
@@ -97,4 +101,3 @@ export async function GET() {
     )
   }
 }
-
