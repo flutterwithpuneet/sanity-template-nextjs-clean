@@ -108,9 +108,18 @@ export async function GET(req: NextRequest) {
       })
     }
 
-    // Default: List all attempts
-    const [attempts]: any = await db.query(`
-      SELECT 
+    // Default: List all attempts with optional student_id filtering
+    const studentIdParam = searchParams.get('student_id')
+    const whereParams: any[] = []
+    let studentCondition = ''
+
+    if (studentIdParam && studentIdParam !== 'all') {
+      studentCondition = 'AND att.student_id = ?'
+      whereParams.push(Number(studentIdParam))
+    }
+
+    const [attempts]: any = await db.query(
+      `SELECT 
         att.id,
         att.student_id,
         att.assessment_id,
@@ -135,9 +144,19 @@ export async function GET(req: NextRequest) {
       FROM assessment_attempts att
       JOIN students s ON att.student_id = s.id
       JOIN assessments asm ON att.assessment_id = asm.id
-      WHERE att.status = 'submitted'
+      WHERE att.status = 'submitted' ${studentCondition}
       ORDER BY att.id DESC
-      LIMIT 100
+      LIMIT 100`,
+      whereParams
+    )
+
+    // Distinct students list who have submissions
+    const [studentsList]: any = await db.query(`
+      SELECT DISTINCT s.id, s.full_name, s.email, COUNT(att.id) as attempts_count
+      FROM students s
+      JOIN assessment_attempts att ON s.id = att.student_id AND att.status = 'submitted'
+      GROUP BY s.id, s.full_name, s.email
+      ORDER BY s.full_name ASC
     `)
 
     // Leaderboard / Rankings
@@ -158,15 +177,16 @@ export async function GET(req: NextRequest) {
     `)
 
     // Aggregated Accuracy Breakdown
-    const [[accuracyRow]]: any = await db.query(`
-      SELECT 
+    const [[accuracyRow]]: any = await db.query(
+      `SELECT 
         COALESCE(SUM(correct_answers), 0) as total_correct,
         COALESCE(SUM(incorrect_answers), 0) as total_incorrect,
         COALESCE(SUM(unanswered_questions), 0) as total_unanswered,
         COALESCE(SUM(total_questions), 0) as total_questions_served
-      FROM assessment_attempts
-      WHERE status = 'submitted'
-    `)
+      FROM assessment_attempts att
+      WHERE att.status = 'submitted' ${studentCondition}`,
+      whereParams
+    )
 
     // Speed Distribution
     const [[speedRow]]: any = await db.query(`
@@ -200,6 +220,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       success: true,
       attempts,
+      students: studentsList || [],
       rankings,
       analytics: {
         accuracyBreakdown: {

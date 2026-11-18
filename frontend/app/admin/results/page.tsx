@@ -15,6 +15,10 @@ export default function ResultsAnalyticsPage() {
   })
   const [loading, setLoading] = useState(true)
 
+  // Candidate filtering
+  const [students, setStudents] = useState<any[]>([])
+  const [selectedStudentId, setSelectedStudentId] = useState<string>('all')
+
   // Filters
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<'all' | 'passed' | 'failed'>('all')
@@ -27,14 +31,18 @@ export default function ResultsAnalyticsPage() {
   // Delete confirmation
   const [deleteAttemptId, setDeleteAttemptId] = useState<number | null>(null)
 
-  const fetchResults = async () => {
+  const fetchResults = async (studentId: string = selectedStudentId) => {
     try {
       setLoading(true)
-      const res = await fetch('/api/admin/results')
+      const queryParam = studentId && studentId !== 'all' ? `?student_id=${studentId}` : ''
+      const res = await fetch(`/api/admin/results${queryParam}`)
       const json = await res.json()
       if (json.success) {
         setAttempts(json.attempts)
         setRankings(json.rankings)
+        if (json.students) {
+          setStudents(json.students)
+        }
         if (json.analytics) {
           setAnalytics(json.analytics)
         }
@@ -47,8 +55,13 @@ export default function ResultsAnalyticsPage() {
   }
 
   useEffect(() => {
-    fetchResults()
+    fetchResults('all')
   }, [])
+
+  const handleStudentFilterChange = (studentId: string) => {
+    setSelectedStudentId(studentId)
+    fetchResults(studentId)
+  }
 
   const handleOpenDrilldown = async (attemptId: number) => {
     setSelectedAttemptId(attemptId)
@@ -165,8 +178,8 @@ export default function ResultsAnalyticsPage() {
 
         <div className="flex items-center gap-2 shrink-0">
           <button
-            onClick={fetchResults}
-            className="px-3.5 py-2 rounded-xl bg-[#171717] border border-[#262626] hover:bg-[#202020] hover:border-[#3F3F46] text-[#FAFAFA] text-xs font-medium flex items-center gap-2 transition-colors"
+            onClick={() => fetchResults(selectedStudentId)}
+            className="px-3.5 py-2 rounded-xl bg-[#171717] border border-[#262626] hover:bg-[#202020] hover:border-[#3F3F46] text-[#FAFAFA] text-xs font-medium flex items-center gap-2 transition-colors cursor-pointer"
           >
             <Icons.Clock size={14} />
             <span>Refresh Analytics</span>
@@ -338,34 +351,56 @@ export default function ResultsAnalyticsPage() {
       </div>
 
       {/* Filter Bar & Search */}
-      <div className="bg-[#111111] rounded-2xl border border-[#262626] p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="relative w-full sm:w-80">
-          <Icons.Search
-            size={16}
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#71717A]"
-          />
-          <input
-            type="text"
-            placeholder="Search candidate or test title..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs placeholder-[#71717A] focus:outline-none focus:border-[#52525B]"
-          />
+      <div className="bg-[#111111] rounded-2xl border border-[#262626] p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+        <div className="flex flex-col sm:flex-row items-center gap-3 flex-1">
+          {/* Candidate Dropdown Filter */}
+          <div className="relative w-full sm:w-64 shrink-0">
+            <select
+              value={selectedStudentId}
+              onChange={(e) => handleStudentFilterChange(e.target.value)}
+              className="w-full px-3 py-2 pr-8 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs font-medium focus:outline-none focus:border-[#52525B] cursor-pointer appearance-none"
+            >
+              <option value="all">👥 All Candidates ({students.length})</option>
+              {students.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.full_name} ({s.attempts_count} {s.attempts_count === 1 ? 'test' : 'tests'})
+                </option>
+              ))}
+            </select>
+            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#71717A]">
+              <Icons.ChevronDown size={14} />
+            </div>
+          </div>
+
+          {/* Search Bar */}
+          <div className="relative w-full sm:w-72">
+            <Icons.Search
+              size={15}
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#71717A]"
+            />
+            <input
+              type="text"
+              placeholder="Search candidate name or test..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs placeholder-[#71717A] focus:outline-none focus:border-[#52525B]"
+            />
+          </div>
         </div>
 
-        <div className="flex items-center gap-1.5 w-full sm:w-auto">
+        <div className="flex items-center gap-1.5 shrink-0 justify-between sm:justify-end">
           {(['all', 'passed', 'failed'] as const).map((filter) => (
             <button
               key={filter}
               type="button"
               onClick={() => setStatusFilter(filter)}
-              className={`px-3 py-1.5 rounded-xl font-mono font-semibold uppercase text-[10px] transition-colors ${
+              className={`px-3 py-1.5 rounded-xl font-mono font-semibold uppercase text-[10px] transition-colors cursor-pointer ${
                 statusFilter === filter
                   ? 'bg-[#191919] text-[#FAFAFA] border border-[#3F3F46]'
                   : 'bg-[#151515] text-[#71717A] border border-[#262626] hover:text-[#FAFAFA]'
               }`}
             >
-              {filter === 'all' ? 'All Submissions' : filter === 'passed' ? 'Passed' : 'Needs Retake'}
+              {filter === 'all' ? 'All' : filter === 'passed' ? 'Passed' : 'Needs Retake'}
             </button>
           ))}
           <span className="text-xs font-mono font-medium text-[#71717A] ml-2">
@@ -449,10 +484,20 @@ export default function ResultsAnalyticsPage() {
                     </td>
                     <td className="py-3 px-4 text-right">
                       <div className="flex items-center justify-end gap-1.5">
+                        <a
+                          href={`/practice/result/${att.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-2.5 py-1 rounded-lg bg-[#1D1D1D] border border-[#333333] hover:bg-[#262626] hover:border-[#4A4A4A] text-[#FAFAFA] font-medium text-xs transition-colors flex items-center gap-1.5"
+                          title="Open Complete Examination Report"
+                        >
+                          <span>Full Report</span>
+                          <Icons.ExternalLink size={11} />
+                        </a>
                         <button
                           type="button"
                           onClick={() => handleOpenDrilldown(att.id)}
-                          className="px-2.5 py-1 rounded-lg bg-[#171717] border border-[#262626] hover:bg-[#202020] hover:border-[#3F3F46] text-[#FAFAFA] font-medium text-xs transition-colors flex items-center gap-1"
+                          className="px-2.5 py-1 rounded-lg bg-[#171717] border border-[#262626] hover:bg-[#202020] hover:border-[#3F3F46] text-[#FAFAFA] font-medium text-xs transition-colors flex items-center gap-1 cursor-pointer"
                         >
                           <span>Analyze</span>
                           <Icons.ChevronRight size={11} />
@@ -460,7 +505,7 @@ export default function ResultsAnalyticsPage() {
                         <button
                           type="button"
                           onClick={() => setDeleteAttemptId(att.id)}
-                          className="p-1.5 rounded-lg text-[#71717A] hover:text-red-400 hover:bg-red-950/30 transition-colors"
+                          className="p-1.5 rounded-lg text-[#71717A] hover:text-red-400 hover:bg-red-950/30 transition-colors cursor-pointer"
                           title="Delete Attempt Record"
                         >
                           <Icons.Trash size={14} />
@@ -584,20 +629,32 @@ export default function ResultsAnalyticsPage() {
             </div>
 
             {/* Actions in drilldown */}
-            <div className="flex items-center justify-between pt-2 border-t border-[#1F1F1F]">
-              <button
-                type="button"
-                onClick={() => setDeleteAttemptId(drilldownData.attempt?.id)}
-                className="px-3 py-1.5 rounded-xl border border-[#262626] bg-[#151515] text-xs font-medium text-red-400 hover:bg-red-950/30 flex items-center gap-1.5 transition-colors"
-              >
-                <Icons.Trash size={13} />
-                <span>Delete Attempt</span>
-              </button>
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#1F1F1F]">
+              <div className="flex items-center gap-2">
+                <a
+                  href={`/practice/result/${drilldownData.attempt?.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3.5 py-2 rounded-xl bg-[#FAFAFA] text-[#090909] hover:bg-[#E4E4E7] text-xs font-bold flex items-center gap-2 transition-all shadow-xs"
+                >
+                  <span>Open Full Examination Report</span>
+                  <Icons.ExternalLink size={12} />
+                </a>
+
+                <button
+                  type="button"
+                  onClick={() => setDeleteAttemptId(drilldownData.attempt?.id)}
+                  className="px-3 py-2 rounded-xl border border-[#262626] bg-[#151515] text-xs font-medium text-red-400 hover:bg-red-950/30 flex items-center gap-1.5 transition-colors cursor-pointer"
+                >
+                  <Icons.Trash size={13} />
+                  <span className="hidden sm:inline">Delete Attempt</span>
+                </button>
+              </div>
 
               <button
                 type="button"
                 onClick={() => setSelectedAttemptId(null)}
-                className="px-5 py-2 rounded-xl bg-[#FAFAFA] text-[#090909] text-xs font-semibold hover:bg-[#E4E4E7] transition-colors"
+                className="px-4 py-2 rounded-xl bg-[#171717] border border-[#262626] text-[#A1A1AA] hover:text-white text-xs font-semibold cursor-pointer"
               >
                 Close Analysis
               </button>

@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Icons } from '@/components/admin/Icons'
 import { ExamForgeLogo } from '@/components/brand'
 import BookmarkModal from '@/components/student/BookmarkModal'
+import StudentResultsModal from '@/components/student/StudentResultsModal'
 
 interface SubjectItem {
   id: string
@@ -160,6 +161,9 @@ function PracticePortalContent() {
   // Bookmark management state
   const [showBookmarksModal, setShowBookmarksModal] = useState(false)
   const [bookmarkCount, setBookmarkCount] = useState<number>(0)
+
+  // My Results modal state
+  const [showResultsModal, setShowResultsModal] = useState(false)
 
   // Sync state if browser back/forward buttons change searchParams
   useEffect(() => {
@@ -357,7 +361,19 @@ function PracticePortalContent() {
           </Link>
 
           {/* Right Header Navigation: Candidate info & Admin link */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            {currentStudent && (
+              <button
+                type="button"
+                onClick={() => setShowResultsModal(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#1C1C1C] hover:bg-[#252525] border border-[#303030] text-xs font-semibold text-[#FAFAFA] transition-colors cursor-pointer group"
+                title="View your completed test submissions & reports"
+              >
+                <span className="text-xs">📊</span>
+                <span className="hidden sm:inline">My Results</span>
+              </button>
+            )}
+
             {currentStudent && (
               <button
                 type="button"
@@ -1031,6 +1047,16 @@ function PracticePortalContent() {
           onClose={() => setShowBookmarksModal(false)}
           studentId={currentStudent.id}
           onBookmarkRemoved={() => setBookmarkCount((c) => Math.max(0, c - 1))}
+        />
+      )}
+
+      {/* Student Completed Results Modal */}
+      {currentStudent && (
+        <StudentResultsModal
+          isOpen={showResultsModal}
+          onClose={() => setShowResultsModal(false)}
+          studentId={currentStudent.id}
+          studentName={currentStudent.full_name}
         />
       )}
     </div>
