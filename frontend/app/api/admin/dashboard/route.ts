@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
         s.code,
         COUNT(DISTINCT q.id) as question_count,
         SUM(CASE WHEN q.status = 'approved' THEN 1 ELSE 0 END) as approved_count,
-        COUNT(DISTINCT t.id) as topic_count
+        COUNT(DISTINCT CASE WHEN t.parent_id IS NULL OR t.level = 1 THEN t.id END) as topic_count
       FROM subjects s
       LEFT JOIN topics t ON s.id = t.subject_id
       LEFT JOIN questions q ON s.id = q.subject_id

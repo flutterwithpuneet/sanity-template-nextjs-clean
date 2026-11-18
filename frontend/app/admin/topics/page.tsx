@@ -173,7 +173,7 @@ export default function TopicsPage() {
       <div className="bg-[#111111] rounded-2xl border border-[#262626] p-2">
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
           {subjects.map((sub) => {
-            const count = topics.filter((t) => t.subject_id === sub.id).length
+            const mainCount = topics.filter((t) => t.subject_id === sub.id && (t.parent_id === null || t.level === 1)).length
             const isSelected = sub.id === selectedSubjectId
 
             return (
@@ -181,7 +181,7 @@ export default function TopicsPage() {
                 key={sub.id}
                 type="button"
                 onClick={() => setSelectedSubjectId(sub.id)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 cursor-pointer ${
                   isSelected
                     ? 'bg-[#191919] text-[#FAFAFA] border border-[#3F3F46] font-semibold'
                     : 'text-[#71717A] hover:text-[#FAFAFA] hover:bg-[#151515] border border-transparent'
@@ -189,11 +189,12 @@ export default function TopicsPage() {
               >
                 <span>{sub.name}</span>
                 <span
-                  className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
-                    isSelected ? 'bg-[#252525] text-[#FAFAFA]' : 'bg-[#151515] text-[#71717A]'
+                  className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
+                    isSelected ? 'bg-white text-black' : 'bg-[#181818] text-[#A1A1AA] border border-[#262626]'
                   }`}
+                  title={`${mainCount} Main Topics`}
                 >
-                  {count}
+                  {mainCount}
                 </span>
               </button>
             )

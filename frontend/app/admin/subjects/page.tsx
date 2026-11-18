@@ -189,7 +189,7 @@ export default function SubjectsPage() {
 
               <div className="mt-5 pt-3.5 border-t border-[#1F1F1F] flex items-center justify-between text-xs">
                 <div className="flex items-center gap-3 font-mono text-[11px] text-[#71717A]">
-                  <span><strong className="text-[#FAFAFA]">{sub.topics_count || 0}</strong> Topics</span>
+                  <span><strong className="text-[#FAFAFA]">{sub.topics_count || 0}</strong> Main Topics</span>
                   <span>•</span>
                   <span><strong className="text-[#FAFAFA]">{sub.questions_count || 0}</strong> Questions</span>
                 </div>

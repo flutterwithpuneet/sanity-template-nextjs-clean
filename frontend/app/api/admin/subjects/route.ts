@@ -16,7 +16,9 @@ export async function GET(req: NextRequest) {
         s.icon,
         s.status,
         s.created_at,
-        COUNT(DISTINCT t.id) as topics_count,
+        COUNT(DISTINCT CASE WHEN t.parent_id IS NULL OR t.level = 1 THEN t.id END) as topics_count,
+        COUNT(DISTINCT CASE WHEN t.parent_id IS NOT NULL OR t.level > 1 THEN t.id END) as subtopics_count,
+        COUNT(DISTINCT t.id) as total_topics_count,
         COUNT(DISTINCT q.id) as questions_count
       FROM subjects s
       LEFT JOIN topics t ON s.id = t.subject_id
