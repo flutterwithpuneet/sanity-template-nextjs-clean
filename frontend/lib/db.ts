@@ -76,10 +76,10 @@ function normalizeQuery(sql: string, params: any[]): { text: string; values: any
     }
   }
 
-  // 3. Fix double quotes used for enum/string values
+  // 3. Fix double quotes used for enum/string values (e.g. = "active", != "deleted", <> "pending")
   normalized = normalized.replace(
-    /=\s*"([^"]+)"/g,
-    " = '$1'"
+    /(!=|<>|=)\s*"([^"]+)"/g,
+    "$1 '$2'"
   )
 
   // 4. For INSERT statements without RETURNING, append RETURNING id

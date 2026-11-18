@@ -109,16 +109,16 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
   const avgTime = timesArray.length > 0 ? Math.round(timesArray.reduce((a: number, b: number) => a + b, 0) / timesArray.length) : 0
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans pb-16">
+    <div className="min-h-screen bg-[#090909] text-[#FAFAFA] font-sans pb-16 selection:bg-[#222222] selection:text-white">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-black text-white px-4 md:px-8 py-3.5 border-b border-neutral-800 flex items-center justify-between shadow-md">
+      <header className="sticky top-0 z-40 bg-[#0C0C0C]/90 backdrop-blur-md text-[#FAFAFA] px-4 md:px-8 py-3.5 border-b border-[#262626] flex items-center justify-between shadow-md">
         <div className="flex items-center gap-3">
           <ExamForgeLogo variant="badge" size={18} className="w-8 h-8 rounded-lg" />
           <div>
-            <h1 className="font-extrabold text-sm md:text-base leading-tight">
+            <h1 className="font-extrabold text-sm md:text-base leading-tight text-white">
               Test Performance & Time Analysis
             </h1>
-            <div className="text-[10px] text-neutral-400 font-mono">
+            <div className="text-[10px] text-[#71717A] font-mono">
               Attempt #{attempt.id} • Candidate: {attempt.student_name}
             </div>
           </div>
@@ -128,24 +128,24 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
           <button
             type="button"
             onClick={() => setShowBookmarksModal(true)}
-            className="px-3 py-1.5 rounded-xl bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="px-3 py-1.5 rounded-xl bg-[#141414] border border-[#262626] hover:bg-[#1E1E1E] text-[#A1A1AA] hover:text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
           >
-            <Icons.BookmarkFilled size={13} className={bookmarkedQIds.size > 0 ? 'text-amber-400' : 'text-neutral-400'} />
-            <span>Saved Bookmarks</span>
-            <span className="px-1.5 py-0.2 rounded-full bg-neutral-800 text-white font-mono font-bold text-[10px]">
+            <Icons.BookmarkFilled size={13} className={bookmarkedQIds.size > 0 ? 'text-amber-400' : 'text-[#71717A]'} />
+            <span className="hidden sm:inline">Saved Bookmarks</span>
+            <span className="px-1.5 py-0.2 rounded-full bg-[#222222] text-white font-mono font-bold text-[10px]">
               {bookmarkedQIds.size}
             </span>
           </button>
 
           <Link
             href="/practice"
-            className="px-3.5 py-1.5 rounded-xl bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 text-white font-semibold text-xs transition-colors"
+            className="px-3.5 py-1.5 rounded-xl bg-[#141414] border border-[#262626] hover:bg-[#1E1E1E] text-[#A1A1AA] hover:text-white font-semibold text-xs transition-colors"
           >
             Practice Portal
           </Link>
           <Link
             href="/admin"
-            className="px-3.5 py-1.5 rounded-xl bg-white text-black font-semibold text-xs hover:bg-neutral-200 transition-colors"
+            className="px-3.5 py-1.5 rounded-xl bg-[#D4D4D8] hover:bg-[#E4E4E7] text-[#111111] font-bold text-xs transition-colors shadow-xs"
           >
             Admin Panel
           </Link>
@@ -154,39 +154,39 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
 
       <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
         {/* Top Scorecard Banner */}
-        <div className="rounded-3xl bg-white border border-gray-200 p-6 md:p-8 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="rounded-3xl bg-[#111111] border border-[#262626] p-6 md:p-8 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center md:text-left">
             <span
               className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${
-                attempt.passed ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 text-amber-800 border border-amber-300'
+                attempt.passed ? 'bg-emerald-950/70 text-emerald-400 border border-emerald-800/80' : 'bg-amber-950/70 text-amber-400 border border-amber-800/80'
               }`}
             >
               {attempt.passed ? '✓ PASSED EXAMINATION' : '⚠ RETAKE RECOMMENDED'}
             </span>
-            <h2 className="text-2xl md:text-3xl font-black text-black tracking-tight">
+            <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
               {attempt.assessment_title}
             </h2>
-            <p className="text-xs text-gray-600">
+            <p className="text-xs text-[#A1A1AA]">
               ExamForge Automated Server-Side Scoring & Question-Level Timing Breakdown.
             </p>
           </div>
 
           {/* Large Score Metric */}
-          <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-200 shrink-0">
+          <div className="flex items-center gap-4 bg-[#161616] p-4 rounded-2xl border border-[#262626] shrink-0">
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-black font-mono text-black">
+              <div className="text-3xl md:text-4xl font-black font-mono text-white">
                 {Number(attempt.obtained_marks).toFixed(2)}
               </div>
-              <div className="text-[10px] font-bold text-gray-500 uppercase mt-0.5">
+              <div className="text-[10px] font-bold text-[#71717A] uppercase mt-0.5">
                 Marks out of {Number(attempt.total_marks).toFixed(0)}
               </div>
             </div>
-            <div className="h-10 w-px bg-gray-300"></div>
+            <div className="h-10 w-px bg-[#262626]"></div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-black font-mono text-black">
+              <div className="text-3xl md:text-4xl font-black font-mono text-white">
                 {Number(attempt.percentage).toFixed(0)}%
               </div>
-              <div className="text-[10px] font-bold text-gray-500 uppercase mt-0.5">
+              <div className="text-[10px] font-bold text-[#71717A] uppercase mt-0.5">
                 Percentage
               </div>
             </div>
@@ -195,55 +195,55 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
 
         {/* Detailed KPI Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="p-4 rounded-2xl bg-white border border-gray-200 text-center shadow-xs">
-            <div className="text-xs font-bold text-gray-500 uppercase">Correct Answers</div>
-            <div className="text-2xl font-black font-mono text-black mt-1">
+          <div className="p-4 rounded-2xl bg-[#111111] border border-[#262626] text-center shadow-xs">
+            <div className="text-xs font-bold text-[#71717A] uppercase">Correct Answers</div>
+            <div className="text-2xl font-black font-mono text-white mt-1">
               {attempt.correct_answers}
             </div>
-            <div className="text-[10px] text-gray-400 mt-0.5">+{attempt.correct_answers * 1.0} Marks</div>
+            <div className="text-[10px] text-[#A1A1AA] mt-0.5">+{attempt.correct_answers * 1.0} Marks</div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white border border-gray-200 text-center shadow-xs">
-            <div className="text-xs font-bold text-gray-500 uppercase">Wrong Answers</div>
-            <div className="text-2xl font-black font-mono text-black mt-1">
+          <div className="p-4 rounded-2xl bg-[#111111] border border-[#262626] text-center shadow-xs">
+            <div className="text-xs font-bold text-[#71717A] uppercase">Wrong Answers</div>
+            <div className="text-2xl font-black font-mono text-white mt-1">
               {attempt.incorrect_answers}
             </div>
-            <div className="text-[10px] text-gray-400 mt-0.5">
+            <div className="text-[10px] text-[#A1A1AA] mt-0.5">
               -{Number(attempt.incorrect_answers * 0.25).toFixed(2)} Penalty
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white border border-gray-200 text-center shadow-xs">
-            <div className="text-xs font-bold text-gray-500 uppercase">Accuracy</div>
-            <div className="text-2xl font-black font-mono text-black mt-1">
+          <div className="p-4 rounded-2xl bg-[#111111] border border-[#262626] text-center shadow-xs">
+            <div className="text-xs font-bold text-[#71717A] uppercase">Accuracy</div>
+            <div className="text-2xl font-black font-mono text-white mt-1">
               {Number(attempt.accuracy || 0).toFixed(0)}%
             </div>
-            <div className="text-[10px] text-gray-400 mt-0.5">Correct / Attempted</div>
+            <div className="text-[10px] text-[#A1A1AA] mt-0.5">Correct / Attempted</div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white border border-gray-200 text-center shadow-xs">
-            <div className="text-xs font-bold text-gray-500 uppercase">Total Test Time</div>
-            <div className="text-2xl font-black font-mono text-black mt-1">
+          <div className="p-4 rounded-2xl bg-[#111111] border border-[#262626] text-center shadow-xs">
+            <div className="text-xs font-bold text-[#71717A] uppercase">Total Test Time</div>
+            <div className="text-2xl font-black font-mono text-white mt-1">
               {formatSeconds(attempt.time_taken_seconds)}
             </div>
-            <div className="text-[10px] text-gray-400 mt-0.5">Avg: {formatSeconds(avgTime)} / Question</div>
+            <div className="text-[10px] text-[#A1A1AA] mt-0.5">Avg: {formatSeconds(avgTime)} / Question</div>
           </div>
         </div>
 
         {/* Per-Question Time Analysis Highlights */}
-        <div className="rounded-2xl bg-white border border-gray-200 p-5 shadow-xs space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-100 pb-3">
+        <div className="rounded-2xl bg-[#111111] border border-[#262626] p-5 shadow-xs space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#262626] pb-3">
             <div>
-              <h3 className="text-base font-bold text-black flex items-center gap-2">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
                 <Icons.Clock size={18} />
                 Question Time Tracking & Speed Breakdown
               </h3>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-[#71717A]">
                 Detailed measurement of seconds spent by the student on each question.
               </p>
             </div>
-            <div className="text-xs font-mono text-gray-600">
-              Fastest: <strong>{formatSeconds(minTime)}</strong> • Slowest: <strong>{formatSeconds(maxTime)}</strong>
+            <div className="text-xs font-mono text-[#A1A1AA]">
+              Fastest: <strong className="text-white">{formatSeconds(minTime)}</strong> • Slowest: <strong className="text-white">{formatSeconds(maxTime)}</strong>
             </div>
           </div>
 
@@ -255,18 +255,18 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
 
               return (
                 <div key={ans.answer_id} className="flex items-center gap-3 text-xs">
-                  <span className="w-8 font-mono font-bold text-gray-600 shrink-0">
+                  <span className="w-8 font-mono font-bold text-[#A1A1AA] shrink-0">
                     Q#{idx + 1}
                   </span>
-                  <div className="flex-1 bg-gray-100 rounded-full h-3 overflow-hidden border border-gray-200">
+                  <div className="flex-1 bg-[#181818] rounded-full h-3 overflow-hidden border border-[#262626]">
                     <div
                       className={`h-full rounded-full transition-all ${
-                        ans.is_correct === 1 ? 'bg-emerald-500' : 'bg-rose-400'
+                        ans.is_correct === 1 ? 'bg-emerald-500' : 'bg-rose-500'
                       }`}
                       style={{ width: `${pct}%` }}
                     />
                   </div>
-                  <span className="w-16 text-right font-mono font-bold text-black shrink-0">
+                  <span className="w-16 text-right font-mono font-bold text-white shrink-0">
                     {formatSeconds(sec)}
                   </span>
                 </div>
@@ -277,7 +277,7 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
 
         {/* Detailed Solutions & Step-by-Step Question Review */}
         <div className="space-y-4">
-          <h3 className="text-xl font-bold text-black tracking-tight">
+          <h3 className="text-xl font-bold text-white tracking-tight">
             Detailed Solutions & Explanations (व्याख्या)
           </h3>
 
@@ -287,30 +287,30 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
               const isCorrect = ans.is_correct === 1
               const isUnanswered = !ans.selected_option_key
 
-              let statusBadge = 'bg-black text-white'
+              let statusBadge = 'bg-white text-black font-bold'
               let statusText = 'Correct (+1.00)'
               if (isUnanswered) {
-                statusBadge = 'bg-gray-100 text-gray-600 border border-gray-300'
+                statusBadge = 'bg-[#181818] text-[#71717A] border border-[#262626]'
                 statusText = 'Unanswered (0.00)'
               } else if (!isCorrect) {
-                statusBadge = 'bg-gray-200 text-gray-900 border border-gray-400'
+                statusBadge = 'bg-rose-950/70 text-rose-400 border border-rose-800/80'
                 statusText = 'Incorrect (-0.25)'
               }
 
               return (
                 <div
                   key={ans.answer_id}
-                  className="rounded-2xl bg-white border border-gray-200 p-5 md:p-6 shadow-xs space-y-4"
+                  className="rounded-2xl bg-[#111111] border border-[#262626] p-5 md:p-6 shadow-xs space-y-4"
                 >
                   {/* Top Bar */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-gray-100">
+                  <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#262626]">
                     <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-lg bg-black text-white font-mono font-bold text-xs">
+                      <span className="px-2.5 py-0.5 rounded-lg bg-white text-black font-mono font-bold text-xs">
                         Question {idx + 1}
                       </span>
-                      <span className="text-xs font-bold text-black">{ans.subject_name}</span>
-                      <span className="text-gray-300">•</span>
-                      <span className="text-xs text-gray-500">{ans.topic_name}</span>
+                      <span className="text-xs font-bold text-white">{ans.subject_name}</span>
+                      <span className="text-[#3F3F46]">•</span>
+                      <span className="text-xs text-[#71717A]">{ans.topic_name}</span>
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -321,7 +321,7 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
                         className={`px-2.5 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
                           bookmarkedQIds.has(ans.question_id)
                             ? 'bg-amber-400 text-black border-amber-500 shadow-xs'
-                            : 'bg-gray-100 text-gray-700 hover:text-black hover:bg-gray-200 border-gray-300'
+                            : 'bg-[#161616] text-[#A1A1AA] hover:text-white hover:bg-[#202020] border-[#262626]'
                         }`}
                         title={
                           bookmarkedQIds.has(ans.question_id)
@@ -340,7 +340,7 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
                       </button>
 
                       {/* Exact Time Badge */}
-                      <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-gray-100 text-black border border-gray-200 flex items-center gap-1">
+                      <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-[#161616] text-white border border-[#262626] flex items-center gap-1">
                         <Icons.Clock size={12} />
                         Time Spent: {formatSeconds(ans.time_spent_seconds)}
                       </span>
@@ -353,41 +353,41 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
 
                   {/* Question Statement (Bilingual support) */}
                   <div className="space-y-1.5">
-                    <h4 className="text-base font-bold text-gray-900 leading-relaxed">
+                    <h4 className="text-base font-bold text-white leading-relaxed">
                       {ans.question_text}
                     </h4>
                     {ans.question_text_hi && ans.question_text_hi !== ans.question_text && (
-                      <p className="text-sm font-semibold text-neutral-700 leading-relaxed">
+                      <p className="text-sm font-semibold text-[#D4D4D8] leading-relaxed">
                         {ans.question_text_hi}
                       </p>
                     )}
                   </div>
 
-                  {/* Options List (Styled exactly as per reference design) */}
+                  {/* Options List (Styled with high-contrast Dark theme) */}
                   <div className="space-y-3 pt-1">
                     {ans.options?.map((opt: any) => {
                       const isSelectedByStudent = ans.selected_option_key === opt.key
                       const isOptionCorrect = Boolean(opt.isCorrect)
 
-                      // 1. Correct Option (Green Card)
+                      // 1. Correct Option (Green Card in Dark Mode)
                       if (isOptionCorrect) {
                         return (
                           <div
                             key={opt.key}
-                            className="rounded-2xl border-2 border-emerald-500 bg-emerald-50/70 overflow-hidden shadow-xs border-l-6 border-l-emerald-600 transition-all"
+                            className="rounded-2xl border border-emerald-600/70 bg-emerald-950/30 overflow-hidden shadow-xs border-l-4 border-l-emerald-500 transition-all"
                           >
                             {/* Option Header */}
                             <div className="p-3.5 sm:p-4 flex items-center justify-between gap-3">
                               <div className="flex items-center gap-3">
-                                <span className="w-7 h-7 rounded-full border-2 border-emerald-700 bg-emerald-100 text-emerald-950 font-mono font-bold text-xs flex items-center justify-center shrink-0">
+                                <span className="w-7 h-7 rounded-full border border-emerald-500/80 bg-emerald-900/60 text-emerald-200 font-mono font-bold text-xs flex items-center justify-center shrink-0">
                                   {opt.key}
                                 </span>
                                 <div className="flex flex-col">
-                                  <span className="text-sm font-bold text-emerald-950">
+                                  <span className="text-sm font-bold text-emerald-200">
                                     {opt.text}
                                   </span>
                                   {opt.text_hi && opt.text_hi !== opt.text && (
-                                    <span className="text-xs font-semibold text-emerald-900 mt-0.5">
+                                    <span className="text-xs font-semibold text-emerald-300 mt-0.5">
                                       {opt.text_hi}
                                     </span>
                                   )}
@@ -396,11 +396,11 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
 
                               <div className="flex items-center gap-2 shrink-0">
                                 {isSelectedByStudent && (
-                                  <span className="text-[10px] font-bold uppercase text-emerald-800 tracking-wider hidden sm:inline">
+                                  <span className="text-[10px] font-bold uppercase text-emerald-400 tracking-wider hidden sm:inline">
                                     YOUR ANSWER
                                   </span>
                                 )}
-                                <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-200/80 text-emerald-950 border border-emerald-400 flex items-center gap-1 shadow-2xs">
+                                <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-900/80 text-emerald-200 border border-emerald-700 flex items-center gap-1 shadow-2xs">
                                   <span>✓ CORRECT</span>
                                 </span>
                               </div>
@@ -408,13 +408,13 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
 
                             {/* Detailed Explanation Compartment beneath divider */}
                             {(ans.explanation || ans.explanation_hi) && (
-                              <div className="px-4 py-3 bg-white/80 border-t border-emerald-200 text-xs text-emerald-950 leading-relaxed font-medium space-y-1">
-                                <span className="font-bold text-emerald-900 block mb-0.5 text-[11px] uppercase tracking-wider">
+                              <div className="px-4 py-3 bg-[#0C1710] border-t border-emerald-900/60 text-xs text-emerald-200 leading-relaxed font-medium space-y-1">
+                                <span className="font-bold text-emerald-400 block mb-0.5 text-[11px] uppercase tracking-wider">
                                   Correct Explanation (सही उत्तर का स्पष्टीकरण):
                                 </span>
                                 {ans.explanation && <p>{ans.explanation}</p>}
                                 {ans.explanation_hi && ans.explanation_hi !== ans.explanation && (
-                                  <p className="pt-1 text-neutral-800 border-t border-emerald-100">{ans.explanation_hi}</p>
+                                  <p className="pt-1 text-[#D4D4D8] border-t border-emerald-900/40">{ans.explanation_hi}</p>
                                 )}
                               </div>
                             )}
@@ -422,25 +422,25 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
                         )
                       }
 
-                      // 2. Selected but Incorrect Option (Red Card)
+                      // 2. Selected but Incorrect Option (Red Card in Dark Mode)
                       if (isSelectedByStudent && !isOptionCorrect) {
                         return (
                           <div
                             key={opt.key}
-                            className="rounded-2xl border-2 border-rose-500 bg-rose-50/70 overflow-hidden shadow-xs border-l-6 border-l-rose-600 transition-all"
+                            className="rounded-2xl border border-rose-700/70 bg-rose-950/30 overflow-hidden shadow-xs border-l-4 border-l-rose-500 transition-all"
                           >
                             {/* Option Header */}
                             <div className="p-3.5 sm:p-4 flex items-center justify-between gap-3">
                               <div className="flex items-center gap-3">
-                                <span className="w-7 h-7 rounded-full border-2 border-rose-700 bg-rose-100 text-rose-950 font-mono font-bold text-xs flex items-center justify-center shrink-0">
+                                <span className="w-7 h-7 rounded-full border border-rose-500/80 bg-rose-900/60 text-rose-200 font-mono font-bold text-xs flex items-center justify-center shrink-0">
                                   {opt.key}
                                 </span>
                                 <div className="flex flex-col">
-                                  <span className="text-sm font-bold text-rose-950">
+                                  <span className="text-sm font-bold text-rose-200">
                                     {opt.text}
                                   </span>
                                   {opt.text_hi && opt.text_hi !== opt.text && (
-                                    <span className="text-xs font-semibold text-rose-900 mt-0.5">
+                                    <span className="text-xs font-semibold text-rose-300 mt-0.5">
                                       {opt.text_hi}
                                     </span>
                                   )}
@@ -448,18 +448,18 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
                               </div>
 
                               <div className="flex items-center gap-2 shrink-0">
-                                <span className="text-[10px] font-bold uppercase text-gray-500 tracking-wider hidden sm:inline">
+                                <span className="text-[10px] font-bold uppercase text-rose-400 tracking-wider hidden sm:inline">
                                   YOUR ANSWER
                                 </span>
-                                <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-rose-200/80 text-rose-950 border border-rose-400 flex items-center gap-1 shadow-2xs">
+                                <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-rose-900/80 text-rose-200 border border-rose-700 flex items-center gap-1 shadow-2xs">
                                   <span>✕ INCORRECT</span>
                                 </span>
                               </div>
                             </div>
 
                             {/* Detailed Explanation Compartment beneath divider */}
-                            <div className="px-4 py-3 bg-white/80 border-t border-rose-200 text-xs text-rose-950 leading-relaxed font-medium">
-                              <span className="font-bold text-rose-900 block mb-0.5 text-[11px] uppercase tracking-wider">
+                            <div className="px-4 py-3 bg-[#1A0D0F] border-t border-rose-900/60 text-xs text-rose-200 leading-relaxed font-medium">
+                              <span className="font-bold text-rose-400 block mb-0.5 text-[11px] uppercase tracking-wider">
                                 Incorrect Selection (गलत विकल्प):
                               </span>
                               <p>
@@ -474,17 +474,17 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
                       return (
                         <div
                           key={opt.key}
-                          className="rounded-2xl border border-gray-200 bg-white overflow-hidden text-xs text-gray-700 border-l-4 border-l-gray-300"
+                          className="rounded-2xl border border-[#262626] bg-[#141414] overflow-hidden text-xs text-[#FAFAFA] border-l-4 border-l-[#3F3F46]"
                         >
                           <div className="p-3.5 flex items-center justify-between gap-3">
                             <div className="flex items-center gap-3">
-                              <span className="w-7 h-7 rounded-full border border-gray-300 bg-gray-100 text-gray-700 font-mono font-bold text-xs flex items-center justify-center shrink-0">
+                              <span className="w-7 h-7 rounded-full border border-[#303030] bg-[#1E1E1E] text-[#D4D4D8] font-mono font-bold text-xs flex items-center justify-center shrink-0">
                                 {opt.key}
                               </span>
                               <div className="flex flex-col">
-                                <span className="font-semibold text-gray-800 text-sm">{opt.text}</span>
+                                <span className="font-semibold text-white text-sm">{opt.text}</span>
                                 {opt.text_hi && opt.text_hi !== opt.text && (
-                                  <span className="text-xs text-neutral-600 mt-0.5">{opt.text_hi}</span>
+                                  <span className="text-xs text-[#A1A1AA] mt-0.5">{opt.text_hi}</span>
                                 )}
                               </div>
                             </div>
@@ -503,13 +503,13 @@ export default function ExamResultPage({ params }: { params: Promise<{ attemptId
         <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
           <Link
             href="/practice"
-            className="px-6 py-3 rounded-2xl bg-black text-white font-bold text-xs hover:bg-neutral-800 transition-colors shadow-sm"
+            className="px-6 py-3 rounded-2xl bg-[#D4D4D8] hover:bg-[#E4E4E7] text-[#111111] font-bold text-xs transition-colors shadow-xs"
           >
             Take Another Practice Test
           </Link>
           <Link
             href="/admin/results"
-            className="px-6 py-3 rounded-2xl bg-white border border-gray-300 text-black font-bold text-xs hover:bg-gray-100 transition-colors"
+            className="px-6 py-3 rounded-2xl bg-[#161616] hover:bg-[#202020] border border-[#262626] text-white font-bold text-xs transition-colors"
           >
             Open Admin Analytics
           </Link>

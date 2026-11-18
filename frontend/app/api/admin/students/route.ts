@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
     let params: any[] = []
 
     if (!includeDeleted) {
-      whereClauses.push('(s.deleted_at IS NULL AND s.account_status != "deleted")')
+      whereClauses.push("(s.deleted_at IS NULL AND s.account_status != 'deleted')")
     }
 
     if (status && status !== 'all') {

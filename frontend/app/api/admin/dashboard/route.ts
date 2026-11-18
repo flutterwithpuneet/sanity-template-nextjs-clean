@@ -9,15 +9,15 @@ export async function GET(req: NextRequest) {
   try {
     // 1. Core Summary Metrics
     const [[studentsRow]]: any = await db.query('SELECT COUNT(*) as count FROM students WHERE deleted_at IS NULL')
-    const [[subjectsRow]]: any = await db.query('SELECT COUNT(*) as count FROM subjects WHERE status = "active"')
+    const [[subjectsRow]]: any = await db.query("SELECT COUNT(*) as count FROM subjects WHERE status = 'active'")
     const [[topicsRow]]: any = await db.query('SELECT COUNT(*) as count FROM topics')
     const [[questionsRow]]: any = await db.query('SELECT COUNT(*) as count FROM questions')
-    const [[approvedRow]]: any = await db.query('SELECT COUNT(*) as count FROM questions WHERE status = "approved"')
-    const [[pendingRow]]: any = await db.query('SELECT COUNT(*) as count FROM questions WHERE status = "pending"')
+    const [[approvedRow]]: any = await db.query("SELECT COUNT(*) as count FROM questions WHERE status = 'approved'")
+    const [[pendingRow]]: any = await db.query("SELECT COUNT(*) as count FROM questions WHERE status = 'pending'")
     const [[testsRow]]: any = await db.query('SELECT COUNT(*) as count FROM assessments')
     const [[attemptsRow]]: any = await db.query('SELECT COUNT(*) as count FROM assessment_attempts')
-    const [[reportsRow]]: any = await db.query('SELECT COUNT(*) as count FROM student_question_reports WHERE status = "pending"')
-    const [[avgScoreRow]]: any = await db.query('SELECT AVG(percentage) as avg_pct, AVG(accuracy) as avg_acc FROM assessment_attempts WHERE status = "submitted"')
+    const [[reportsRow]]: any = await db.query("SELECT COUNT(*) as count FROM student_question_reports WHERE status = 'pending'")
+    const [[avgScoreRow]]: any = await db.query("SELECT AVG(percentage) as avg_pct, AVG(accuracy) as avg_acc FROM assessment_attempts WHERE status = 'submitted'")
 
     // 2. Subject-wise distribution
     const [subjectStats]: any = await db.query(`

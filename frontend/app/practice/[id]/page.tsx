@@ -487,38 +487,38 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
   // -------------------------------------------------------------
   if (examPhase === 'auth_required') {
     return (
-      <div className="min-h-screen bg-neutral-900 text-white flex items-center justify-center p-4 font-sans">
-        <div className="max-w-md w-full bg-black border border-neutral-800 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
+      <div className="min-h-screen bg-[#090909] text-[#FAFAFA] flex items-center justify-center p-4 font-sans selection:bg-[#222222] selection:text-white">
+        <div className="max-w-md w-full bg-[#111111] border border-[#262626] rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
           <div className="text-center space-y-2">
-            <ExamForgeLogo variant="badge" size={24} className="w-12 h-12 rounded-2xl mx-auto" />
+            <ExamForgeLogo variant="badge" size={24} className="w-12 h-12 rounded-2xl mx-auto border-[#262626]" />
             <h2 className="text-xl font-black text-white">Candidate Verification Required</h2>
-            <p className="text-xs text-neutral-400">
+            <p className="text-xs text-[#A1A1AA]">
               परीक्षा में सम्मिलित होने के लिए कृपया अपना Candidate Profile चुनें।
             </p>
           </div>
 
           <div className="space-y-3">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#71717A] block">
               Choose Registered Candidate:
             </span>
             {availableStudents.map((st) => (
               <button
                 key={st.id}
                 onClick={() => handleSelectStudent(st)}
-                className="w-full p-3.5 rounded-2xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-neutral-700 text-left flex items-center justify-between transition-all"
+                className="w-full p-3.5 rounded-2xl bg-[#161616] hover:bg-[#202020] border border-[#262626] hover:border-[#3F3F46] text-left flex items-center justify-between transition-all cursor-pointer"
               >
                 <div>
                   <div className="font-bold text-white text-sm">{st.full_name}</div>
-                  <div className="text-[11px] text-neutral-400 font-mono">Candidate #{st.id} • {st.email}</div>
+                  <div className="text-[11px] text-[#71717A] font-mono">Candidate #{st.id} • {st.email}</div>
                 </div>
-                <Icons.ChevronRight size={16} className="text-neutral-400" />
+                <Icons.ChevronRight size={16} className="text-[#A1A1AA]" />
               </button>
             ))}
           </div>
 
-          <div className="pt-4 border-t border-neutral-800">
+          <div className="pt-4 border-t border-[#262626]">
             <form onSubmit={handleCreateQuickStudent} className="space-y-3">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#71717A] block">
                 Or Enter New Candidate Name:
               </span>
               <input
@@ -526,11 +526,11 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                 placeholder="Full Name (e.g. Puneet)"
                 value={quickName}
                 onChange={(e) => setQuickName(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-neutral-900 border border-neutral-700 text-white text-xs placeholder-neutral-500 focus:outline-none focus:border-white"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#161616] border border-[#2B2B2B] text-white text-xs placeholder-[#71717A] focus:outline-none focus:border-white transition-colors"
               />
               <button
                 type="submit"
-                className="w-full py-2.5 rounded-xl bg-white text-black font-bold text-xs hover:bg-neutral-200 transition-colors"
+                className="w-full py-2.5 rounded-xl bg-white text-black font-bold text-xs hover:bg-[#E5E5E5] transition-colors cursor-pointer"
               >
                 Continue as Candidate
               </button>
@@ -538,7 +538,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
           </div>
 
           <div className="text-center">
-            <Link href="/practice" className="text-xs text-neutral-400 hover:text-white underline">
+            <Link href="/practice" className="text-xs text-[#A1A1AA] hover:text-white underline transition-colors">
               Return to Practice Dashboard
             </Link>
           </div>
@@ -552,16 +552,16 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
   // -------------------------------------------------------------
   if (examPhase === 'instructions') {
     return (
-      <div className="min-h-screen bg-neutral-950 text-white flex flex-col font-sans">
+      <div className="min-h-screen bg-[#090909] text-[#FAFAFA] flex flex-col font-sans selection:bg-[#222222] selection:text-white">
         {/* Top Minimal Bar */}
-        <header className="h-16 border-b border-neutral-800 px-6 flex items-center justify-between">
+        <header className="h-16 bg-[#0C0C0C] border-b border-[#262626] px-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <ExamForgeLogo variant="badge" size={18} className="w-8 h-8 rounded-xl" />
-            <span className="font-bold text-sm tracking-tight">ExamForge Candidate Gatekeeper</span>
+            <span className="font-bold text-sm tracking-tight text-white">ExamForge Candidate Gatekeeper</span>
           </div>
           <Link
             href="/practice"
-            className="text-xs text-neutral-400 hover:text-white transition-colors flex items-center gap-1.5"
+            className="text-xs text-[#A1A1AA] hover:text-white transition-colors flex items-center gap-1.5"
           >
             <span>Exit to Portal</span>
             <Icons.Close size={14} />
@@ -570,36 +570,36 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
 
         {/* Center Container */}
         <div className="flex-1 max-w-3xl w-full mx-auto p-4 md:p-8 flex flex-col justify-center space-y-6">
-          <div className="bg-black border border-neutral-800 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
+          <div className="bg-[#111111] border border-[#262626] rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
             {/* Header info */}
             <div>
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-neutral-900 text-neutral-300 border border-neutral-800 mb-3">
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-[#181818] text-[#A1A1AA] border border-[#2A2A2A] mb-3">
                 <span>Official Assessment Verification</span>
               </div>
               <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight">
                 {assessment?.title}
               </h1>
-              <p className="text-xs md:text-sm text-neutral-400 mt-1">
+              <p className="text-xs md:text-sm text-[#A1A1AA] mt-1">
                 Rajasthan Informatics Assistant (सूचना सहायक) Online Test Series
               </p>
             </div>
 
             {/* Candidate Identity Card */}
-            <div className="rounded-2xl bg-neutral-900/70 border border-neutral-800 p-4 flex items-center justify-between gap-4">
+            <div className="rounded-2xl bg-[#161616] border border-[#262626] p-4 flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-2xl bg-white text-black font-black text-base flex items-center justify-center">
                   {student?.full_name?.charAt(0) || 'P'}
                 </div>
                 <div>
-                  <div className="text-xs text-neutral-400">Authenticated Candidate:</div>
+                  <div className="text-xs text-[#71717A]">Authenticated Candidate:</div>
                   <div className="font-extrabold text-base text-white">{student?.full_name}</div>
-                  <div className="text-[10px] text-neutral-400 font-mono">Roll ID: #{student?.id} • {student?.email}</div>
+                  <div className="text-[10px] text-[#A1A1AA] font-mono">Roll ID: #{student?.id} • {student?.email}</div>
                 </div>
               </div>
 
               <button
                 onClick={() => setExamPhase('auth_required')}
-                className="text-[11px] text-neutral-300 underline hover:text-white font-semibold"
+                className="text-[11px] text-[#A1A1AA] underline hover:text-white font-semibold cursor-pointer"
               >
                 Change Candidate
               </button>
@@ -607,30 +607,30 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
 
             {/* Assessment Metrics Grid */}
             <div className="grid grid-cols-4 gap-3 text-center">
-              <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-3">
+              <div className="rounded-2xl bg-[#161616] border border-[#262626] p-3">
                 <div className="text-lg font-black font-mono text-white">{questions.length}</div>
-                <div className="text-[10px] uppercase font-bold text-neutral-400">Questions</div>
+                <div className="text-[10px] uppercase font-bold text-[#71717A]">Questions</div>
               </div>
-              <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-3">
+              <div className="rounded-2xl bg-[#161616] border border-[#262626] p-3">
                 <div className="text-lg font-black font-mono text-white">{assessment?.duration_minutes}m</div>
-                <div className="text-[10px] uppercase font-bold text-neutral-400">Duration</div>
+                <div className="text-[10px] uppercase font-bold text-[#71717A]">Duration</div>
               </div>
-              <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-3">
+              <div className="rounded-2xl bg-[#161616] border border-[#262626] p-3">
                 <div className="text-lg font-black font-mono text-white">+{Number(questions[0]?.marks || 1).toFixed(0)}</div>
-                <div className="text-[10px] uppercase font-bold text-neutral-400">Right Mark</div>
+                <div className="text-[10px] uppercase font-bold text-[#71717A]">Right Mark</div>
               </div>
-              <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-3">
+              <div className="rounded-2xl bg-[#161616] border border-[#262626] p-3">
                 <div className="text-lg font-black font-mono text-white">-{Number(questions[0]?.negative_marks || 0.25).toFixed(2)}</div>
-                <div className="text-[10px] uppercase font-bold text-neutral-400">Negative</div>
+                <div className="text-[10px] uppercase font-bold text-[#71717A]">Negative</div>
               </div>
             </div>
 
             {/* Exam Rules & Instructions */}
-            <div className="rounded-2xl bg-neutral-900/40 border border-neutral-800/80 p-5 space-y-2.5 text-xs text-neutral-300 leading-relaxed">
+            <div className="rounded-2xl bg-[#161616]/70 border border-[#262626] p-5 space-y-2.5 text-xs text-[#A1A1AA] leading-relaxed">
               <h3 className="font-bold text-white text-xs uppercase tracking-wider mb-2">
                 महत्वपूर्ण परीक्षा निर्देश (Important Examination Rules):
               </h3>
-              <ul className="list-disc list-inside space-y-1.5 text-neutral-300">
+              <ul className="list-disc list-inside space-y-1.5 text-[#D4D4D8]">
                 <li>
                   जैसे ही आप <strong>"Start Assessment"</strong> बटन दबाएंगे, आपका लाइव टाइमर शुरू हो जाएगा।
                 </li>
@@ -647,7 +647,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
             </div>
 
             {/* Confirmation Checkbox */}
-            <label className="flex items-start gap-3 p-3.5 rounded-2xl bg-neutral-900/90 border border-neutral-700 cursor-pointer select-none">
+            <label className="flex items-start gap-3 p-3.5 rounded-2xl bg-[#161616] border border-[#303030] cursor-pointer select-none hover:border-[#404040] transition-colors">
               <input
                 type="checkbox"
                 checked={agreedToTerms}
@@ -663,7 +663,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
             <div className="flex items-center gap-3 pt-2">
               <Link
                 href="/practice"
-                className="flex-1 py-3.5 rounded-2xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-neutral-300 hover:text-white font-bold text-xs text-center transition-colors"
+                className="flex-1 py-3.5 rounded-2xl bg-[#161616] hover:bg-[#202020] border border-[#2E2E2E] text-[#A1A1AA] hover:text-white font-bold text-xs text-center transition-colors"
               >
                 रद्द करें (Cancel)
               </Link>
@@ -673,8 +673,8 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                 onClick={handleStartExam}
                 className={`flex-2 py-3.5 rounded-2xl font-black text-xs transition-all flex items-center justify-center gap-2 shadow-lg ${
                   agreedToTerms && !startingAttempt
-                    ? 'bg-white text-black hover:bg-neutral-200 cursor-pointer'
-                    : 'bg-neutral-800 text-neutral-500 cursor-not-allowed'
+                    ? 'bg-white text-black hover:bg-[#E5E5E5] cursor-pointer'
+                    : 'bg-[#1F1F1F] text-[#52525B] cursor-not-allowed border border-[#262626]'
                 }`}
               >
                 {startingAttempt ? (
@@ -708,9 +708,9 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
   const unansweredCount = questions.length - answeredCount - reviewCount
 
   return (
-    <div className="min-h-screen bg-neutral-100 text-gray-900 flex flex-col font-sans select-none">
+    <div className="min-h-screen bg-[#090909] text-[#FAFAFA] flex flex-col font-sans select-none selection:bg-[#222222] selection:text-white">
       {/* 1. High-Contrast Distraction-Free Header */}
-      <header className="sticky top-0 z-40 bg-black text-white px-4 md:px-8 py-3.5 border-b border-neutral-800 flex items-center justify-between shadow-md">
+      <header className="sticky top-0 z-40 bg-[#0C0C0C]/90 backdrop-blur-md text-[#FAFAFA] px-4 md:px-8 py-3.5 border-b border-[#262626] flex items-center justify-between shadow-md">
         {/* Left: Test info & Candidate */}
         <div className="flex items-center gap-3">
           <ExamForgeLogo variant="badge" size={18} className="w-8 h-8 rounded-lg" />
@@ -718,7 +718,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
             <h1 className="font-extrabold text-xs md:text-sm leading-tight text-white truncate max-w-xs md:max-w-md">
               {assessment.title}
             </h1>
-            <div className="text-[10px] text-neutral-400 font-mono flex items-center gap-2">
+            <div className="text-[10px] text-[#71717A] font-mono flex items-center gap-2">
               <span>Candidate: <strong className="text-white">{student?.full_name}</strong></span>
               <span>•</span>
               <span>Q {currentIndex + 1} of {questions.length}</span>
@@ -729,17 +729,17 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
         {/* Right: Timers, Fullscreen, Palette Toggle, Exit Button, Submit Button */}
         <div className="flex items-center gap-2 md:gap-3">
           {/* Per-Question Live Ticker */}
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-900 border border-neutral-800 text-xs">
+          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#141414] border border-[#262626] text-xs">
             <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-            <span className="text-neutral-400 text-[11px]">This Q:</span>
+            <span className="text-[#71717A] text-[11px]">This Q:</span>
             <span className="font-mono font-bold text-white">
               {formatTimer(currentQSeconds + (perQuestionSeconds[currentQ?.question_id] || 0))}
             </span>
           </div>
 
           {/* Overall Countdown */}
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-900 border border-neutral-700 text-xs md:text-sm">
-            <Icons.Clock size={15} className="text-white" />
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#141414] border border-[#262626] text-xs md:text-sm">
+            <Icons.Clock size={15} className="text-[#FAFAFA]" />
             <span className="font-mono font-black text-white tracking-wider">
               {formatTimer(remainingSeconds)}
             </span>
@@ -750,11 +750,11 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
             type="button"
             onClick={() => setShowBookmarksModal(true)}
             title="View saved question bookmarks"
-            className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-700 font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-[#141414] hover:bg-[#1E1E1E] text-[#A1A1AA] hover:text-white border border-[#262626] font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
           >
-            <Icons.BookmarkFilled size={13} className={bookmarkedQIds.size > 0 ? 'text-amber-400' : 'text-neutral-400'} />
+            <Icons.BookmarkFilled size={13} className={bookmarkedQIds.size > 0 ? 'text-amber-400' : 'text-[#71717A]'} />
             <span className="hidden md:inline">Bookmarks</span>
-            <span className="px-1.5 py-0.2 rounded-full bg-neutral-800 text-white font-mono font-bold text-[10px]">
+            <span className="px-1.5 py-0.2 rounded-full bg-[#222222] text-white font-mono font-bold text-[10px]">
               {bookmarkedQIds.size}
             </span>
           </button>
@@ -764,7 +764,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
             type="button"
             onClick={toggleFullscreen}
             title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-            className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-700 font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-[#141414] hover:bg-[#1E1E1E] text-[#A1A1AA] hover:text-white border border-[#262626] font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
           >
             {isFullscreen ? <Icons.Minimize size={14} /> : <Icons.Maximize size={14} />}
             <span className="hidden md:inline">{isFullscreen ? 'Exit Full' : 'Fullscreen'}</span>
@@ -775,7 +775,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
             type="button"
             onClick={() => setPaletteOpen((prev) => !prev)}
             title={paletteOpen ? 'Collapse Question Palette' : 'Expand Question Palette'}
-            className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-700 font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-[#141414] hover:bg-[#1E1E1E] text-[#A1A1AA] hover:text-white border border-[#262626] font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
           >
             <span className="w-2 h-2 rounded-full bg-white"></span>
             <span className="hidden sm:inline">{paletteOpen ? 'Hide Palette' : 'Show Palette'}</span>
@@ -785,7 +785,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
           <button
             type="button"
             onClick={() => setShowExitModal(true)}
-            className="px-3 py-1.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-700 font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="px-3 py-1.5 rounded-xl bg-[#141414] hover:bg-[#1E1E1E] text-[#A1A1AA] hover:text-white border border-[#262626] font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
           >
             <Icons.Close size={13} />
             <span className="hidden sm:inline">Exit Exam</span>
@@ -795,7 +795,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
           <button
             type="button"
             onClick={() => setShowSubmitModal(true)}
-            className="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-colors shadow-xs cursor-pointer"
+            className="px-4 py-1.5 rounded-xl bg-white hover:bg-[#E4E4E7] text-[#090909] font-bold text-xs transition-colors shadow-xs cursor-pointer"
           >
             Submit Test
           </button>
@@ -805,17 +805,17 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
       {/* 2. Main Focused Examination Workspace */}
       <div className={`flex-1 max-w-7xl w-full mx-auto p-3 md:p-6 grid grid-cols-1 ${paletteOpen ? 'lg:grid-cols-4' : 'lg:grid-cols-1'} gap-6 items-start transition-all`}>
         {/* Left Column: Active Question Statement & Options */}
-        <div className={`${paletteOpen ? 'lg:col-span-3' : 'lg:col-span-1 max-w-4xl mx-auto w-full'} flex flex-col justify-between rounded-3xl bg-white border border-gray-200 p-5 md:p-8 shadow-xs transition-all`}>
+        <div className={`${paletteOpen ? 'lg:col-span-3' : 'lg:col-span-1 max-w-4xl mx-auto w-full'} flex flex-col justify-between rounded-3xl bg-[#111111] border border-[#262626] p-5 md:p-8 shadow-xs transition-all`}>
           <div>
             {/* Question Top Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-gray-100 mb-6">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-[#262626] mb-6">
               <div className="flex items-center gap-2">
-                <span className="px-3 py-1 rounded-xl bg-black text-white font-mono font-black text-xs">
+                <span className="px-3 py-1 rounded-xl bg-white text-black font-mono font-black text-xs">
                   Question {currentIndex + 1}
                 </span>
-                <span className="text-xs font-bold text-gray-800">{currentQ?.subject_name}</span>
-                <span className="text-gray-300">•</span>
-                <span className="text-xs text-gray-500">{currentQ?.topic_name}</span>
+                <span className="text-xs font-bold text-[#FAFAFA]">{currentQ?.subject_name}</span>
+                <span className="text-[#3F3F46]">•</span>
+                <span className="text-xs text-[#71717A]">{currentQ?.topic_name}</span>
               </div>
 
               <div className="flex items-center gap-2">
@@ -823,7 +823,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                   <button
                     type="button"
                     onClick={() => setPaletteOpen(true)}
-                    className="px-3 py-1 rounded-xl bg-black text-white hover:bg-neutral-800 font-mono font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
+                    className="px-3 py-1 rounded-xl bg-[#161616] hover:bg-[#202020] text-white border border-[#262626] font-mono font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
                   >
                     <span>Palette ({answeredCount}/{questions.length})</span>
                     <Icons.ChevronRight size={13} />
@@ -838,7 +838,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                     className={`px-2.5 py-1 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border ${
                       bookmarkedQIds.has(currentQ.question_id)
                         ? 'bg-amber-400 border-amber-500 text-black shadow-xs'
-                        : 'bg-gray-100 hover:bg-gray-200 border-gray-300 text-gray-700 hover:text-black'
+                        : 'bg-[#161616] hover:bg-[#202020] border-[#262626] text-[#A1A1AA] hover:text-white'
                     }`}
                     title={
                       bookmarkedQIds.has(currentQ.question_id)
@@ -849,7 +849,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                     {bookmarkedQIds.has(currentQ.question_id) ? (
                       <Icons.BookmarkFilled size={13} className="text-black" />
                     ) : (
-                      <Icons.Bookmark size={13} className="text-gray-600" />
+                      <Icons.Bookmark size={13} className="text-[#A1A1AA]" />
                     )}
                     <span className="hidden sm:inline">
                       {bookmarkedQIds.has(currentQ.question_id) ? 'Bookmarked' : 'Bookmark'}
@@ -858,13 +858,13 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                 )}
 
                 {/* Interactive Multi-Language Switcher */}
-                <div className="flex items-center rounded-xl bg-gray-100 p-0.5 border border-gray-300">
+                <div className="flex items-center rounded-xl bg-[#161616] p-0.5 border border-[#262626]">
                   <button
                     type="button"
                     onClick={() => setLangMode('both')}
                     title="Show Bilingual (English + Hindi)"
                     className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                      langMode === 'both' ? 'bg-black text-white shadow-xs' : 'text-gray-700 hover:text-black'
+                      langMode === 'both' ? 'bg-white text-black shadow-xs' : 'text-[#71717A] hover:text-white'
                     }`}
                   >
                     दोनों (Both)
@@ -874,7 +874,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                     onClick={() => setLangMode('hi')}
                     title="हिंदी में देखें"
                     className={`px-2 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                      langMode === 'hi' ? 'bg-black text-white shadow-xs' : 'text-gray-700 hover:text-black'
+                      langMode === 'hi' ? 'bg-white text-black shadow-xs' : 'text-[#71717A] hover:text-white'
                     }`}
                   >
                     हिंदी
@@ -884,14 +884,14 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                     onClick={() => setLangMode('en')}
                     title="View in English"
                     className={`px-2 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                      langMode === 'en' ? 'bg-black text-white shadow-xs' : 'text-gray-700 hover:text-black'
+                      langMode === 'en' ? 'bg-white text-black shadow-xs' : 'text-[#71717A] hover:text-white'
                     }`}
                   >
                     English
                   </button>
                 </div>
 
-                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-gray-100 text-gray-700">
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#161616] text-[#A1A1AA] border border-[#262626]">
                   +{Number(currentQ?.marks || 1).toFixed(1)} / -{Number(currentQ?.negative_marks || 0.25).toFixed(2)}
                 </span>
               </div>
@@ -900,12 +900,12 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
             {/* Question Statement (Supports Bilingual Hindi & English) */}
             <div className="space-y-2.5 mb-8">
               {(langMode === 'both' || langMode === 'en') && currentQ?.question_text && (
-                <div className="text-lg md:text-xl font-bold text-black leading-relaxed">
+                <div className="text-lg md:text-xl font-bold text-[#FAFAFA] leading-relaxed">
                   {currentQ.question_text}
                 </div>
               )}
               {(langMode === 'both' || langMode === 'hi') && (currentQ?.question_text_hi || (langMode === 'hi' && currentQ?.question_text)) && (
-                <div className={`text-base md:text-lg leading-relaxed ${langMode === 'both' && currentQ?.question_text ? 'pt-2 border-t border-gray-100 text-neutral-800 font-semibold' : 'text-black font-bold'}`}>
+                <div className={`text-base md:text-lg leading-relaxed ${langMode === 'both' && currentQ?.question_text ? 'pt-2.5 border-t border-[#262626] text-[#D4D4D8] font-medium' : 'text-[#FAFAFA] font-bold'}`}>
                   {currentQ?.question_text_hi || currentQ?.question_text}
                 </div>
               )}
@@ -919,10 +919,10 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                   <div
                     key={opt.key}
                     onClick={() => handleSelectOption(opt.key)}
-                    className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-center justify-between ${
+                    className={`p-4 rounded-2xl cursor-pointer transition-all flex items-center justify-between ${
                       isSelected
-                        ? 'border-black bg-neutral-50 shadow-xs'
-                        : 'border-gray-200 bg-white hover:border-gray-400 hover:bg-gray-50/50'
+                        ? 'border-2 border-white bg-white text-black shadow-md'
+                        : 'border border-[#262626] bg-[#141414] hover:border-[#3F3F46] hover:bg-[#1A1A1A]'
                     }`}
                   >
                     <div className="flex items-center gap-4">
@@ -931,7 +931,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                         className={`w-9 h-9 rounded-xl font-mono font-bold text-sm flex items-center justify-center transition-colors shrink-0 ${
                           isSelected
                             ? 'bg-black text-white'
-                            : 'bg-gray-100 text-gray-800 border border-gray-300'
+                            : 'bg-[#1E1E1E] text-[#D4D4D8] border border-[#303030]'
                         }`}
                       >
                         {opt.key}
@@ -940,12 +940,12 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                       {/* Option Text in Bilingual / Hindi / English */}
                       <div className="flex flex-col">
                         {(langMode === 'both' || langMode === 'en') && opt.text && (
-                          <span className={`text-base ${isSelected ? 'text-black font-bold' : 'text-slate-900 font-semibold'}`}>
+                          <span className={`text-base ${isSelected ? 'text-black font-bold' : 'text-[#FAFAFA] font-medium'}`}>
                             {opt.text}
                           </span>
                         )}
                         {(langMode === 'both' || langMode === 'hi') && (opt.text_hi || (langMode === 'hi' && opt.text)) && (
-                          <span className={`text-sm ${langMode === 'both' && opt.text ? 'text-neutral-600 mt-0.5 font-medium' : isSelected ? 'text-black font-bold text-base' : 'text-slate-900 font-semibold text-base'}`}>
+                          <span className={`text-sm ${langMode === 'both' && opt.text ? isSelected ? 'text-neutral-800 mt-0.5 font-medium' : 'text-[#A1A1AA] mt-0.5 font-normal' : isSelected ? 'text-black font-bold text-base' : 'text-[#FAFAFA] font-medium text-base'}`}>
                             {opt.text_hi || opt.text}
                           </span>
                         )}
@@ -955,7 +955,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                     {/* Radio Dot */}
                     <div
                       className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                        isSelected ? 'border-black bg-black' : 'border-gray-300'
+                        isSelected ? 'border-black bg-black' : 'border-[#3F3F46]'
                       }`}
                     >
                       {isSelected && <div className="w-2 h-2 rounded-full bg-white"></div>}
@@ -967,13 +967,13 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
           </div>
 
           {/* Bottom Action Bar */}
-          <div className="mt-8 pt-5 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3">
+          <div className="mt-8 pt-5 border-t border-[#262626] flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={handleClearResponse}
                 disabled={!currentSelectedOption}
-                className="px-4 py-2.5 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 text-xs font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                className="px-4 py-2.5 rounded-xl border border-[#262626] bg-[#141414] hover:bg-[#1E1E1E] text-[#A1A1AA] hover:text-white text-xs font-semibold disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
               >
                 Clear Response
               </button>
@@ -981,7 +981,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
               <button
                 type="button"
                 onClick={handleMarkForReviewAndNext}
-                className="px-4 py-2.5 rounded-xl border border-gray-400 bg-gray-50 hover:bg-gray-100 text-black text-xs font-bold transition-colors cursor-pointer"
+                className="px-4 py-2.5 rounded-xl border border-[#3F3F46] bg-[#181818] hover:bg-[#222222] text-[#FAFAFA] text-xs font-bold transition-colors cursor-pointer"
               >
                 Mark for Review & Next
               </button>
@@ -992,7 +992,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                 type="button"
                 onClick={() => goToQuestion(currentIndex - 1)}
                 disabled={currentIndex === 0}
-                className="px-4 py-2.5 rounded-xl border border-gray-300 text-gray-800 hover:bg-gray-100 text-xs font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl border border-[#262626] bg-[#141414] hover:bg-[#1E1E1E] text-[#A1A1AA] hover:text-white text-xs font-semibold disabled:opacity-30 disabled:cursor-not-allowed transition-colors flex items-center gap-1.5 cursor-pointer"
               >
                 <Icons.ChevronLeft size={14} />
                 <span>Previous</span>
@@ -1001,7 +1001,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
               <button
                 type="button"
                 onClick={handleSaveAndNext}
-                className="px-6 py-2.5 rounded-xl bg-black hover:bg-neutral-800 text-white font-bold text-xs transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer"
+                className="px-6 py-2.5 rounded-xl bg-white hover:bg-[#E5E5E5] text-black font-black text-xs transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer"
               >
                 <span>Save & Next</span>
                 <Icons.ChevronRight size={14} />
@@ -1012,26 +1012,26 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
 
         {/* Right Column: Question Palette (Ultra Clean & Compact, Expandable/Collapsible) */}
         {paletteOpen && (
-          <div className="lg:col-span-1 rounded-3xl bg-white border border-gray-200 p-5 shadow-xs space-y-4 lg:sticky lg:top-20 animate-in fade-in duration-150">
+          <div className="lg:col-span-1 rounded-3xl bg-[#111111] border border-[#262626] p-5 shadow-xs space-y-4 lg:sticky lg:top-20 animate-in fade-in duration-150">
             {/* Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+            <div className="flex items-center justify-between pb-3 border-b border-[#262626]">
               <div>
-                <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-gray-400 block">
+                <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-[#71717A] block">
                   Overview
                 </span>
-                <h2 className="text-sm font-black text-black tracking-tight">
+                <h2 className="text-sm font-black text-[#FAFAFA] tracking-tight">
                   Question Palette
                 </h2>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-black text-white">
+                <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-white text-black">
                   {answeredCount}/{questions.length}
                 </span>
                 <button
                   type="button"
                   onClick={() => setPaletteOpen(false)}
                   title="Collapse Palette"
-                  className="p-1 rounded-lg text-gray-400 hover:text-black hover:bg-gray-100 transition-colors cursor-pointer"
+                  className="p-1 rounded-lg text-[#71717A] hover:text-white hover:bg-[#1E1E1E] transition-colors cursor-pointer"
                 >
                   <Icons.Close size={15} />
                 </button>
@@ -1040,15 +1040,15 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
 
             {/* Completion Progress Bar */}
             <div className="space-y-1.5">
-              <div className="flex justify-between text-[11px] font-semibold text-gray-600">
+              <div className="flex justify-between text-[11px] font-semibold text-[#A1A1AA]">
                 <span>Completion Rate</span>
-                <span className="font-mono text-black font-bold">
+                <span className="font-mono text-[#FAFAFA] font-bold">
                   {Math.round((answeredCount / (questions.length || 1)) * 100)}%
                 </span>
               </div>
-              <div className="w-full h-1.5 rounded-full bg-gray-100 overflow-hidden">
+              <div className="w-full h-1.5 rounded-full bg-[#1E1E1E] overflow-hidden">
                 <div
-                  className="h-full bg-black transition-all duration-300 rounded-full"
+                  className="h-full bg-white transition-all duration-300 rounded-full"
                   style={{ width: `${(answeredCount / (questions.length || 1)) * 100}%` }}
                 />
               </div>
@@ -1056,28 +1056,28 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
 
             {/* Compact 3-Column Stats Counter */}
             <div className="grid grid-cols-3 gap-2">
-              <div className="p-2 rounded-xl bg-gray-50 border border-gray-100 text-center">
-                <div className="font-mono font-black text-black text-sm">{answeredCount}</div>
-                <div className="text-[9px] uppercase font-bold text-gray-500">Answered</div>
+              <div className="p-2 rounded-xl bg-[#161616] border border-[#262626] text-center">
+                <div className="font-mono font-black text-[#FAFAFA] text-sm">{answeredCount}</div>
+                <div className="text-[9px] uppercase font-bold text-[#71717A]">Answered</div>
               </div>
-              <div className="p-2 rounded-xl bg-gray-50 border border-gray-100 text-center">
-                <div className="font-mono font-black text-black text-sm">{reviewCount}</div>
-                <div className="text-[9px] uppercase font-bold text-gray-500">Review</div>
+              <div className="p-2 rounded-xl bg-[#161616] border border-[#262626] text-center">
+                <div className="font-mono font-black text-[#FAFAFA] text-sm">{reviewCount}</div>
+                <div className="text-[9px] uppercase font-bold text-[#71717A]">Review</div>
               </div>
-              <div className="p-2 rounded-xl bg-gray-50 border border-gray-100 text-center">
-                <div className="font-mono font-black text-black text-sm">{unansweredCount}</div>
-                <div className="text-[9px] uppercase font-bold text-gray-500">Skipped</div>
+              <div className="p-2 rounded-xl bg-[#161616] border border-[#262626] text-center">
+                <div className="font-mono font-black text-[#FAFAFA] text-sm">{unansweredCount}</div>
+                <div className="text-[9px] uppercase font-bold text-[#71717A]">Skipped</div>
               </div>
             </div>
 
             {/* Quick Legend Pills */}
-            <div className="flex items-center justify-between text-[10px] text-gray-500 px-1 pt-0.5">
+            <div className="flex items-center justify-between text-[10px] text-[#71717A] px-1 pt-0.5">
               <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-sm bg-black inline-block"></span>
+                <span className="w-2 h-2 rounded-xs bg-white inline-block"></span>
                 <span>Answered</span>
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-sm border border-black bg-white inline-block"></span>
+                <span className="w-2 h-2 rounded-xs border border-white bg-transparent inline-block"></span>
                 <span>Review</span>
               </span>
               <span className="flex items-center gap-1.5">
@@ -1087,14 +1087,14 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
             </div>
 
             {/* Palette Filter Tabs */}
-            <div className="flex items-center rounded-xl bg-gray-100 p-0.5 border border-gray-200 text-xs">
+            <div className="flex items-center rounded-xl bg-[#161616] p-0.5 border border-[#262626] text-xs">
               <button
                 type="button"
                 onClick={() => setPaletteFilter('all')}
                 className={`flex-1 py-1 rounded-lg font-bold text-center transition-all cursor-pointer ${
                   paletteFilter === 'all'
-                    ? 'bg-black text-white shadow-xs'
-                    : 'text-gray-600 hover:text-black'
+                    ? 'bg-white text-black shadow-xs'
+                    : 'text-[#71717A] hover:text-white'
                 }`}
               >
                 All ({questions.length})
@@ -1104,13 +1104,13 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                 onClick={() => setPaletteFilter('bookmarked')}
                 className={`flex-1 py-1 rounded-lg font-bold text-center transition-all flex items-center justify-center gap-1 cursor-pointer ${
                   paletteFilter === 'bookmarked'
-                    ? 'bg-black text-white shadow-xs'
-                    : 'text-gray-600 hover:text-black'
+                    ? 'bg-white text-black shadow-xs'
+                    : 'text-[#71717A] hover:text-white'
                 }`}
               >
                 <Icons.BookmarkFilled
                   size={11}
-                  className={paletteFilter === 'bookmarked' ? 'text-amber-300' : 'text-amber-500'}
+                  className={paletteFilter === 'bookmarked' ? 'text-amber-500' : 'text-amber-400'}
                 />
                 <span>Saved ({bookmarkedQIds.size})</span>
               </button>
@@ -1130,11 +1130,11 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                     return null
                   }
 
-                  let style = 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
+                  let style = 'bg-[#161616] text-[#71717A] hover:text-white hover:bg-[#202020] border border-[#262626]'
                   if (isAnswered) {
-                    style = 'bg-black text-white font-bold border border-black shadow-xs'
+                    style = 'bg-white text-black font-bold border border-white shadow-xs'
                   } else if (isReview) {
-                    style = 'bg-white text-black font-bold border-2 border-black'
+                    style = 'bg-[#141414] text-white font-bold border-2 border-white'
                   }
 
                   return (
@@ -1144,14 +1144,14 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                       onClick={() => goToQuestion(idx)}
                       className={`relative h-9 w-full rounded-xl font-mono text-xs font-bold transition-all flex items-center justify-center cursor-pointer ${style} ${
                         isCurrent
-                          ? 'border-2 border-black font-black scale-105 shadow-sm'
+                          ? 'ring-2 ring-white scale-105 z-10 font-black'
                           : ''
                       }`}
                     >
                       {idx + 1}
                       {isBookmarked && (
                         <span
-                          className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 ring-2 ring-white"
+                          className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 ring-2 ring-[#111111]"
                           title="Bookmarked Question"
                         />
                       )}
@@ -1160,23 +1160,23 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                 })}
               </div>
               {paletteFilter === 'bookmarked' && bookmarkedQIds.size === 0 && (
-                <div className="text-center py-6 text-xs text-gray-400">
+                <div className="text-center py-6 text-xs text-[#71717A]">
                   No questions saved yet. Click the Bookmark button to save difficult questions for review.
                 </div>
               )}
             </div>
 
             {/* Bottom Submit CTA Button (No awkward empty space) */}
-            <div className="pt-3 border-t border-gray-100 space-y-2">
+            <div className="pt-3 border-t border-[#262626] space-y-2">
               <button
                 type="button"
                 onClick={() => setShowSubmitModal(true)}
-                className="w-full py-3 rounded-xl bg-black hover:bg-neutral-800 text-white font-black text-xs transition-colors flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+                className="w-full py-3 rounded-xl bg-white hover:bg-[#E5E5E5] text-black font-black text-xs transition-colors flex items-center justify-center gap-2 shadow-xs cursor-pointer"
               >
                 <span>Submit Entire Assessment</span>
                 <Icons.ChevronRight size={14} />
               </button>
-              <p className="text-[10px] text-center text-gray-400 font-mono">
+              <p className="text-[10px] text-center text-[#71717A] font-mono">
                 Live Auto-Save Enabled
               </p>
             </div>
@@ -1188,28 +1188,28 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
       {/* MODAL 1: Exit Confirmation Alert Window                       */}
       {/* ------------------------------------------------------------- */}
       {showExitModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 md:p-8 shadow-2xl border border-gray-200 space-y-6 animate-in fade-in zoom-in-95 duration-150">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-[#121212] rounded-3xl max-w-md w-full p-6 md:p-8 shadow-2xl border border-[#262626] space-y-6 animate-in fade-in zoom-in-95 duration-150">
             <div className="text-center space-y-2">
-              <div className="w-12 h-12 rounded-2xl bg-gray-100 text-black mx-auto flex items-center justify-center text-xl font-bold">
+              <div className="w-12 h-12 rounded-2xl bg-[#1A1A1A] border border-[#262626] text-amber-400 mx-auto flex items-center justify-center text-xl font-bold">
                 ⚠️
               </div>
-              <h3 className="text-xl font-black text-black">
+              <h3 className="text-xl font-black text-white">
                 क्या आप वाकई परीक्षा छोड़ना चाहते हैं?
               </h3>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-[#A1A1AA]">
                 Are you sure you want to quit the examination?
               </p>
             </div>
 
-            <div className="rounded-2xl bg-neutral-50 border border-gray-200 p-4 text-xs text-gray-700 space-y-2">
-              <div className="font-semibold text-black">
+            <div className="rounded-2xl bg-[#161616] border border-[#262626] p-4 text-xs text-[#D4D4D8] space-y-2">
+              <div className="font-semibold text-white">
                 ⚠️ महत्वपूर्ण चेतावनी (Critical Warning):
               </div>
-              <p>
+              <p className="text-[#A1A1AA]">
                 यदि आप अभी परीक्षा छोड़ते हैं, तो आपका यह टेस्ट अपूर्ण (Incomplete) रहेगा और आपका परिणाम दर्ज नहीं होगा।
               </p>
-              <div className="pt-2 border-t border-gray-200 flex justify-between font-mono font-bold text-black">
+              <div className="pt-2 border-t border-[#262626] flex justify-between font-mono font-bold text-white">
                 <span>उत्तर दिए गए प्रश्न:</span>
                 <span>{answeredCount} / {questions.length}</span>
               </div>
@@ -1219,14 +1219,14 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
               <button
                 type="button"
                 onClick={() => setShowExitModal(false)}
-                className="flex-1 py-3 rounded-xl bg-black hover:bg-neutral-800 text-white font-bold text-xs transition-colors shadow-xs"
+                className="flex-1 py-3 rounded-xl bg-white hover:bg-[#E5E5E5] text-black font-bold text-xs transition-colors shadow-xs cursor-pointer"
               >
                 परीक्षा जारी रखें (Stay in Exam)
               </button>
               <button
                 type="button"
                 onClick={() => router.push('/practice')}
-                className="py-3 px-4 rounded-xl border border-gray-300 text-gray-600 hover:text-black hover:bg-gray-100 font-semibold text-xs transition-colors"
+                className="py-3 px-4 rounded-xl border border-[#262626] bg-[#161616] hover:bg-[#202020] text-[#A1A1AA] hover:text-white font-semibold text-xs transition-colors cursor-pointer"
               >
                 हाँ, परीक्षा छोड़ें
               </button>
@@ -1239,31 +1239,31 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
       {/* MODAL 2: Final Submit Confirmation Window                     */}
       {/* ------------------------------------------------------------- */}
       {showSubmitModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 md:p-8 shadow-2xl border border-gray-200 space-y-6 animate-in fade-in zoom-in-95 duration-150">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-[#121212] rounded-3xl max-w-md w-full p-6 md:p-8 shadow-2xl border border-[#262626] space-y-6 animate-in fade-in zoom-in-95 duration-150">
             <div className="text-center space-y-2">
-              <div className="w-12 h-12 rounded-2xl bg-black text-white mx-auto flex items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-[#1A1A1A] border border-[#262626] text-white mx-auto flex items-center justify-center">
                 <Icons.Check size={24} />
               </div>
-              <h3 className="text-xl font-black text-black">Submit Assessment?</h3>
-              <p className="text-xs text-gray-500">
+              <h3 className="text-xl font-black text-white">Submit Assessment?</h3>
+              <p className="text-xs text-[#A1A1AA]">
                 Are you ready to submit your exam and view instant analytics?
               </p>
             </div>
 
             {/* Summary statistics */}
             <div className="grid grid-cols-3 gap-2 text-center">
-              <div className="p-3 rounded-2xl bg-gray-50 border border-gray-100">
-                <div className="text-lg font-black font-mono text-black">{answeredCount}</div>
-                <div className="text-[10px] uppercase font-bold text-gray-500">Answered</div>
+              <div className="p-3 rounded-2xl bg-[#161616] border border-[#262626]">
+                <div className="text-lg font-black font-mono text-white">{answeredCount}</div>
+                <div className="text-[10px] uppercase font-bold text-[#71717A]">Answered</div>
               </div>
-              <div className="p-3 rounded-2xl bg-gray-50 border border-gray-100">
-                <div className="text-lg font-black font-mono text-black">{reviewCount}</div>
-                <div className="text-[10px] uppercase font-bold text-gray-500">Review</div>
+              <div className="p-3 rounded-2xl bg-[#161616] border border-[#262626]">
+                <div className="text-lg font-black font-mono text-white">{reviewCount}</div>
+                <div className="text-[10px] uppercase font-bold text-[#71717A]">Review</div>
               </div>
-              <div className="p-3 rounded-2xl bg-gray-50 border border-gray-100">
-                <div className="text-lg font-black font-mono text-black">{unansweredCount}</div>
-                <div className="text-[10px] uppercase font-bold text-gray-500">Skipped</div>
+              <div className="p-3 rounded-2xl bg-[#161616] border border-[#262626]">
+                <div className="text-lg font-black font-mono text-white">{unansweredCount}</div>
+                <div className="text-[10px] uppercase font-bold text-[#71717A]">Skipped</div>
               </div>
             </div>
 
@@ -1271,7 +1271,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
               <button
                 type="button"
                 onClick={() => setShowSubmitModal(false)}
-                className="flex-1 py-3 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 font-bold text-xs transition-colors"
+                className="flex-1 py-3 rounded-xl border border-[#262626] bg-[#161616] hover:bg-[#202020] text-[#A1A1AA] hover:text-white font-bold text-xs transition-colors cursor-pointer"
               >
                 Resume Test
               </button>
@@ -1279,7 +1279,7 @@ export default function ExamLiveInterface({ params }: { params: Promise<{ id: st
                 type="button"
                 disabled={submitting}
                 onClick={() => handleFinalSubmit(false)}
-                className="flex-1 py-3 rounded-xl bg-black hover:bg-neutral-800 text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 shadow-xs"
+                className="flex-1 py-3 rounded-xl bg-white hover:bg-[#E5E5E5] text-black font-bold text-xs transition-colors flex items-center justify-center gap-2 shadow-xs cursor-pointer disabled:opacity-40"
               >
                 {submitting ? 'Submitting...' : 'Confirm Submit'}
               </button>

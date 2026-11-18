@@ -483,7 +483,7 @@ function PracticePortalContent() {
             <div
               className={`flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all cursor-default ${
                 currentStep === 1
-                  ? 'bg-[#FFFFFF] text-[#111111] font-bold shadow-sm'
+                  ? 'bg-[#202020] text-white border border-[#3F3F46] font-bold shadow-xs'
                   : currentStep > 1
                   ? 'text-[#FFFFFF]'
                   : 'text-[#737373]'
@@ -492,7 +492,7 @@ function PracticePortalContent() {
               <span
                 className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-black ${
                   currentStep === 1
-                    ? 'bg-[#111111] text-[#FFFFFF]'
+                    ? 'bg-[#D4D4D8] text-[#111111]'
                     : currentStep > 1
                     ? 'bg-[#303030] text-[#FFFFFF]'
                     : 'bg-[#222222] text-[#737373]'
@@ -509,7 +509,7 @@ function PracticePortalContent() {
             <div
               className={`flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all cursor-default ${
                 currentStep === 2
-                  ? 'bg-[#FFFFFF] text-[#111111] font-bold shadow-sm'
+                  ? 'bg-[#202020] text-white border border-[#3F3F46] font-bold shadow-xs'
                   : currentStep > 2
                   ? 'text-[#FFFFFF]'
                   : 'text-[#737373]'
@@ -518,7 +518,7 @@ function PracticePortalContent() {
               <span
                 className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-black ${
                   currentStep === 2
-                    ? 'bg-[#111111] text-[#FFFFFF]'
+                    ? 'bg-[#D4D4D8] text-[#111111]'
                     : currentStep > 2
                     ? 'bg-[#303030] text-[#FFFFFF]'
                     : 'bg-[#222222] text-[#737373]'
@@ -535,14 +535,14 @@ function PracticePortalContent() {
             <div
               className={`flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all cursor-default ${
                 currentStep === 3
-                  ? 'bg-[#FFFFFF] text-[#111111] font-bold shadow-sm'
+                  ? 'bg-[#202020] text-white border border-[#3F3F46] font-bold shadow-xs'
                   : 'text-[#737373]'
               }`}
             >
               <span
                 className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-black ${
                   currentStep === 3
-                    ? 'bg-[#111111] text-[#FFFFFF]'
+                    ? 'bg-[#D4D4D8] text-[#111111]'
                     : 'bg-[#222222] text-[#737373]'
                 }`}
               >
@@ -584,8 +584,8 @@ function PracticePortalContent() {
                     onClick={() => setSelectedSubjectId(sub.id)}
                     className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between text-left ${
                       isSelected
-                        ? 'bg-[#FFFFFF] text-[#111111] border-[#FFFFFF] shadow-lg ring-2 ring-white/20'
-                        : 'bg-[#1C1C1C] text-[#FFFFFF] border-[#303030] hover:bg-[#292929] hover:border-[#404040]'
+                        ? 'bg-[#202020] text-[#FAFAFA] border-2 border-white shadow-xl ring-1 ring-white/20'
+                        : 'bg-[#141414] text-[#FAFAFA] border-[#262626] hover:bg-[#1A1A1A] hover:border-[#383838]'
                     }`}
                   >
                     <div>
@@ -594,15 +594,15 @@ function PracticePortalContent() {
                         <span
                           className={`text-[10px] font-mono uppercase font-bold px-2 py-0.5 rounded-md ${
                             isSelected
-                              ? 'bg-[#111111] text-[#FFFFFF]'
-                              : 'bg-[#222222] text-[#A3A3A3] border border-[#303030]'
+                              ? 'bg-[#2E2E2E] text-white border border-[#444444]'
+                              : 'bg-[#1E1E1E] text-[#A1A1AA] border border-[#2B2B2B]'
                           }`}
                         >
                           {sub.code}
                         </span>
                         <span
                           className={`text-xs font-mono font-bold ${
-                            isSelected ? 'text-[#111111]' : 'text-[#737373]'
+                            isSelected ? 'text-[#FAFAFA]' : 'text-[#71717A]'
                           }`}
                         >
                           {loading ? (
@@ -615,15 +615,13 @@ function PracticePortalContent() {
 
                       {/* Subject Name & Hindi Name */}
                       <h3
-                        className={`text-base font-extrabold leading-tight mb-1 ${
-                          isSelected ? 'text-[#111111]' : 'text-[#FFFFFF]'
-                        }`}
+                        className="text-base font-extrabold leading-tight mb-1 text-[#FFFFFF]"
                       >
                         {sub.name}
                       </h3>
                       <p
                         className={`text-xs font-medium mb-3 ${
-                          isSelected ? 'text-[#333333]' : 'text-[#737373]'
+                          isSelected ? 'text-[#D4D4D8]' : 'text-[#A1A1AA]'
                         }`}
                       >
                         {sub.hindiName}
@@ -632,7 +630,7 @@ function PracticePortalContent() {
                       {/* Description */}
                       <p
                         className={`text-xs leading-relaxed ${
-                          isSelected ? 'text-[#444444]' : 'text-[#A3A3A3]'
+                          isSelected ? 'text-[#E4E4E7]' : 'text-[#A1A1AA]'
                         }`}
                       >
                         {sub.description}
@@ -640,7 +638,9 @@ function PracticePortalContent() {
                     </div>
 
                     {/* Bottom Selected Indicator */}
-                    <div className="mt-4 pt-3 border-t border-current/10 flex items-center justify-between text-xs font-bold">
+                    <div className={`mt-4 pt-3 border-t flex items-center justify-between text-xs font-bold ${
+                      isSelected ? 'border-[#383838] text-white' : 'border-[#262626] text-[#71717A]'
+                    }`}>
                       <span>{isSelected ? '✓ Selected' : 'Click to select'}</span>
                       <Icons.ChevronRight size={14} />
                     </div>
@@ -659,7 +659,7 @@ function PracticePortalContent() {
                 type="button"
                 onClick={handleProceedToStep2}
                 disabled={!selectedSubjectId}
-                className="px-6 py-3 rounded-xl bg-[#FFFFFF] text-[#111111] font-bold text-sm hover:bg-[#E5E5E5] transition-all flex items-center gap-2 shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-3 rounded-xl bg-[#D4D4D8] hover:bg-[#E4E4E7] text-[#111111] font-bold text-sm transition-all flex items-center gap-2 shadow-xs cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <span>Continue to Step 2</span>
                 <Icons.ChevronRight size={16} />
@@ -704,8 +704,8 @@ function PracticePortalContent() {
                     onClick={() => setSelectedDifficulty(diff.id as 'easy' | 'medium' | 'hard')}
                     className={`p-6 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between text-left ${
                       isSelected
-                        ? 'bg-[#FFFFFF] text-[#111111] border-[#FFFFFF] shadow-lg ring-2 ring-white/20'
-                        : 'bg-[#1C1C1C] text-[#FFFFFF] border-[#303030] hover:bg-[#292929] hover:border-[#404040]'
+                        ? 'bg-[#202020] text-[#FAFAFA] border-2 border-white shadow-xl ring-1 ring-white/20'
+                        : 'bg-[#141414] text-[#FAFAFA] border-[#262626] hover:bg-[#1A1A1A] hover:border-[#383838]'
                     }`}
                   >
                     <div>
@@ -714,14 +714,14 @@ function PracticePortalContent() {
                         <div className="flex items-center gap-2">
                           <span
                             className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center ${
-                              isSelected ? 'border-[#111111]' : 'border-[#737373]'
+                              isSelected ? 'border-white' : 'border-[#52525B]'
                             }`}
                           >
-                            {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-[#111111]"></span>}
+                            {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white"></span>}
                           </span>
                           <span
                             className={`text-xs font-mono uppercase font-bold tracking-wider ${
-                              isSelected ? 'text-[#111111]' : 'text-[#A3A3A3]'
+                              isSelected ? 'text-white' : 'text-[#A1A1AA]'
                             }`}
                           >
                             {diff.id}
@@ -731,8 +731,8 @@ function PracticePortalContent() {
                         <span
                           className={`text-xs font-mono font-bold px-2 py-0.5 rounded-md ${
                             isSelected
-                              ? 'bg-[#111111] text-[#FFFFFF]'
-                              : 'bg-[#222222] text-[#A3A3A3] border border-[#303030]'
+                              ? 'bg-[#2E2E2E] text-white border border-[#444444]'
+                              : 'bg-[#1E1E1E] text-[#A1A1AA] border border-[#2B2B2B]'
                           }`}
                         >
                           {loading ? (
@@ -745,15 +745,13 @@ function PracticePortalContent() {
 
                       {/* Difficulty Title */}
                       <h3
-                        className={`text-xl font-black mb-1 ${
-                          isSelected ? 'text-[#111111]' : 'text-[#FFFFFF]'
-                        }`}
+                        className="text-xl font-black mb-1 text-[#FFFFFF]"
                       >
                         {diff.name}
                       </h3>
                       <div
                         className={`text-xs font-bold mb-3 ${
-                          isSelected ? 'text-[#333333]' : 'text-[#A3A3A3]'
+                          isSelected ? 'text-[#D4D4D8]' : 'text-[#A1A1AA]'
                         }`}
                       >
                         {diff.subtitle}
@@ -762,7 +760,7 @@ function PracticePortalContent() {
                       {/* Description */}
                       <p
                         className={`text-xs leading-relaxed ${
-                          isSelected ? 'text-[#444444]' : 'text-[#737373]'
+                          isSelected ? 'text-[#E4E4E7]' : 'text-[#71717A]'
                         }`}
                       >
                         {diff.description}
@@ -770,7 +768,9 @@ function PracticePortalContent() {
                     </div>
 
                     {/* Bottom Status Tag */}
-                    <div className="mt-6 pt-3 border-t border-current/10 flex items-center justify-between text-xs font-bold">
+                    <div className={`mt-6 pt-3 border-t flex items-center justify-between text-xs font-bold ${
+                      isSelected ? 'border-[#383838] text-white' : 'border-[#262626] text-[#71717A]'
+                    }`}>
                       <span>{isSelected ? '✓ Selected' : 'Click to select level'}</span>
                       <Icons.ChevronRight size={14} />
                     </div>
@@ -793,7 +793,7 @@ function PracticePortalContent() {
                 type="button"
                 onClick={handleProceedToStep3}
                 disabled={!selectedDifficulty}
-                className="px-6 py-3 rounded-xl bg-[#FFFFFF] text-[#111111] font-bold text-sm hover:bg-[#E5E5E5] transition-all flex items-center gap-2 shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-3 rounded-xl bg-[#D4D4D8] hover:bg-[#E4E4E7] text-[#111111] font-bold text-sm transition-all flex items-center gap-2 shadow-xs cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <span>Continue to Step 3</span>
                 <Icons.ChevronRight size={16} />
@@ -990,7 +990,7 @@ function PracticePortalContent() {
                               localStorage.setItem('examforge_current_student', JSON.stringify(currentStudent))
                             }
                           }}
-                          className="w-full py-3 rounded-xl bg-[#FFFFFF] hover:bg-[#E5E5E5] text-[#111111] font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                          className="w-full py-3 rounded-xl bg-[#D4D4D8] hover:bg-[#E4E4E7] text-[#111111] font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
                         >
                           <span>Start Practice Test</span>
                           <Icons.ChevronRight size={15} />
