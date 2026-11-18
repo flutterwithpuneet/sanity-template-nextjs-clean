@@ -54,6 +54,12 @@ export default function AdminSidebar({
       icon: Icons.PracticeTests,
     },
     {
+      label: 'Import Mock (JSON)',
+      href: '/admin/import-mock',
+      icon: Icons.Upload,
+      badge: 'JSON',
+    },
+    {
       label: 'Test Assignments',
       href: '/admin/assignments',
       icon: Icons.Assignments,
@@ -180,7 +186,12 @@ export default function AdminSidebar({
                 {!collapsed && (
                   <span className="truncate tracking-tight">{item.label}</span>
                 )}
-                {!collapsed && active && (
+                {!collapsed && (item as any).badge && (
+                  <span className="ml-auto text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#222222] text-[#A1A1AA] border border-[#303030]">
+                    {(item as any).badge}
+                  </span>
+                )}
+                {!collapsed && active && !(item as any).badge && (
                   <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#FAFAFA]" />
                 )}
               </Link>
