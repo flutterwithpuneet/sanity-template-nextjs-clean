@@ -44,6 +44,12 @@ export default function AdminSidebar({
       icon: Icons.Topics,
     },
     {
+      label: 'Topic Calendar',
+      href: '/admin/calendar',
+      icon: Icons.Calendar,
+      badge: 'Adv',
+    },
+    {
       label: 'Question Bank',
       href: '/admin/questions',
       icon: Icons.Questions,
