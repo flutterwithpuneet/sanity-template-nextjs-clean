@@ -158,11 +158,22 @@ export default function ClientLayoutWrapper({
     )
   }
 
+  // Loading state while verifying authentication
+  if (checking) {
+    return (
+      <div className="min-h-screen bg-[#090909] text-[#FAFAFA] flex flex-col items-center justify-center p-6 text-center">
+        <ExamForgeLogo variant="badge" size={26} className="w-12 h-12 rounded-2xl mb-4 border-[#262626] animate-pulse" />
+        <div className="w-5 h-5 rounded-full border-2 border-white border-t-transparent animate-spin mb-3" />
+        <p className="text-xs text-[#71717A] font-mono">Loading ExamForge...</p>
+      </div>
+    )
+  }
+
   // If not authenticated, block access completely with black shield
-  if (!session || checking) {
+  if (!session) {
     return (
       <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6 text-center">
-        <ExamForgeLogo variant="badge" size={26} className="w-12 h-12 rounded-2xl mb-4 shadow-xl border-[#262626] animate-pulse" />
+        <ExamForgeLogo variant="badge" size={26} className="w-12 h-12 rounded-2xl mb-4 shadow-xl border-[#262626]" />
         <h2 className="text-lg font-bold text-white tracking-tight">ExamForge Security</h2>
         <p className="text-xs text-neutral-400 mt-1 max-w-sm">
           Authentication required. Redirecting to login portal...

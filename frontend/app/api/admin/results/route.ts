@@ -62,15 +62,15 @@ export async function GET(req: NextRequest) {
           q.explanation,
           q.difficulty,
           sub.name as subject_name,
-          top.name as topic_name,
+          t.name as topic_name,
           aaq.order_index,
           aaq.marks as max_marks,
           aaq.negative_marks
         FROM attempt_answers aa
         JOIN assessment_attempt_questions aaq ON aa.attempt_question_id = aaq.id
         JOIN questions q ON aaq.question_id = q.id
-        JOIN subjects sub ON q.subject_id = sub.id
-        JOIN topics top ON q.topic_id = top.id
+        LEFT JOIN subjects sub ON q.subject_id = sub.id
+        LEFT JOIN topics t ON q.topic_id = t.id
         WHERE aa.attempt_id = ?
         ORDER BY aaq.order_index ASC`,
         [attemptId]
@@ -181,18 +181,18 @@ export async function GET(req: NextRequest) {
     // Topic-wise Performance Bars
     const [topicPerformance]: any = await db.query(`
       SELECT 
-        top.name as topic_name,
+        t.name as topic_name,
         sub.name as subject_name,
         COUNT(aa.id) as total_attempts,
         COALESCE(SUM(CASE WHEN aa.is_correct = 1 THEN 1 ELSE 0 END), 0) as correct_count,
-        ROUND((COALESCE(SUM(CASE WHEN aa.is_correct = 1 THEN 1 ELSE 0 END), 0) / COUNT(aa.id)) * 100) as accuracy_pct,
+        ROUND((COALESCE(SUM(CASE WHEN aa.is_correct = 1 THEN 1 ELSE 0 END), 0)::numeric / NULLIF(COUNT(aa.id), 0)::numeric) * 100) as accuracy_pct,
         ROUND(AVG(aa.time_spent_seconds)) as avg_seconds
       FROM attempt_answers aa
       JOIN assessment_attempt_questions aaq ON aa.attempt_question_id = aaq.id
       JOIN questions q ON aaq.question_id = q.id
-      JOIN topics top ON q.topic_id = top.id
-      JOIN subjects sub ON q.subject_id = sub.id
-      GROUP BY top.id
+      LEFT JOIN topics t ON q.topic_id = t.id
+      LEFT JOIN subjects sub ON q.subject_id = sub.id
+      GROUP BY t.id, t.name, sub.name
       ORDER BY total_attempts DESC
       LIMIT 8
     `)

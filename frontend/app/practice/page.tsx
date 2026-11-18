@@ -110,19 +110,49 @@ function PracticePortalContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
+  // Initialize state synchronously from searchParams to avoid step-jumping or layout flash on refresh
+  const initialStep = useMemo<1 | 2 | 3>(() => {
+    const s = searchParams.get('step')
+    if (s === '3') return 3
+    if (s === '2') return 2
+    return 1
+  }, [searchParams])
+
+  const initialSubject = useMemo<string>(() => {
+    const sub = searchParams.get('subject')
+    if (sub && CORE_SUBJECT_OPTIONS.some((s) => s.id === sub)) return sub
+    return 'all'
+  }, [searchParams])
+
+  const initialDiff = useMemo<'easy' | 'medium' | 'hard' | null>(() => {
+    const diff = searchParams.get('diff')
+    if (diff === 'easy' || diff === 'medium' || diff === 'hard') return diff
+    return null
+  }, [searchParams])
+
   const [assessments, setAssessments] = useState<AssessmentItem[]>([])
   const [subjects, setSubjects] = useState<SubjectItem[]>([])
-  const [currentStudent, setCurrentStudent] = useState<any>(null)
+  const [currentStudent, setCurrentStudent] = useState<any>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('examforge_current_student')
+        return saved ? JSON.parse(saved) : null
+      } catch {
+        return null
+      }
+    }
+    return null
+  })
   const [loading, setLoading] = useState(true)
 
   // 3-Step Guided Flow State (1: Subject, 2: Difficulty, 3: Practice Test)
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1)
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(initialStep)
 
   // Step 1: Selected Subject
-  const [selectedSubjectId, setSelectedSubjectId] = useState<string>('all')
+  const [selectedSubjectId, setSelectedSubjectId] = useState<string>(initialSubject)
 
   // Step 2: Selected Difficulty Level
-  const [selectedDifficulty, setSelectedDifficulty] = useState<'easy' | 'medium' | 'hard' | null>(null)
+  const [selectedDifficulty, setSelectedDifficulty] = useState<'easy' | 'medium' | 'hard' | null>(initialDiff)
 
   // Step 3: Search filter for tests
   const [searchQuery, setSearchQuery] = useState('')
@@ -130,6 +160,13 @@ function PracticePortalContent() {
   // Bookmark management state
   const [showBookmarksModal, setShowBookmarksModal] = useState(false)
   const [bookmarkCount, setBookmarkCount] = useState<number>(0)
+
+  // Sync state if browser back/forward buttons change searchParams
+  useEffect(() => {
+    setCurrentStep(initialStep)
+    setSelectedSubjectId(initialSubject)
+    setSelectedDifficulty(initialDiff)
+  }, [initialStep, initialSubject, initialDiff])
 
   // Fetch bookmarks count when current student is selected
   useEffect(() => {
@@ -147,25 +184,6 @@ function PracticePortalContent() {
       active = false
     }
   }, [currentStudent?.id, showBookmarksModal])
-
-  // Initialize from URL query params if present
-  useEffect(() => {
-    const stepParam = searchParams.get('step')
-    const subParam = searchParams.get('subject')
-    const diffParam = searchParams.get('diff')
-
-    if (subParam && CORE_SUBJECT_OPTIONS.some((s) => s.id === subParam)) {
-      setSelectedSubjectId(subParam)
-    }
-    if (diffParam && (diffParam === 'easy' || diffParam === 'medium' || diffParam === 'hard')) {
-      setSelectedDifficulty(diffParam as 'easy' | 'medium' | 'hard')
-    }
-    if (stepParam === '2') {
-      setCurrentStep(2)
-    } else if (stepParam === '3') {
-      setCurrentStep(3)
-    }
-  }, [searchParams])
 
   // Fetch assessments, subjects, and student profile
   const loadData = async () => {
@@ -422,7 +440,11 @@ function PracticePortalContent() {
               Total Drills
             </span>
             <div className="text-xl sm:text-2xl font-black font-mono text-[#FFFFFF]">
-              {assessments.length} Tests
+              {loading ? (
+                <span className="inline-block w-20 h-7 bg-[#2A2A2A] rounded-lg animate-pulse" />
+              ) : (
+                `${assessments.length} Tests`
+              )}
             </div>
           </div>
 
@@ -439,8 +461,8 @@ function PracticePortalContent() {
             <span className="text-[10px] uppercase tracking-wider font-bold text-[#737373] block mb-1">
               Selected Subject
             </span>
-            <div className="text-sm sm:text-base font-bold text-[#FFFFFF] truncate">
-              {activeSubject.code}
+            <div className="text-sm sm:text-base font-bold text-[#FFFFFF] truncate" title={activeSubject.name}>
+              {activeSubject.name}
             </div>
           </div>
 
@@ -583,7 +605,11 @@ function PracticePortalContent() {
                             isSelected ? 'text-[#111111]' : 'text-[#737373]'
                           }`}
                         >
-                          {testCount} Tests Available
+                          {loading ? (
+                            <span className="inline-block w-16 h-3 bg-[#333333] rounded animate-pulse" />
+                          ) : (
+                            `${testCount} Tests Available`
+                          )}
                         </span>
                       </div>
 
@@ -709,7 +735,11 @@ function PracticePortalContent() {
                               : 'bg-[#222222] text-[#A3A3A3] border border-[#303030]'
                           }`}
                         >
-                          {testCount} Tests
+                          {loading ? (
+                            <span className="inline-block w-12 h-3 bg-[#333333] rounded animate-pulse" />
+                          ) : (
+                            `${testCount} Tests`
+                          )}
                         </span>
                       </div>
 
@@ -837,7 +867,13 @@ function PracticePortalContent() {
             {/* Test Count Badge */}
             <div className="flex items-center justify-between text-xs text-[#737373] pb-2 border-b border-[#2A2A2A]">
               <span>
-                Showing <strong className="text-[#FFFFFF]">{finalFilteredAssessments.length}</strong> available practice drills
+                {loading ? (
+                  <span className="inline-block w-32 h-3.5 bg-[#262626] rounded animate-pulse" />
+                ) : (
+                  <>
+                    Showing <strong className="text-[#FFFFFF]">{finalFilteredAssessments.length}</strong> available practice drills
+                  </>
+                )}
               </span>
               <button
                 type="button"
@@ -857,9 +893,7 @@ function PracticePortalContent() {
               </div>
             ) : finalFilteredAssessments.length === 0 ? (
               <div className="p-12 text-center bg-[#1C1C1C] rounded-2xl border border-[#303030] space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-[#222222] border border-[#303030] text-[#FFFFFF] mx-auto flex items-center justify-center font-bold">
-                  EF
-                </div>
+                <ExamForgeLogo variant="badge" size={24} className="w-12 h-12 rounded-2xl mx-auto border-[#303030]" />
                 <h3 className="text-base font-bold text-[#FFFFFF]">
                   No Practice Tests Found
                 </h3>

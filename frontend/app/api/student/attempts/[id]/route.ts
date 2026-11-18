@@ -72,15 +72,15 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         q.explanation_hi,
         q.difficulty,
         sub.name as subject_name,
-        top.name as topic_name,
+        t.name as topic_name,
         aaq.order_index,
         aaq.marks as max_marks,
         aaq.negative_marks
       FROM attempt_answers aa
       JOIN assessment_attempt_questions aaq ON aa.attempt_question_id = aaq.id
       JOIN questions q ON aaq.question_id = q.id
-      JOIN subjects sub ON q.subject_id = sub.id
-      JOIN topics top ON q.topic_id = top.id
+      LEFT JOIN subjects sub ON q.subject_id = sub.id
+      LEFT JOIN topics t ON q.topic_id = t.id
       WHERE aa.attempt_id = ?
       ORDER BY aaq.order_index ASC`,
       [id]
