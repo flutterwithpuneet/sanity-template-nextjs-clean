@@ -150,15 +150,15 @@ export default function ResultsAnalyticsPage() {
   return (
     <div className="space-y-6">
       {/* Top Banner Header */}
-      <div className="rounded-2xl bg-white border border-gray-200 p-6 md:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="rounded-2xl bg-[#111111] border border-[#262626] p-6 md:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-gray-100 text-gray-800 border border-gray-200 mb-2">
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-medium uppercase bg-[#151515] text-[#A1A1AA] border border-[#262626] mb-2">
             <span>Visual Performance & Speed Analytics</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-black text-black tracking-tight">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-[#FAFAFA] tracking-tight">
             Results & Candidate Analytics
           </h1>
-          <p className="text-xs md:text-sm text-gray-500 mt-1 max-w-xl">
+          <p className="text-xs md:text-sm text-[#71717A] mt-1 max-w-xl leading-relaxed">
             Live accuracy distributions, pie charts, speed benchmarking, and per-question time analysis.
           </p>
         </div>
@@ -166,26 +166,26 @@ export default function ResultsAnalyticsPage() {
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={fetchResults}
-            className="px-4 py-2.5 rounded-xl bg-gray-100 hover:bg-neutral-200 text-black text-xs font-semibold flex items-center gap-2 transition-colors"
+            className="px-3.5 py-2 rounded-xl bg-[#171717] border border-[#262626] hover:bg-[#202020] hover:border-[#3F3F46] text-[#FAFAFA] text-xs font-medium flex items-center gap-2 transition-colors"
           >
-            <Icons.Clock size={15} />
+            <Icons.Clock size={14} />
             <span>Refresh Analytics</span>
           </button>
         </div>
       </div>
 
       {/* Top Visual Charts Grid (3 Analytics Cards) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
         {/* Chart 1: Accuracy Pie / Donut Chart */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-xs flex flex-col justify-between">
-          <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+        <div className="bg-[#111111] rounded-2xl border border-[#262626] p-5 flex flex-col justify-between">
+          <div className="flex items-center justify-between pb-3 border-b border-[#1F1F1F]">
             <div>
-              <h2 className="text-xs font-bold uppercase tracking-wider text-black">
+              <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-[#FAFAFA]">
                 Accuracy Breakdown (Pie Chart)
               </h2>
-              <p className="text-[11px] text-gray-500">Correct vs Incorrect responses</p>
+              <p className="text-[11px] text-[#71717A]">Correct vs Incorrect responses</p>
             </div>
-            <span className="text-xs font-bold font-mono px-2 py-0.5 rounded bg-gray-100 text-black">
+            <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#151515] border border-[#262626] text-[#FAFAFA]">
               {pctCorrect}% Net
             </span>
           </div>
@@ -194,54 +194,54 @@ export default function ResultsAnalyticsPage() {
             {/* SVG Donut */}
             <div className="relative w-28 h-28 shrink-0">
               <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="38" fill="transparent" stroke="#f3f4f6" strokeWidth="14" />
+                <circle cx="50" cy="50" r="38" fill="transparent" stroke="#1F1F1F" strokeWidth="14" />
                 {renderDonutSlices([
-                  { pct: pctCorrect, color: '#000000' },
-                  { pct: pctIncorrect, color: '#6b7280' },
-                  { pct: pctUnanswered, color: '#d1d5db' },
+                  { pct: pctCorrect, color: '#FAFAFA' },
+                  { pct: pctIncorrect, color: '#71717A' },
+                  { pct: pctUnanswered, color: '#3F3F46' },
                 ])}
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-base font-black font-mono text-black">{pctCorrect}%</span>
-                <span className="text-[9px] uppercase font-bold text-gray-400">Accuracy</span>
+                <span className="text-base font-bold font-mono text-[#FAFAFA]">{pctCorrect}%</span>
+                <span className="text-[9px] uppercase font-mono font-medium text-[#71717A]">Accuracy</span>
               </div>
             </div>
 
             {/* Legend */}
             <div className="space-y-2 text-xs">
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-md bg-black"></span>
-                <span className="text-gray-700">Correct:</span>
-                <strong className="font-mono text-black">{analytics.accuracyBreakdown.correct} ({pctCorrect}%)</strong>
+                <span className="w-2.5 h-2.5 rounded-sm bg-[#FAFAFA]"></span>
+                <span className="text-[#A1A1AA]">Correct:</span>
+                <strong className="font-mono text-[#FAFAFA]">{analytics.accuracyBreakdown.correct} ({pctCorrect}%)</strong>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-md bg-gray-500"></span>
-                <span className="text-gray-700">Wrong:</span>
-                <strong className="font-mono text-black">{analytics.accuracyBreakdown.incorrect} ({pctIncorrect}%)</strong>
+                <span className="w-2.5 h-2.5 rounded-sm bg-[#71717A]"></span>
+                <span className="text-[#A1A1AA]">Wrong:</span>
+                <strong className="font-mono text-[#FAFAFA]">{analytics.accuracyBreakdown.incorrect} ({pctIncorrect}%)</strong>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-md bg-gray-300"></span>
-                <span className="text-gray-700">Skipped:</span>
-                <strong className="font-mono text-black">{analytics.accuracyBreakdown.unanswered} ({pctUnanswered}%)</strong>
+                <span className="w-2.5 h-2.5 rounded-sm bg-[#3F3F46]"></span>
+                <span className="text-[#A1A1AA]">Skipped:</span>
+                <strong className="font-mono text-[#FAFAFA]">{analytics.accuracyBreakdown.unanswered} ({pctUnanswered}%)</strong>
               </div>
             </div>
           </div>
 
-          <div className="pt-2 border-t border-gray-100 text-[11px] text-gray-500 font-mono text-center">
+          <div className="pt-2 border-t border-[#1F1F1F] text-[10px] text-[#71717A] font-mono text-center">
             Total {totalAcc} Questions Evaluated
           </div>
         </div>
 
         {/* Chart 2: Speed / Time Investment Donut Chart */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-xs flex flex-col justify-between">
-          <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+        <div className="bg-[#111111] rounded-2xl border border-[#262626] p-5 flex flex-col justify-between">
+          <div className="flex items-center justify-between pb-3 border-b border-[#1F1F1F]">
             <div>
-              <h2 className="text-xs font-bold uppercase tracking-wider text-black">
+              <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-[#FAFAFA]">
                 Speed Distribution (Pie Chart)
               </h2>
-              <p className="text-[11px] text-gray-500">Time spent per question tier</p>
+              <p className="text-[11px] text-[#71717A]">Time spent per question tier</p>
             </div>
-            <span className="text-xs font-bold font-mono px-2 py-0.5 rounded bg-gray-100 text-black">
+            <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#151515] border border-[#262626] text-[#FAFAFA]">
               Avg: {analytics.speedBreakdown.avgSeconds}s
             </span>
           </div>
@@ -250,79 +250,79 @@ export default function ResultsAnalyticsPage() {
             {/* SVG Donut */}
             <div className="relative w-28 h-28 shrink-0">
               <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="38" fill="transparent" stroke="#f3f4f6" strokeWidth="14" />
+                <circle cx="50" cy="50" r="38" fill="transparent" stroke="#1F1F1F" strokeWidth="14" />
                 {renderDonutSlices([
-                  { pct: pctFast, color: '#000000' },
-                  { pct: pctModerate, color: '#6b7280' },
-                  { pct: pctHeavy, color: '#d1d5db' },
+                  { pct: pctFast, color: '#FAFAFA' },
+                  { pct: pctModerate, color: '#71717A' },
+                  { pct: pctHeavy, color: '#3F3F46' },
                 ])}
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-base font-black font-mono text-black">
+                <span className="text-base font-bold font-mono text-[#FAFAFA]">
                   {analytics.speedBreakdown.avgSeconds}s
                 </span>
-                <span className="text-[9px] uppercase font-bold text-gray-400">Avg Pace</span>
+                <span className="text-[9px] uppercase font-mono font-medium text-[#71717A]">Avg Pace</span>
               </div>
             </div>
 
             {/* Legend */}
             <div className="space-y-2 text-xs">
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-md bg-black"></span>
-                <span className="text-gray-700">⚡ &lt;20s:</span>
-                <strong className="font-mono text-black">{analytics.speedBreakdown.fast} ({pctFast}%)</strong>
+                <span className="w-2.5 h-2.5 rounded-sm bg-[#FAFAFA]"></span>
+                <span className="text-[#A1A1AA]">⚡ &lt;20s:</span>
+                <strong className="font-mono text-[#FAFAFA]">{analytics.speedBreakdown.fast} ({pctFast}%)</strong>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-md bg-gray-500"></span>
-                <span className="text-gray-700">⏱️ 20-45s:</span>
-                <strong className="font-mono text-black">{analytics.speedBreakdown.moderate} ({pctModerate}%)</strong>
+                <span className="w-2.5 h-2.5 rounded-sm bg-[#71717A]"></span>
+                <span className="text-[#A1A1AA]">⏱️ 20-45s:</span>
+                <strong className="font-mono text-[#FAFAFA]">{analytics.speedBreakdown.moderate} ({pctModerate}%)</strong>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-md bg-gray-300"></span>
-                <span className="text-gray-700">⏳ &gt;45s:</span>
-                <strong className="font-mono text-black">{analytics.speedBreakdown.heavy} ({pctHeavy}%)</strong>
+                <span className="w-2.5 h-2.5 rounded-sm bg-[#3F3F46]"></span>
+                <span className="text-[#A1A1AA]">⏳ &gt;45s:</span>
+                <strong className="font-mono text-[#FAFAFA]">{analytics.speedBreakdown.heavy} ({pctHeavy}%)</strong>
               </div>
             </div>
           </div>
 
-          <div className="pt-2 border-t border-gray-100 text-[11px] text-gray-500 font-mono text-center">
+          <div className="pt-2 border-t border-[#1F1F1F] text-[10px] text-[#71717A] font-mono text-center">
             Pacing: {pctFast >= 50 ? 'Rapid Candidate Pace' : 'Balanced Candidate Pace'}
           </div>
         </div>
 
         {/* Chart 3: Syllabus Topic Performance Bars */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-xs flex flex-col justify-between">
-          <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+        <div className="bg-[#111111] rounded-2xl border border-[#262626] p-5 flex flex-col justify-between">
+          <div className="flex items-center justify-between pb-3 border-b border-[#1F1F1F]">
             <div>
-              <h2 className="text-xs font-bold uppercase tracking-wider text-black">
+              <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-[#FAFAFA]">
                 Topic Diagnostic Matrix
               </h2>
-              <p className="text-[11px] text-gray-500">Accuracy & seconds per topic</p>
+              <p className="text-[11px] text-[#71717A]">Accuracy & seconds per topic</p>
             </div>
-            <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-black text-white">
+            <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-[#191919] border border-[#3F3F46] text-[#FAFAFA]">
               Live
             </span>
           </div>
 
           <div className="py-2 space-y-3">
             {analytics.topicPerformance.length === 0 ? (
-              <div className="py-8 text-center text-xs text-gray-400">
+              <div className="py-8 text-center text-xs text-[#71717A]">
                 No topic attempts logged yet.
               </div>
             ) : (
               analytics.topicPerformance.map((top: any, idx: number) => (
                 <div key={idx} className="space-y-1">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-gray-900 truncate max-w-[140px]">
+                    <span className="font-semibold text-[#FAFAFA] truncate max-w-[140px]">
                       {top.topic_name}
                     </span>
-                    <span className="font-mono text-gray-600 text-[11px]">
+                    <span className="font-mono text-[#71717A] text-[11px]">
                       {top.accuracy_pct}% • {top.avg_seconds}s
                     </span>
                   </div>
-                  <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden border border-gray-200">
+                  <div className="w-full bg-[#1F1F1F] rounded-full h-1.5 overflow-hidden">
                     <div
-                      className="bg-black h-full rounded-full transition-all duration-500"
+                      className="bg-[#FAFAFA] h-full rounded-full transition-all duration-500"
                       style={{ width: `${top.accuracy_pct}%` }}
                     />
                   </div>
@@ -331,67 +331,67 @@ export default function ResultsAnalyticsPage() {
             )}
           </div>
 
-          <div className="pt-2 border-t border-gray-100 text-[11px] text-gray-500 font-mono text-center">
+          <div className="pt-2 border-t border-[#1F1F1F] text-[10px] text-[#71717A] font-mono text-center">
             Strength & Weak Topics Tracker
           </div>
         </div>
       </div>
 
       {/* Filter Bar & Search */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="bg-[#111111] rounded-2xl border border-[#262626] p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="relative w-full sm:w-80">
           <Icons.Search
-            size={18}
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
+            size={16}
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#71717A]"
           />
           <input
             type="text"
             placeholder="Search candidate or test title..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black font-medium"
+            className="w-full pl-9 pr-4 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs placeholder-[#71717A] focus:outline-none focus:border-[#52525B]"
           />
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto">
+        <div className="flex items-center gap-1.5 w-full sm:w-auto">
           {(['all', 'passed', 'failed'] as const).map((filter) => (
             <button
               key={filter}
               type="button"
               onClick={() => setStatusFilter(filter)}
-              className={`px-3 py-1.5 rounded-xl font-bold uppercase text-[10px] transition-colors ${
+              className={`px-3 py-1.5 rounded-xl font-mono font-semibold uppercase text-[10px] transition-colors ${
                 statusFilter === filter
-                  ? 'bg-black text-white shadow-xs'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-[#191919] text-[#FAFAFA] border border-[#3F3F46]'
+                  : 'bg-[#151515] text-[#71717A] border border-[#262626] hover:text-[#FAFAFA]'
               }`}
             >
               {filter === 'all' ? 'All Submissions' : filter === 'passed' ? 'Passed' : 'Needs Retake'}
             </button>
           ))}
-          <span className="text-xs font-mono font-bold text-gray-500 ml-2">
+          <span className="text-xs font-mono font-medium text-[#71717A] ml-2">
             {filteredAttempts.length} Records
           </span>
         </div>
       </div>
 
       {/* Main Attempts Table */}
-      <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-xs">
-        <div className="p-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between text-xs font-bold text-gray-600 uppercase tracking-wider">
+      <div className="bg-[#111111] rounded-2xl border border-[#262626] overflow-hidden">
+        <div className="p-4 bg-[#151515] border-b border-[#262626] flex items-center justify-between text-[11px] font-mono font-medium text-[#71717A] uppercase tracking-wider">
           <span>Submitted Student Test Attempts</span>
-          <span>Click any row for per-question timing breakdown</span>
+          <span>Click analyze for timing breakdown</span>
         </div>
 
         {loading ? (
           <TableSkeleton cols={6} rows={5} />
         ) : filteredAttempts.length === 0 ? (
-          <div className="py-16 text-center text-sm text-gray-400">
+          <div className="py-16 text-center text-xs text-[#71717A]">
             No submissions matching filter. Take a test in the Student Portal to generate analytics.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-gray-50/50 border-b border-gray-200 text-[10px] font-bold text-gray-600 uppercase tracking-wider">
+                <tr className="bg-[#151515] border-b border-[#262626] text-[10px] font-mono font-medium text-[#71717A] uppercase tracking-wider">
                   <th className="py-3 px-4">Attempt #</th>
                   <th className="py-3 px-4">Candidate</th>
                   <th className="py-3 px-4">Practice Test</th>
@@ -402,66 +402,68 @@ export default function ResultsAnalyticsPage() {
                   <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 text-xs">
+              <tbody className="divide-y divide-[#1F1F1F] text-xs text-[#FAFAFA]">
                 {filteredAttempts.map((att) => (
-                  <tr key={att.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="py-3 px-4 font-mono font-bold text-black">
+                  <tr key={att.id} className="hover:bg-[#151515]/60 transition-colors">
+                    <td className="py-3 px-4 font-mono font-bold text-[#FAFAFA]">
                       #{att.id}
                     </td>
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 rounded-full bg-black text-white flex items-center justify-center font-bold text-xs shrink-0">
+                        <div className="w-7 h-7 rounded-full bg-[#191919] border border-[#3F3F46] text-[#FAFAFA] flex items-center justify-center font-bold font-mono text-xs shrink-0">
                           {att.student_name ? att.student_name.charAt(0) : 'P'}
                         </div>
                         <div>
-                          <div className="font-bold text-black">{att.student_name}</div>
-                          <div className="text-[10px] text-gray-400 font-mono">{att.student_email}</div>
+                          <div className="font-semibold text-[#FAFAFA]">{att.student_name}</div>
+                          <div className="text-[10px] text-[#71717A] font-mono">{att.student_email}</div>
                         </div>
                       </div>
                     </td>
                     <td className="py-3 px-4">
-                      <div className="font-semibold text-gray-900 max-w-xs truncate">
+                      <div className="font-semibold text-[#FAFAFA] max-w-xs truncate">
                         {att.assessment_title}
                       </div>
-                      <div className="text-[10px] text-gray-400 uppercase font-mono">
+                      <div className="text-[10px] text-[#71717A] uppercase font-mono">
                         {att.assessment_type || 'practice'}
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-center font-mono font-bold">
+                    <td className="py-3 px-4 text-center font-mono font-semibold">
                       {Number(att.obtained_marks).toFixed(1)} / {Number(att.total_marks).toFixed(1)}
                     </td>
-                    <td className="py-3 px-4 text-center font-mono font-bold">
+                    <td className="py-3 px-4 text-center font-mono font-semibold">
                       {Number(att.accuracy || 0).toFixed(0)}%
                     </td>
-                    <td className="py-3 px-4 text-center font-mono text-gray-700 font-semibold">
+                    <td className="py-3 px-4 text-center font-mono text-[#A1A1AA] font-semibold">
                       {formatSeconds(att.time_taken_seconds)}
                     </td>
                     <td className="py-3 px-4 text-center">
                       <span
-                        className={`text-[9px] uppercase font-bold px-2 py-0.5 rounded-full ${
-                          att.passed === 1 ? 'bg-black text-white' : 'bg-gray-200 text-gray-800'
+                        className={`text-[9px] font-mono uppercase font-bold px-2 py-0.5 rounded-full ${
+                          att.passed === 1
+                            ? 'bg-[#191919] text-[#FAFAFA] border border-[#3F3F46]'
+                            : 'bg-[#151515] text-[#71717A] border border-[#262626]'
                         }`}
                       >
                         {att.passed === 1 ? 'PASSED' : 'RETRY'}
                       </span>
                     </td>
                     <td className="py-3 px-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                      <div className="flex items-center justify-end gap-1.5">
                         <button
                           type="button"
                           onClick={() => handleOpenDrilldown(att.id)}
-                          className="px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-black hover:text-white font-semibold text-xs transition-colors flex items-center gap-1.5"
+                          className="px-2.5 py-1 rounded-lg bg-[#171717] border border-[#262626] hover:bg-[#202020] hover:border-[#3F3F46] text-[#FAFAFA] font-medium text-xs transition-colors flex items-center gap-1"
                         >
                           <span>Analyze</span>
-                          <Icons.ChevronRight size={12} />
+                          <Icons.ChevronRight size={11} />
                         </button>
                         <button
                           type="button"
                           onClick={() => setDeleteAttemptId(att.id)}
-                          className="p-1.5 rounded-xl text-gray-400 hover:text-black hover:bg-gray-100 transition-colors"
+                          className="p-1.5 rounded-lg text-[#71717A] hover:text-red-400 hover:bg-red-950/30 transition-colors"
                           title="Delete Attempt Record"
                         >
-                          <Icons.Trash size={15} />
+                          <Icons.Trash size={14} />
                         </button>
                       </div>
                     </td>
@@ -486,31 +488,31 @@ export default function ResultsAnalyticsPage() {
         ) : (
           <div className="space-y-5">
             {/* Summary strip */}
-            <div className="p-4 rounded-2xl bg-neutral-900 text-white flex flex-wrap items-center justify-between gap-4">
+            <div className="p-4 rounded-2xl bg-[#151515] border border-[#262626] text-[#FAFAFA] flex flex-wrap items-center justify-between gap-4">
               <div>
-                <div className="text-base font-black tracking-tight">
+                <div className="text-sm font-bold tracking-tight text-[#FAFAFA]">
                   {drilldownData.attempt?.student_name}
                 </div>
-                <div className="text-xs text-neutral-400">
+                <div className="text-xs text-[#71717A]">
                   {drilldownData.attempt?.assessment_title}
                 </div>
               </div>
               <div className="flex items-center gap-4 text-xs font-mono">
                 <div>
-                  <span className="text-neutral-400 block text-[10px] uppercase">Score</span>
-                  <strong className="text-white text-sm">
+                  <span className="text-[#71717A] block text-[9px] uppercase">Score</span>
+                  <strong className="text-[#FAFAFA] text-xs">
                     {Number(drilldownData.attempt?.obtained_marks).toFixed(1)} / {Number(drilldownData.attempt?.total_marks).toFixed(1)}
                   </strong>
                 </div>
                 <div>
-                  <span className="text-neutral-400 block text-[10px] uppercase">Accuracy</span>
-                  <strong className="text-white text-sm">
+                  <span className="text-[#71717A] block text-[9px] uppercase">Accuracy</span>
+                  <strong className="text-[#FAFAFA] text-xs">
                     {Number(drilldownData.attempt?.accuracy || 0).toFixed(0)}%
                   </strong>
                 </div>
                 <div>
-                  <span className="text-neutral-400 block text-[10px] uppercase">Total Time</span>
-                  <strong className="text-white text-sm">
+                  <span className="text-[#71717A] block text-[9px] uppercase">Total Time</span>
+                  <strong className="text-[#FAFAFA] text-xs">
                     {formatSeconds(drilldownData.attempt?.time_taken_seconds)}
                   </strong>
                 </div>
@@ -518,10 +520,10 @@ export default function ResultsAnalyticsPage() {
             </div>
 
             {/* Per-Question Timing & Answer Table */}
-            <div className="border border-gray-200 rounded-2xl overflow-hidden max-h-96 overflow-y-auto">
+            <div className="border border-[#262626] rounded-2xl overflow-hidden max-h-96 overflow-y-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-gray-100 border-b border-gray-200 font-bold text-gray-700 uppercase text-[10px] sticky top-0 bg-gray-100 z-10">
+                  <tr className="bg-[#151515] border-b border-[#262626] font-mono text-[10px] text-[#71717A] uppercase sticky top-0 z-10">
                     <th className="py-2.5 px-3">Q#</th>
                     <th className="py-2.5 px-3">Question Statement</th>
                     <th className="py-2.5 px-3 text-center">Selected</th>
@@ -531,47 +533,47 @@ export default function ResultsAnalyticsPage() {
                     <th className="py-2.5 px-3 text-center">Marks</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-[#1F1F1F]">
                   {drilldownData.answers?.map((ans: any, idx: number) => {
                     const timeSpent = Number(ans.time_spent_seconds || 0)
                     let speedTag = 'Balanced'
-                    let speedBg = 'bg-gray-100 text-gray-800'
+                    let speedBadge = 'bg-[#151515] text-[#A1A1AA] border border-[#262626]'
                     if (timeSpent > 0 && timeSpent < 20) {
                       speedTag = '⚡ Fast (<20s)'
-                      speedBg = 'bg-black text-white'
+                      speedBadge = 'bg-[#191919] text-[#FAFAFA] border border-[#3F3F46]'
                     } else if (timeSpent >= 45) {
                       speedTag = '⏳ Heavy (>45s)'
-                      speedBg = 'bg-gray-200 text-gray-900 border border-gray-300'
+                      speedBadge = 'bg-[#151515] text-[#71717A] border border-[#262626]'
                     }
 
                     return (
-                      <tr key={ans.answer_id} className="hover:bg-gray-50">
-                        <td className="py-3 px-3 font-mono font-bold">{idx + 1}</td>
+                      <tr key={ans.answer_id} className="hover:bg-[#151515]/60 transition-colors">
+                        <td className="py-3 px-3 font-mono font-bold text-[#FAFAFA]">{idx + 1}</td>
                         <td className="py-3 px-3 max-w-[200px]">
-                          <div className="font-medium text-gray-900 line-clamp-2">{ans.question_text}</div>
-                          <div className="text-[10px] text-gray-400 mt-0.5">{ans.topic_name}</div>
+                          <div className="font-medium text-[#FAFAFA] line-clamp-2">{ans.question_text}</div>
+                          <div className="text-[10px] text-[#71717A] mt-0.5">{ans.topic_name}</div>
                         </td>
-                        <td className="py-3 px-3 text-center font-bold">
+                        <td className="py-3 px-3 text-center font-mono font-semibold text-[#A1A1AA]">
                           {ans.selected_option_key || '-'}
                         </td>
-                        <td className="py-3 px-3 text-center font-bold text-black">
+                        <td className="py-3 px-3 text-center font-mono font-bold text-[#FAFAFA]">
                           {ans.correct_option_key || '-'}
                         </td>
-                        <td className="py-3 px-3 text-center font-mono font-bold text-black">
+                        <td className="py-3 px-3 text-center font-mono font-semibold text-[#FAFAFA]">
                           {formatSeconds(timeSpent)}
                         </td>
                         <td className="py-3 px-3 text-center">
-                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${speedBg}`}>
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${speedBadge}`}>
                             {speedTag}
                           </span>
                         </td>
                         <td className="py-3 px-3 text-center font-mono font-bold">
                           {ans.is_correct === 1 ? (
-                            <span className="text-black">+{Number(ans.marks_awarded || 1).toFixed(1)}</span>
+                            <span className="text-[#FAFAFA]">+{Number(ans.marks_awarded || 1).toFixed(1)}</span>
                           ) : ans.selected_option_key ? (
-                            <span className="text-gray-500">-{Number(ans.negative_marks || 0.25).toFixed(2)}</span>
+                            <span className="text-[#71717A]">-{Number(ans.negative_marks || 0.25).toFixed(2)}</span>
                           ) : (
-                            <span className="text-gray-400">0.0</span>
+                            <span className="text-[#52525B]">0.0</span>
                           )}
                         </td>
                       </tr>
@@ -582,20 +584,20 @@ export default function ResultsAnalyticsPage() {
             </div>
 
             {/* Actions in drilldown */}
-            <div className="flex items-center justify-between pt-2 border-t border-gray-200">
+            <div className="flex items-center justify-between pt-2 border-t border-[#1F1F1F]">
               <button
                 type="button"
                 onClick={() => setDeleteAttemptId(drilldownData.attempt?.id)}
-                className="px-3 py-1.5 rounded-xl border border-gray-300 text-xs font-semibold text-gray-700 hover:bg-gray-100 flex items-center gap-1.5"
+                className="px-3 py-1.5 rounded-xl border border-[#262626] bg-[#151515] text-xs font-medium text-red-400 hover:bg-red-950/30 flex items-center gap-1.5 transition-colors"
               >
-                <Icons.Trash size={14} />
+                <Icons.Trash size={13} />
                 <span>Delete Attempt</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setSelectedAttemptId(null)}
-                className="px-5 py-2 rounded-xl bg-black text-white text-xs font-semibold hover:bg-neutral-800"
+                className="px-5 py-2 rounded-xl bg-[#FAFAFA] text-[#090909] text-xs font-semibold hover:bg-[#E4E4E7] transition-colors"
               >
                 Close Analysis
               </button>
@@ -613,21 +615,21 @@ export default function ResultsAnalyticsPage() {
         maxWidth="sm"
       >
         <div className="space-y-4">
-          <p className="text-xs text-gray-600 leading-relaxed">
+          <p className="text-xs text-[#A1A1AA] leading-relaxed">
             Are you sure you want to delete this test attempt? All associated question time logs and score records will be permanently removed.
           </p>
           <div className="flex items-center justify-end gap-2 pt-2">
             <button
               type="button"
               onClick={() => setDeleteAttemptId(null)}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-600 hover:bg-gray-100"
+              className="px-4 py-2 rounded-xl text-xs font-medium text-[#A1A1AA] hover:bg-[#202020] hover:text-[#FAFAFA] transition-colors"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={() => deleteAttemptId && handleDeleteAttempt(deleteAttemptId)}
-              className="px-4 py-2 rounded-xl bg-black hover:bg-neutral-800 text-white text-xs font-semibold"
+              className="px-4 py-2 rounded-xl bg-red-950/40 text-red-400 border border-red-900/40 hover:bg-red-900/50 hover:text-red-300 text-xs font-medium transition-colors"
             >
               Confirm Delete
             </button>

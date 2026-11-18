@@ -257,10 +257,10 @@ function QuestionsContent() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#262626]">
         <div>
-          <h1 className="text-2xl font-black text-black tracking-tight">Question Bank</h1>
-          <p className="text-sm text-gray-500">
+          <h1 className="text-2xl font-extrabold text-[#FAFAFA] tracking-tight">Question Bank</h1>
+          <p className="text-xs sm:text-sm text-[#71717A] mt-1">
             Curated Rajasthan Informatics Assistant MCQ repository with bilingual support (Hindi & English).
           </p>
         </div>
@@ -268,21 +268,21 @@ function QuestionsContent() {
         <button
           type="button"
           onClick={handleOpenAdd}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-black hover:bg-neutral-800 text-white text-sm font-semibold transition-colors shadow-xs"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#FAFAFA] hover:bg-[#E4E4E7] text-[#090909] text-xs font-semibold transition-colors"
         >
-          <Icons.Plus size={16} />
+          <Icons.Plus size={15} />
           <span>Add New Question</span>
         </button>
       </div>
 
       {/* Filters Bar */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-xs space-y-3">
+      <div className="bg-[#111111] rounded-2xl border border-[#262626] p-4 space-y-3">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3">
           {/* Search */}
           <div className="lg:col-span-2 relative">
             <Icons.Search
-              size={18}
-              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
+              size={16}
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#71717A]"
             />
             <input
               type="text"
@@ -290,7 +290,7 @@ function QuestionsContent() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && fetchQuestions()}
-              className="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black font-medium"
+              className="w-full pl-9 pr-4 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs placeholder-[#71717A] focus:outline-none focus:border-[#52525B]"
             />
           </div>
 
@@ -302,11 +302,11 @@ function QuestionsContent() {
                 setSelectedSubject(e.target.value)
                 setSelectedTopic('all')
               }}
-              className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs bg-white focus:outline-none focus:border-black font-semibold text-gray-800"
+              className="w-full px-3 py-2 rounded-xl border border-[#262626] text-xs bg-[#151515] text-[#FAFAFA] focus:outline-none focus:border-[#52525B]"
             >
-              <option value="all">All Subjects</option>
+              <option value="all" className="bg-[#151515] text-[#FAFAFA]">All Subjects</option>
               {subjects.map((sub) => (
-                <option key={sub.id} value={sub.id}>
+                <option key={sub.id} value={sub.id} className="bg-[#151515] text-[#FAFAFA]">
                   {sub.name}
                 </option>
               ))}
@@ -318,11 +318,11 @@ function QuestionsContent() {
             <select
               value={selectedTopic}
               onChange={(e) => setSelectedTopic(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs bg-white focus:outline-none focus:border-black font-semibold text-gray-800"
+              className="w-full px-3 py-2 rounded-xl border border-[#262626] text-xs bg-[#151515] text-[#FAFAFA] focus:outline-none focus:border-[#52525B]"
             >
-              <option value="all">All Topics</option>
+              <option value="all" className="bg-[#151515] text-[#FAFAFA]">All Topics</option>
               {filterTopics.map((top) => (
-                <option key={top.id} value={top.id}>
+                <option key={top.id} value={top.id} className="bg-[#151515] text-[#FAFAFA]">
                   {top.name}
                 </option>
               ))}
@@ -334,12 +334,12 @@ function QuestionsContent() {
             <select
               value={selectedDifficulty}
               onChange={(e) => setSelectedDifficulty(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs bg-white focus:outline-none focus:border-black font-semibold text-gray-800"
+              className="w-full px-3 py-2 rounded-xl border border-[#262626] text-xs bg-[#151515] text-[#FAFAFA] focus:outline-none focus:border-[#52525B]"
             >
-              <option value="all">All Difficulties</option>
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
+              <option value="all" className="bg-[#151515] text-[#FAFAFA]">All Difficulties</option>
+              <option value="easy" className="bg-[#151515] text-[#FAFAFA]">Easy</option>
+              <option value="medium" className="bg-[#151515] text-[#FAFAFA]">Medium</option>
+              <option value="hard" className="bg-[#151515] text-[#FAFAFA]">Hard</option>
             </select>
           </div>
 
@@ -348,35 +348,35 @@ function QuestionsContent() {
             <select
               value={selectedLanguage}
               onChange={(e) => setSelectedLanguage(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs bg-white focus:outline-none focus:border-black font-semibold text-gray-800"
+              className="w-full px-3 py-2 rounded-xl border border-[#262626] text-xs bg-[#151515] text-[#FAFAFA] focus:outline-none focus:border-[#52525B]"
             >
-              <option value="all">All Languages</option>
-              <option value="hi">Hindi (हिंदी)</option>
-              <option value="en">English</option>
+              <option value="all" className="bg-[#151515] text-[#FAFAFA]">All Languages</option>
+              <option value="hi" className="bg-[#151515] text-[#FAFAFA]">Hindi (हिंदी)</option>
+              <option value="en" className="bg-[#151515] text-[#FAFAFA]">English</option>
             </select>
           </div>
         </div>
 
         {/* Status Pills */}
-        <div className="flex items-center justify-between pt-2 border-t border-gray-100 text-xs">
-          <div className="flex items-center gap-2">
-            <span className="text-gray-500 font-bold uppercase text-[10px]">Status:</span>
+        <div className="flex items-center justify-between pt-2 border-t border-[#1F1F1F] text-xs">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-[#71717A] font-mono font-medium uppercase text-[10px] mr-1">Status:</span>
             {['all', 'approved', 'pending', 'rejected'].map((st) => (
               <button
                 key={st}
                 type="button"
                 onClick={() => setSelectedStatus(st)}
-                className={`px-2.5 py-1 rounded-lg font-bold uppercase text-[10px] transition-colors ${
+                className={`px-2.5 py-1 rounded-lg font-mono font-semibold uppercase text-[10px] transition-colors ${
                   selectedStatus === st
-                    ? 'bg-black text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-[#191919] text-[#FAFAFA] border border-[#3F3F46]'
+                    : 'bg-[#151515] text-[#71717A] border border-[#262626] hover:text-[#FAFAFA]'
                 }`}
               >
                 {st}
               </button>
             ))}
           </div>
-          <div className="font-bold text-gray-600">{questions.length} questions loaded</div>
+          <div className="font-mono text-[11px] text-[#71717A]">{questions.length} questions loaded</div>
         </div>
       </div>
 
@@ -384,12 +384,12 @@ function QuestionsContent() {
       {loading ? (
         <QuestionBankSkeleton />
       ) : questions.length === 0 ? (
-        <div className="p-12 text-center text-gray-500 bg-white rounded-2xl border border-gray-200 space-y-3">
-          <p className="text-sm font-semibold text-gray-700">No questions found matching your filter criteria.</p>
+        <div className="p-12 text-center text-[#71717A] bg-[#111111] rounded-2xl border border-[#262626] space-y-3">
+          <p className="text-xs font-semibold text-[#A1A1AA]">No questions found matching your filter criteria.</p>
           <button
             type="button"
             onClick={handleOpenAdd}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-black text-white text-xs font-semibold hover:bg-neutral-800"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#FAFAFA] text-[#090909] text-xs font-semibold hover:bg-[#E4E4E7]"
           >
             <Icons.Plus size={14} /> Add First Question
           </button>
@@ -403,32 +403,32 @@ function QuestionsContent() {
             return (
               <div
                 key={q.id}
-                className="p-5 rounded-2xl bg-white border border-gray-200 hover:border-black transition-all shadow-xs"
+                className="p-5 rounded-2xl bg-[#111111] border border-[#262626] hover:border-[#3F3F46] transition-all"
               >
                 {/* Meta Header */}
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-black text-black">Q#{q.id}</span>
-                    <span className="text-gray-300">•</span>
-                    <span className="text-xs font-bold text-gray-800">{q.subject_name}</span>
-                    <span className="text-gray-300">•</span>
-                    <span className="text-xs text-gray-500">{q.topic_name}</span>
+                    <span className="text-xs font-mono font-bold text-[#FAFAFA]">Q#{q.id}</span>
+                    <span className="text-[#52525B]">•</span>
+                    <span className="text-xs font-semibold text-[#FAFAFA]">{q.subject_name}</span>
+                    <span className="text-[#52525B]">•</span>
+                    <span className="text-xs text-[#71717A]">{q.topic_name}</span>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-gray-100 text-black border border-gray-200">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded bg-[#151515] text-[#A1A1AA] border border-[#262626]">
                       {q.language_code === 'hi' ? 'हिंदी (HI)' : 'ENG (EN)'}
                     </span>
-                    <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-gray-100 text-gray-700">
+                    <span className="text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded bg-[#151515] text-[#71717A] border border-[#262626]">
                       {q.difficulty}
                     </span>
                     <span
-                      className={`text-[10px] uppercase font-bold px-2.5 py-0.5 rounded-full ${
+                      className={`text-[10px] uppercase font-mono font-bold px-2.5 py-0.5 rounded-full ${
                         q.status === 'approved'
-                          ? 'bg-black text-white'
+                          ? 'bg-[#191919] text-[#FAFAFA] border border-[#3F3F46]'
                           : q.status === 'pending'
-                          ? 'bg-neutral-200 text-black'
-                          : 'bg-neutral-100 text-neutral-500'
+                          ? 'bg-[#151515] text-[#A1A1AA] border border-[#262626]'
+                          : 'bg-[#151515] text-[#52525B] border border-[#262626]'
                       }`}
                     >
                       {q.status}
@@ -437,7 +437,7 @@ function QuestionsContent() {
                 </div>
 
                 {/* Question Statement */}
-                <h3 className="text-sm md:text-base font-semibold text-gray-900 leading-relaxed mb-4">
+                <h3 className="text-xs sm:text-sm font-semibold text-[#FAFAFA] leading-relaxed mb-4">
                   {q.question_text}
                 </h3>
 
@@ -446,16 +446,16 @@ function QuestionsContent() {
                   {q.options?.map((opt: any) => (
                     <div
                       key={opt.key}
-                      className={`p-3 rounded-xl border text-xs font-medium flex items-center justify-between ${
+                      className={`p-3 rounded-xl border text-xs flex items-center justify-between transition-all ${
                         opt.isCorrect
-                          ? 'bg-neutral-100 border-black text-black font-bold'
-                          : 'bg-white border-gray-200 text-gray-700'
+                          ? 'bg-[#191919] border-[#3F3F46] text-[#FAFAFA] font-medium'
+                          : 'bg-[#151515] border-[#262626] text-[#A1A1AA]'
                       }`}
                     >
                       <div className="flex items-center gap-2.5">
                         <span
-                          className={`w-5 h-5 rounded-md flex items-center justify-center font-bold text-[10px] ${
-                            opt.isCorrect ? 'bg-black text-white' : 'bg-gray-100 text-gray-600'
+                          className={`w-5 h-5 rounded-md flex items-center justify-center font-mono font-bold text-[10px] ${
+                            opt.isCorrect ? 'bg-[#FAFAFA] text-[#090909]' : 'bg-[#202020] text-[#71717A]'
                           }`}
                         >
                           {opt.key}
@@ -463,7 +463,7 @@ function QuestionsContent() {
                         <span>{opt.text}</span>
                       </div>
                       {opt.isCorrect && (
-                        <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-black text-white">
+                        <span className="text-[9px] uppercase font-mono font-bold px-1.5 py-0.2 rounded bg-[#FAFAFA] text-[#090909]">
                           Correct
                         </span>
                       )}
@@ -473,8 +473,8 @@ function QuestionsContent() {
 
                 {/* Explanation accordion */}
                 {isExpanded && q.explanation && (
-                  <div className="p-3.5 rounded-xl bg-gray-50 border border-gray-200 text-xs text-gray-800 mb-4 space-y-1">
-                    <span className="font-bold text-black uppercase text-[10px] block">
+                  <div className="p-3.5 rounded-xl bg-[#151515] border border-[#262626] text-xs text-[#A1A1AA] mb-4 space-y-1">
+                    <span className="font-mono font-bold text-[#FAFAFA] uppercase text-[10px] block">
                       Explanation / व्याख्या:
                     </span>
                     <p className="leading-relaxed">{q.explanation}</p>
@@ -482,15 +482,15 @@ function QuestionsContent() {
                 )}
 
                 {/* Actions Bar */}
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-gray-100 text-xs">
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#1F1F1F] text-xs">
                   <button
                     type="button"
                     onClick={() => setExpandedId(isExpanded ? null : q.id)}
-                    className="text-gray-600 hover:text-black font-semibold flex items-center gap-1"
+                    className="text-[#71717A] hover:text-[#FAFAFA] font-medium flex items-center gap-1 transition-colors"
                   >
                     <span>{isExpanded ? 'Hide Explanation' : 'View Explanation'}</span>
                     <Icons.ChevronDown
-                      size={14}
+                      size={13}
                       className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}
                     />
                   </button>
@@ -500,7 +500,7 @@ function QuestionsContent() {
                       <button
                         type="button"
                         onClick={() => handleUpdateStatus(q.id, 'approved')}
-                        className="px-3 py-1.5 rounded-lg bg-black hover:bg-neutral-800 text-white font-semibold text-xs transition-colors"
+                        className="px-3 py-1.5 rounded-lg bg-[#FAFAFA] hover:bg-[#E4E4E7] text-[#090909] font-semibold text-xs transition-colors"
                       >
                         Approve Question
                       </button>
@@ -508,7 +508,7 @@ function QuestionsContent() {
                       <button
                         type="button"
                         onClick={() => handleUpdateStatus(q.id, 'pending')}
-                        className="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold text-xs transition-colors"
+                        className="px-3 py-1.5 rounded-lg bg-[#171717] hover:bg-[#202020] text-[#A1A1AA] border border-[#262626] font-medium text-xs transition-colors"
                       >
                         Mark Pending
                       </button>
@@ -517,19 +517,19 @@ function QuestionsContent() {
                     <button
                       type="button"
                       onClick={() => handleOpenEdit(q)}
-                      className="p-1.5 rounded-lg text-gray-600 hover:text-black hover:bg-gray-100 transition-colors"
+                      className="p-1.5 rounded-lg text-[#71717A] hover:text-[#FAFAFA] hover:bg-[#202020] transition-colors"
                       title="Edit Question"
                     >
-                      <Icons.Edit size={16} />
+                      <Icons.Edit size={15} />
                     </button>
 
                     <button
                       type="button"
                       onClick={() => setDeleteConfirmId(q.id)}
-                      className="p-1.5 rounded-lg text-gray-600 hover:text-black hover:bg-gray-100 transition-colors"
+                      className="p-1.5 rounded-lg text-[#71717A] hover:text-red-400 hover:bg-red-950/30 transition-colors"
                       title="Delete Question"
                     >
-                      <Icons.Trash size={16} />
+                      <Icons.Trash size={15} />
                     </button>
                   </div>
                 </div>
@@ -551,7 +551,7 @@ function QuestionsContent() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {/* Subject */}
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Subject *
               </label>
               <select
@@ -563,10 +563,10 @@ function QuestionsContent() {
                   const subTopics = topics.filter((t) => t.subject_id === sId)
                   setFormTopicId(subTopics[0]?.id || '')
                 }}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs bg-white focus:outline-none focus:border-black font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] text-xs bg-[#151515] text-[#FAFAFA] focus:outline-none focus:border-[#52525B]"
               >
                 {subjects.map((s) => (
-                  <option key={s.id} value={s.id}>
+                  <option key={s.id} value={s.id} className="bg-[#151515] text-[#FAFAFA]">
                     {s.name}
                   </option>
                 ))}
@@ -575,17 +575,17 @@ function QuestionsContent() {
 
             {/* Topic */}
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Topic *
               </label>
               <select
                 required
                 value={formTopicId}
                 onChange={(e) => setFormTopicId(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs bg-white focus:outline-none focus:border-black font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] text-xs bg-[#151515] text-[#FAFAFA] focus:outline-none focus:border-[#52525B]"
               >
                 {formTopics.map((t) => (
-                  <option key={t.id} value={t.id}>
+                  <option key={t.id} value={t.id} className="bg-[#151515] text-[#FAFAFA]">
                     {t.name}
                   </option>
                 ))}
@@ -594,23 +594,23 @@ function QuestionsContent() {
 
             {/* Language */}
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Language *
               </label>
               <select
                 value={languageCode}
                 onChange={(e) => setLanguageCode(e.target.value as 'hi' | 'en')}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs bg-white focus:outline-none focus:border-black font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] text-xs bg-[#151515] text-[#FAFAFA] focus:outline-none focus:border-[#52525B]"
               >
-                <option value="hi">Hindi (हिंदी)</option>
-                <option value="en">English</option>
+                <option value="hi" className="bg-[#151515] text-[#FAFAFA]">Hindi (हिंदी)</option>
+                <option value="en" className="bg-[#151515] text-[#FAFAFA]">English</option>
               </select>
             </div>
           </div>
 
           {/* Question Text */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+            <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
               Question Statement *
             </label>
             <textarea
@@ -619,32 +619,34 @@ function QuestionsContent() {
               value={questionText}
               onChange={(e) => setQuestionText(e.target.value)}
               placeholder="Enter the full question text here..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-black font-medium"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs placeholder-[#71717A] focus:outline-none focus:border-[#52525B]"
             />
           </div>
 
           {/* 4 MCQ Options */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">
+            <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1.5">
               4 Selectable Options (Radio Select Correct Answer) *
             </label>
             <div className="space-y-2">
               {options.map((opt) => (
                 <div
                   key={opt.key}
-                  className={`flex items-center gap-3 p-2 rounded-xl border ${
-                    opt.isCorrect ? 'border-black bg-neutral-50' : 'border-gray-200'
+                  className={`flex items-center gap-3 p-2 rounded-xl border transition-colors ${
+                    opt.isCorrect
+                      ? 'border-[#3F3F46] bg-[#191919]'
+                      : 'border-[#262626] bg-[#151515]'
                   }`}
                 >
-                  <label className="flex items-center gap-1.5 cursor-pointer shrink-0 font-bold text-xs">
+                  <label className="flex items-center gap-1.5 cursor-pointer shrink-0 font-bold text-xs text-[#FAFAFA]">
                     <input
                       type="radio"
                       name="correct_option"
                       checked={opt.isCorrect}
                       onChange={() => handleCorrectOptionChange(opt.key)}
-                      className="accent-black w-4 h-4 cursor-pointer"
+                      className="accent-white w-4 h-4 cursor-pointer"
                     />
-                    <span>Option {opt.key}</span>
+                    <span className="font-mono">Option {opt.key}</span>
                   </label>
                   <input
                     type="text"
@@ -652,7 +654,7 @@ function QuestionsContent() {
                     value={opt.text}
                     onChange={(e) => handleOptionTextChange(opt.key, e.target.value)}
                     placeholder={`Enter text for Option ${opt.key}...`}
-                    className="flex-1 px-3 py-1.5 rounded-lg border border-gray-300 text-xs focus:outline-none focus:border-black"
+                    className="flex-1 px-3 py-1.5 rounded-lg border border-[#262626] bg-[#111111] text-[#FAFAFA] text-xs placeholder-[#71717A] focus:outline-none focus:border-[#52525B]"
                   />
                 </div>
               ))}
@@ -662,22 +664,22 @@ function QuestionsContent() {
           {/* Marks & Difficulty */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Difficulty
               </label>
               <select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value as 'easy' | 'medium' | 'hard')}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs bg-white focus:outline-none focus:border-black font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] text-xs bg-[#151515] text-[#FAFAFA] focus:outline-none focus:border-[#52525B]"
               >
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
+                <option value="easy" className="bg-[#151515] text-[#FAFAFA]">Easy</option>
+                <option value="medium" className="bg-[#151515] text-[#FAFAFA]">Medium</option>
+                <option value="hard" className="bg-[#151515] text-[#FAFAFA]">Hard</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Positive Marks
               </label>
               <input
@@ -685,12 +687,12 @@ function QuestionsContent() {
                 step="0.25"
                 value={defaultMarks}
                 onChange={(e) => setDefaultMarks(parseFloat(e.target.value))}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black font-mono font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B] font-mono"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Negative Marks
               </label>
               <input
@@ -698,14 +700,14 @@ function QuestionsContent() {
                 step="0.05"
                 value={defaultNegativeMarks}
                 onChange={(e) => setDefaultNegativeMarks(parseFloat(e.target.value))}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black font-mono font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B] font-mono"
               />
             </div>
           </div>
 
           {/* Explanation */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+            <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
               Detailed Solution & Explanation (व्याख्या)
             </label>
             <textarea
@@ -713,21 +715,21 @@ function QuestionsContent() {
               value={explanation}
               onChange={(e) => setExplanation(e.target.value)}
               placeholder="Step-by-step reasoning or formula breakdown..."
-              className="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black font-medium"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs placeholder-[#71717A] focus:outline-none focus:border-[#52525B]"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-200">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#1F1F1F]">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-600 hover:bg-gray-100"
+              className="px-4 py-2 rounded-xl text-xs font-medium text-[#A1A1AA] hover:bg-[#202020] hover:text-[#FAFAFA] transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 rounded-xl bg-black hover:bg-neutral-800 text-white text-xs font-semibold shadow-xs"
+              className="px-5 py-2 rounded-xl bg-[#FAFAFA] hover:bg-[#E4E4E7] text-[#090909] text-xs font-semibold transition-colors"
             >
               {editingQuestion ? 'Update Question' : 'Save to Bank'}
             </button>
@@ -744,21 +746,21 @@ function QuestionsContent() {
         maxWidth="sm"
       >
         <div className="space-y-4">
-          <p className="text-xs text-gray-600">
+          <p className="text-xs text-[#A1A1AA] leading-relaxed">
             Are you sure you want to delete this question? It will be removed from future tests.
           </p>
-          <div className="flex items-center justify-end gap-3 pt-2">
+          <div className="flex items-center justify-end gap-2 pt-2">
             <button
               type="button"
               onClick={() => setDeleteConfirmId(null)}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-600 hover:bg-gray-100"
+              className="px-4 py-2 rounded-xl text-xs font-medium text-[#A1A1AA] hover:bg-[#202020] hover:text-[#FAFAFA] transition-colors"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={() => deleteConfirmId && handleDelete(deleteConfirmId)}
-              className="px-4 py-2 rounded-xl bg-black hover:bg-neutral-800 text-white text-xs font-semibold"
+              className="px-4 py-2 rounded-xl bg-red-950/40 text-red-400 border border-red-900/40 hover:bg-red-900/50 hover:text-red-300 text-xs font-medium transition-colors"
             >
               Confirm Delete
             </button>
@@ -771,7 +773,7 @@ function QuestionsContent() {
 
 export default function QuestionsPage() {
   return (
-    <Suspense fallback={<div className="p-8 text-center text-sm text-gray-400">Loading Question Bank...</div>}>
+    <Suspense fallback={<div className="p-8 text-center text-xs text-[#71717A]">Loading Question Bank...</div>}>
       <QuestionsContent />
     </Suspense>
   )

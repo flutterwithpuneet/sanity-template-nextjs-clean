@@ -9,7 +9,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <div className="min-h-screen bg-gray-50/80 font-sans text-gray-900">
+    <div className="min-h-screen bg-[#090909] text-[#FAFAFA] font-sans selection:bg-[#252525] selection:text-[#FAFAFA]">
       <AdminSidebar
         collapsed={collapsed}
         setCollapsed={setCollapsed}

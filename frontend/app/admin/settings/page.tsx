@@ -65,21 +65,21 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       {/* Header */}
-      <div className="pb-4 border-b border-gray-200">
-        <h1 className="text-2xl font-black text-black tracking-tight">Platform Settings</h1>
-        <p className="text-sm text-gray-500">
+      <div className="pb-4 border-b border-[#262626]">
+        <h1 className="text-2xl font-extrabold text-[#FAFAFA] tracking-tight">Platform Settings</h1>
+        <p className="text-xs sm:text-sm text-[#71717A] mt-1">
           Configure examination rules, default marking schemes, and Rajasthan IA platform parameters.
         </p>
       </div>
 
       {/* Scope Restriction Banner */}
-      <div className="p-4 rounded-2xl bg-neutral-900 text-white border border-neutral-800 text-xs flex items-start gap-3">
-        <Icons.Shield size={20} className="shrink-0 mt-0.5 text-white" />
+      <div className="p-4 rounded-2xl bg-[#151515] text-[#FAFAFA] border border-[#262626] text-xs flex items-start gap-3">
+        <Icons.Shield size={18} className="shrink-0 mt-0.5 text-[#FAFAFA]" />
         <div className="space-y-1">
-          <span className="font-bold text-white uppercase tracking-wider text-[11px]">
+          <span className="font-mono font-bold text-[#FAFAFA] uppercase tracking-wider text-[11px]">
             ExamForge Architecture & Scope Mandate:
           </span>
-          <p className="leading-relaxed text-neutral-300">
+          <p className="leading-relaxed text-[#A1A1AA]">
             ExamForge is dedicated strictly to curated Rajasthan Government Exam preparation with MySQL persistence, hierarchical syllabus trees, manual MCQ authoring, and candidate per-question time tracking. AI auto-generation and Google Forms export are intentionally omitted in accordance with specifications.
           </p>
         </div>
@@ -88,13 +88,13 @@ export default function SettingsPage() {
       {/* Settings Form */}
       <form onSubmit={handleSave} className="space-y-6">
         {/* General Branding */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs space-y-4">
-          <h2 className="text-base font-bold text-black border-b border-gray-100 pb-2">
+        <div className="bg-[#111111] rounded-2xl border border-[#262626] p-6 space-y-4">
+          <h2 className="text-sm font-bold text-[#FAFAFA] border-b border-[#1F1F1F] pb-2">
             General Branding & Organization
           </h2>
 
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+            <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
               Platform Title *
             </label>
             <input
@@ -102,108 +102,108 @@ export default function SettingsPage() {
               required
               value={settings.platform_name}
               onChange={(e) => setSettings({ ...settings, platform_name: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-black font-medium"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs placeholder-[#71717A] focus:outline-none focus:border-[#52525B]"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Conducting Authority
               </label>
               <input
                 type="text"
                 value={settings.exam_authority}
                 onChange={(e) => setSettings({ ...settings, exam_authority: e.target.value })}
-                className="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black"
+                className="w-full px-3.5 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B]"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Language Support
               </label>
               <input
                 type="text"
                 value={settings.exam_language_default}
                 onChange={(e) => setSettings({ ...settings, exam_language_default: e.target.value })}
-                className="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black"
+                className="w-full px-3.5 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B]"
               />
             </div>
           </div>
         </div>
 
         {/* Examination Defaults */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs space-y-4">
-          <h2 className="text-base font-bold text-black border-b border-gray-100 pb-2">
+        <div className="bg-[#111111] rounded-2xl border border-[#262626] p-6 space-y-4">
+          <h2 className="text-sm font-bold text-[#FAFAFA] border-b border-[#1F1F1F] pb-2">
             Default Marking & Examination Parameters
           </h2>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Marks / Question
               </label>
               <input
                 type="text"
                 value={settings.default_marks}
                 onChange={(e) => setSettings({ ...settings, default_marks: e.target.value })}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black font-mono font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B] font-mono"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Negative Penalty
               </label>
               <input
                 type="text"
                 value={settings.default_negative_marks}
                 onChange={(e) => setSettings({ ...settings, default_negative_marks: e.target.value })}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black font-mono font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B] font-mono"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Pass Percentage (%)
               </label>
               <input
                 type="text"
                 value={settings.default_passing_percentage}
                 onChange={(e) => setSettings({ ...settings, default_passing_percentage: e.target.value })}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black font-mono font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B] font-mono"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Default Duration (Mins)
               </label>
               <input
                 type="text"
                 value={settings.default_duration_minutes}
                 onChange={(e) => setSettings({ ...settings, default_duration_minutes: e.target.value })}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black font-mono font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B] font-mono"
               />
             </div>
           </div>
         </div>
 
         {/* Database Info Card */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs space-y-2">
-          <h2 className="text-base font-bold text-black">Database Connection Details</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono pt-1 text-gray-600">
-            <div>Engine: <strong>MySQL 5.5</strong></div>
-            <div>Database: <strong>examforge</strong></div>
-            <div>Tables Live: <strong>34 Active</strong></div>
-            <div>Host: <strong>localhost:3306</strong></div>
+        <div className="bg-[#111111] rounded-2xl border border-[#262626] p-6 space-y-2">
+          <h2 className="text-sm font-bold text-[#FAFAFA]">Database Connection Details</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono pt-1 text-[#71717A]">
+            <div>Engine: <strong className="text-[#FAFAFA]">MySQL 5.5</strong></div>
+            <div>Database: <strong className="text-[#FAFAFA]">examforge</strong></div>
+            <div>Tables Live: <strong className="text-[#FAFAFA]">34 Active</strong></div>
+            <div>Host: <strong className="text-[#FAFAFA]">localhost:3306</strong></div>
           </div>
         </div>
 
         <div className="flex items-center justify-between pt-2">
           {savedSuccess ? (
-            <span className="text-xs font-bold text-black flex items-center gap-1.5">
-              <Icons.CheckCircle size={16} /> Configuration saved to MySQL successfully!
+            <span className="text-xs font-mono font-semibold text-[#FAFAFA] flex items-center gap-1.5">
+              <Icons.CheckCircle size={15} /> Configuration saved to MySQL successfully!
             </span>
           ) : (
             <span></span>
@@ -212,7 +212,7 @@ export default function SettingsPage() {
           <button
             type="submit"
             disabled={saving}
-            className="px-6 py-2.5 rounded-xl bg-black hover:bg-neutral-800 text-white text-xs font-semibold shadow-xs disabled:opacity-50"
+            className="px-6 py-2 rounded-xl bg-[#FAFAFA] hover:bg-[#E4E4E7] text-[#090909] text-xs font-semibold disabled:opacity-50 transition-colors"
           >
             {saving ? 'Saving...' : 'Save Configuration'}
           </button>

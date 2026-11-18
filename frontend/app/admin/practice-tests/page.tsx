@@ -160,10 +160,10 @@ function PracticeTestsContent() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#262626]">
         <div>
-          <h1 className="text-2xl font-black text-black tracking-tight">Mock Tests & Practice Builder</h1>
-          <p className="text-sm text-gray-500">
+          <h1 className="text-2xl font-extrabold text-[#FAFAFA] tracking-tight">Mock Tests & Practice Builder</h1>
+          <p className="text-xs sm:text-sm text-[#71717A] mt-1">
             Build full-length mock drills, sectional tests, and practice papers with checkbox question curation.
           </p>
         </div>
@@ -172,17 +172,17 @@ function PracticeTestsContent() {
           <Link
             href="/practice"
             target="_blank"
-            className="px-4 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-black font-semibold text-sm transition-colors flex items-center gap-2"
+            className="px-3.5 py-2 rounded-xl bg-[#171717] border border-[#262626] hover:bg-[#202020] hover:border-[#3F3F46] text-[#FAFAFA] font-medium text-xs transition-colors flex items-center gap-2"
           >
-            <Icons.CandidatePortal size={16} />
+            <Icons.CandidatePortal size={15} />
             Try Student View
           </Link>
           <button
             type="button"
             onClick={handleOpenCreate}
-            className="px-4 py-2.5 rounded-xl bg-black hover:bg-neutral-800 text-white text-sm font-semibold transition-colors shadow-xs flex items-center gap-2"
+            className="px-4 py-2 rounded-xl bg-[#FAFAFA] hover:bg-[#E4E4E7] text-[#090909] text-xs font-semibold transition-colors flex items-center gap-2"
           >
-            <Icons.Plus size={16} />
+            <Icons.Plus size={15} />
             <span>Create Test</span>
           </button>
         </div>
@@ -192,85 +192,79 @@ function PracticeTestsContent() {
       {loading ? (
         <TableSkeleton cols={6} rows={5} />
       ) : tests.length === 0 ? (
-        <div className="p-12 text-center text-gray-500 bg-white rounded-2xl border border-gray-200 space-y-3">
-          <p className="text-sm font-semibold text-gray-700">No mock tests created yet.</p>
+        <div className="p-12 text-center text-[#71717A] bg-[#111111] rounded-2xl border border-[#262626] space-y-3">
+          <p className="text-xs font-semibold text-[#A1A1AA]">No mock tests created yet.</p>
           <button
             type="button"
             onClick={handleOpenCreate}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-black text-white text-xs font-semibold hover:bg-neutral-800"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#FAFAFA] text-[#090909] text-xs font-semibold hover:bg-[#E4E4E7]"
           >
             <Icons.Plus size={14} /> Create First Practice Drill
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {tests.map((test) => (
             <div
               key={test.id}
-              className="p-5 rounded-2xl bg-white border border-gray-200 hover:border-black transition-all flex flex-col justify-between shadow-xs group"
+              className="p-5 rounded-2xl bg-[#111111] border border-[#262626] hover:border-[#3F3F46] transition-all flex flex-col justify-between group"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-gray-100 text-black border border-gray-200 font-mono">
+                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-[#151515] text-[#FAFAFA] border border-[#262626]">
                     {test.assessment_type}
                   </span>
-                  <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded font-mono ${
-                    (test.difficulty_level || 'medium') === 'low'
-                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                      : (test.difficulty_level || 'medium') === 'high'
-                      ? 'bg-rose-50 text-rose-700 border border-rose-200'
-                      : 'bg-amber-50 text-amber-700 border border-amber-200'
-                  }`}>
+                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-[#191919] text-[#FAFAFA] border border-[#3F3F46]">
                     {test.difficulty_level || 'medium'}
                   </span>
-                  <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-black text-white">
+                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-full bg-[#151515] text-[#A1A1AA] border border-[#262626]">
                     {test.status}
                   </span>
                 </div>
 
-                <h3 className="text-base font-extrabold text-black group-hover:text-black transition-colors mb-1.5">
+                <h3 className="text-sm font-bold text-[#FAFAFA] mb-1.5 leading-snug">
                   {test.title}
                 </h3>
-                <p className="text-xs text-gray-600 line-clamp-2 mb-4">
+                <p className="text-xs text-[#A1A1AA] line-clamp-2 mb-4 leading-relaxed">
                   {test.description || 'Practice test with selected syllabus questions.'}
                 </p>
               </div>
 
               <div>
-                <div className="grid grid-cols-3 gap-2 py-2.5 border-t border-gray-100 text-center text-xs text-gray-600 mb-3 bg-gray-50/50 rounded-xl p-2">
+                <div className="grid grid-cols-3 gap-2 py-2.5 border-t border-[#1F1F1F] text-center text-xs text-[#71717A] mb-3 bg-[#151515] border border-[#262626] rounded-xl p-2 font-mono">
                   <div>
-                    <div className="font-mono font-bold text-black">{test.actual_question_count || test.total_questions}</div>
-                    <div className="text-[10px] text-gray-400 uppercase">Questions</div>
+                    <div className="font-bold text-[#FAFAFA] text-xs">{test.actual_question_count || test.total_questions}</div>
+                    <div className="text-[9px] text-[#71717A] uppercase">Questions</div>
                   </div>
                   <div>
-                    <div className="font-mono font-bold text-black">{test.duration_minutes}m</div>
-                    <div className="text-[10px] text-gray-400 uppercase">Duration</div>
+                    <div className="font-bold text-[#FAFAFA] text-xs">{test.duration_minutes}m</div>
+                    <div className="text-[9px] text-[#71717A] uppercase">Duration</div>
                   </div>
                   <div>
-                    <div className="font-mono font-bold text-black">{Number(test.total_marks || 0).toFixed(0)}</div>
-                    <div className="text-[10px] text-gray-400 uppercase">Marks</div>
+                    <div className="font-bold text-[#FAFAFA] text-xs">{Number(test.total_marks || 0).toFixed(0)}</div>
+                    <div className="text-[9px] text-[#71717A] uppercase">Marks</div>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-                  <span>Student Attempts: <strong>{test.attempts_count || 0}</strong></span>
-                  <span>Pass: <strong>{test.passing_percentage}%</strong></span>
+                <div className="flex items-center justify-between text-xs text-[#71717A] mb-3 font-mono text-[11px]">
+                  <span>Attempts: <strong className="text-[#FAFAFA]">{test.attempts_count || 0}</strong></span>
+                  <span>Pass: <strong className="text-[#FAFAFA]">{test.passing_percentage}%</strong></span>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <Link
                     href={`/practice/${test.id}`}
                     target="_blank"
-                    className="flex-1 py-2 rounded-xl bg-black hover:bg-neutral-800 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-1.5"
+                    className="flex-1 py-1.5 rounded-xl bg-[#FAFAFA] hover:bg-[#E4E4E7] text-[#090909] font-semibold text-xs transition-colors flex items-center justify-center gap-1.5"
                   >
                     <span>Launch Test ↗</span>
                   </Link>
                   <button
                     onClick={() => setDeleteConfirmId(test.id)}
-                    className="p-2 rounded-xl bg-gray-100 hover:bg-neutral-200 text-gray-700 transition-colors"
+                    className="p-2 rounded-xl bg-[#171717] border border-[#262626] hover:bg-red-950/40 hover:text-red-400 hover:border-red-900/40 text-[#71717A] transition-colors"
                     title="Delete Test"
                   >
-                    <Icons.Trash size={15} />
+                    <Icons.Trash size={14} />
                   </button>
                 </div>
               </div>
@@ -290,7 +284,7 @@ function PracticeTestsContent() {
         <form onSubmit={handleSaveTest} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="sm:col-span-2">
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Test Title *
               </label>
               <input
@@ -299,44 +293,44 @@ function PracticeTestsContent() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Rajasthan IA Full-Length Mock Drill 02"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-black font-medium"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs placeholder-[#71717A] focus:outline-none focus:border-[#52525B]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Assessment Type *
               </label>
               <select
                 value={assessmentType}
                 onChange={(e) => setAssessmentType(e.target.value as any)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-xs bg-white focus:outline-none focus:border-black font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B]"
               >
-                <option value="mock">Full-Length Mock</option>
-                <option value="sectional">Sectional Test</option>
-                <option value="topic_test">Topic Test</option>
-                <option value="practice">Practice Drill</option>
+                <option value="mock" className="bg-[#151515] text-[#FAFAFA]">Full-Length Mock</option>
+                <option value="sectional" className="bg-[#151515] text-[#FAFAFA]">Sectional Test</option>
+                <option value="topic_test" className="bg-[#151515] text-[#FAFAFA]">Topic Test</option>
+                <option value="practice" className="bg-[#151515] text-[#FAFAFA]">Practice Drill</option>
               </select>
             </div>
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
-                Difficulty Category (कठिनाई स्तर) *
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
+                Difficulty Category *
               </label>
               <select
                 value={difficultyLevel}
                 onChange={(e) => setDifficultyLevel(e.target.value as any)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-xs bg-white focus:outline-none focus:border-black font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B]"
               >
-                <option value="low">Low Level (सरल / Basic)</option>
-                <option value="medium">Medium Level (मध्यम / Standard)</option>
-                <option value="high">High Level (कठिन / Advanced)</option>
+                <option value="low" className="bg-[#151515] text-[#FAFAFA]">Low Level (सरल / Basic)</option>
+                <option value="medium" className="bg-[#151515] text-[#FAFAFA]">Medium Level (मध्यम / Standard)</option>
+                <option value="high" className="bg-[#151515] text-[#FAFAFA]">High Level (कठिन / Advanced)</option>
               </select>
             </div>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Duration (Mins)
               </label>
               <input
@@ -344,11 +338,11 @@ function PracticeTestsContent() {
                 min="5"
                 value={durationMinutes}
                 onChange={(e) => setDurationMinutes(parseInt(e.target.value) || 60)}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black font-mono font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B] font-mono"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Marks / Question
               </label>
               <input
@@ -356,11 +350,11 @@ function PracticeTestsContent() {
                 step="0.25"
                 value={marksPerQuestion}
                 onChange={(e) => setMarksPerQuestion(parseFloat(e.target.value) || 1.0)}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black font-mono font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B] font-mono"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Negative Marks
               </label>
               <input
@@ -368,40 +362,40 @@ function PracticeTestsContent() {
                 step="0.05"
                 value={negativeMarksPerQuestion}
                 onChange={(e) => setNegativeMarksPerQuestion(parseFloat(e.target.value) || 0.25)}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black font-mono font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B] font-mono"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
                 Pass Percentage
               </label>
               <input
                 type="number"
                 value={passingPercentage}
                 onChange={(e) => setPassingPercentage(parseFloat(e.target.value) || 40)}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:border-black font-mono font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B] font-mono"
               />
             </div>
           </div>
 
           {/* Question Filter & Selection Section */}
-          <div className="border border-gray-200 rounded-2xl p-4 bg-gray-50/50 space-y-3">
+          <div className="border border-[#262626] rounded-2xl p-4 bg-[#151515] space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <div className="text-xs font-bold text-black uppercase">
+              <div className="text-[11px] font-mono font-bold text-[#FAFAFA] uppercase">
                 Select Questions ({selectedQuestionIds.length} Selected • {totalCalculatedMarks} Total Marks)
               </div>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={selectAllEligible}
-                  className="px-2.5 py-1 rounded-lg bg-black text-white text-[11px] font-semibold hover:bg-neutral-800"
+                  className="px-2.5 py-1 rounded-lg bg-[#FAFAFA] text-[#090909] text-[11px] font-semibold hover:bg-[#E4E4E7]"
                 >
                   Select All Visible
                 </button>
                 <button
                   type="button"
                   onClick={() => setSelectedQuestionIds([])}
-                  className="px-2.5 py-1 rounded-lg bg-gray-200 text-gray-800 text-[11px] font-semibold hover:bg-gray-300"
+                  className="px-2.5 py-1 rounded-lg bg-[#202020] border border-[#262626] text-[#A1A1AA] text-[11px] font-medium hover:text-[#FAFAFA]"
                 >
                   Clear Selection
                 </button>
@@ -412,11 +406,11 @@ function PracticeTestsContent() {
               <select
                 value={builderSubjectId}
                 onChange={(e) => setBuilderSubjectId(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs bg-white focus:outline-none focus:border-black font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] text-xs bg-[#111111] text-[#FAFAFA] focus:outline-none focus:border-[#52525B]"
               >
-                <option value="all">Filter by Subject (All)</option>
+                <option value="all" className="bg-[#111111] text-[#FAFAFA]">Filter by Subject (All)</option>
                 {subjects.map((s) => (
-                  <option key={s.id} value={s.id}>
+                  <option key={s.id} value={s.id} className="bg-[#111111] text-[#FAFAFA]">
                     {s.name}
                   </option>
                 ))}
@@ -425,11 +419,11 @@ function PracticeTestsContent() {
               <select
                 value={builderTopicId}
                 onChange={(e) => setBuilderTopicId(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs bg-white focus:outline-none focus:border-black font-medium"
+                className="w-full px-3 py-2 rounded-xl border border-[#262626] text-xs bg-[#111111] text-[#FAFAFA] focus:outline-none focus:border-[#52525B]"
               >
-                <option value="all">Filter by Topic (All)</option>
+                <option value="all" className="bg-[#111111] text-[#FAFAFA]">Filter by Topic (All)</option>
                 {topics.map((t) => (
-                  <option key={t.id} value={t.id}>
+                  <option key={t.id} value={t.id} className="bg-[#111111] text-[#FAFAFA]">
                     {t.name}
                   </option>
                 ))}
@@ -439,7 +433,7 @@ function PracticeTestsContent() {
             {/* Checkbox list of questions */}
             <div className="max-h-60 overflow-y-auto space-y-2 pr-1">
               {eligibleQuestions.length === 0 ? (
-                <div className="py-6 text-center text-xs text-gray-400">
+                <div className="py-6 text-center text-xs text-[#71717A]">
                   No approved questions matching filters.
                 </div>
               ) : (
@@ -449,24 +443,26 @@ function PracticeTestsContent() {
                     <label
                       key={q.id}
                       className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
-                        isChecked ? 'bg-white border-black shadow-xs' : 'bg-white/80 border-gray-200 hover:border-gray-400'
+                        isChecked
+                          ? 'bg-[#191919] border-[#3F3F46]'
+                          : 'bg-[#111111] border-[#262626] hover:border-[#3F3F46]'
                       }`}
                     >
                       <input
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => toggleQuestionSelection(q.id)}
-                        className="mt-1 accent-black w-4 h-4 cursor-pointer shrink-0"
+                        className="mt-1 accent-white w-4 h-4 cursor-pointer shrink-0"
                       />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-[10px] font-bold text-gray-500">#{q.id}</span>
-                          <span className="text-[10px] font-bold text-black">{q.subject_name}</span>
-                          <span className="text-[10px] uppercase font-bold px-1.5 py-0.2 rounded bg-gray-100 text-gray-700">
+                          <span className="text-[10px] font-mono text-[#71717A]">#{q.id}</span>
+                          <span className="text-[10px] font-bold text-[#FAFAFA]">{q.subject_name}</span>
+                          <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-[#151515] text-[#A1A1AA] border border-[#262626]">
                             {q.language_code || 'en'}
                           </span>
                         </div>
-                        <p className="text-xs text-gray-900 font-medium line-clamp-2">
+                        <p className="text-xs text-[#A1A1AA] font-medium line-clamp-2 leading-relaxed">
                           {q.question_text}
                         </p>
                       </div>
@@ -477,17 +473,17 @@ function PracticeTestsContent() {
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-200">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#1F1F1F]">
             <button
               type="button"
               onClick={() => setIsBuilderOpen(false)}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-600 hover:bg-gray-100"
+              className="px-4 py-2 rounded-xl text-xs font-medium text-[#A1A1AA] hover:bg-[#202020] hover:text-[#FAFAFA] transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 rounded-xl bg-black hover:bg-neutral-800 text-white text-xs font-semibold shadow-xs"
+              className="px-5 py-2 rounded-xl bg-[#FAFAFA] hover:bg-[#E4E4E7] text-[#090909] text-xs font-semibold transition-colors"
             >
               Save & Publish Test
             </button>
@@ -504,21 +500,21 @@ function PracticeTestsContent() {
         maxWidth="sm"
       >
         <div className="space-y-4">
-          <p className="text-xs text-gray-600">
+          <p className="text-xs text-[#A1A1AA] leading-relaxed">
             Are you sure you want to delete this test? Student attempts for this test will be removed.
           </p>
-          <div className="flex items-center justify-end gap-3 pt-2">
+          <div className="flex items-center justify-end gap-2 pt-2">
             <button
               type="button"
               onClick={() => setDeleteConfirmId(null)}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-600 hover:bg-gray-100"
+              className="px-4 py-2 rounded-xl text-xs font-medium text-[#A1A1AA] hover:bg-[#202020] hover:text-[#FAFAFA] transition-colors"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={() => deleteConfirmId && handleDeleteTest(deleteConfirmId)}
-              className="px-4 py-2 rounded-xl bg-black hover:bg-neutral-800 text-white text-xs font-semibold"
+              className="px-4 py-2 rounded-xl bg-red-950/40 text-red-400 border border-red-900/40 hover:bg-red-900/50 hover:text-red-300 text-xs font-medium transition-colors"
             >
               Confirm Delete
             </button>
@@ -531,7 +527,7 @@ function PracticeTestsContent() {
 
 export default function PracticeTestsPage() {
   return (
-    <Suspense fallback={<div className="p-8 text-center text-sm text-gray-400">Loading Practice Tests...</div>}>
+    <Suspense fallback={<div className="p-8 text-center text-xs text-[#71717A]">Loading Practice Tests...</div>}>
       <PracticeTestsContent />
     </Suspense>
   )

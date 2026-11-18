@@ -149,12 +149,12 @@ export default function TopicsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#262626]">
         <div>
-          <h1 className="text-2xl font-black text-black tracking-tight">
+          <h1 className="text-2xl font-extrabold text-[#FAFAFA] tracking-tight">
             Hierarchical Topic Management
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-xs sm:text-sm text-[#71717A] mt-1">
             Multi-level syllabus tree structure (Subject → Topic → Sub-topic → Micro-topic).
           </p>
         </div>
@@ -162,16 +162,16 @@ export default function TopicsPage() {
         <button
           type="button"
           onClick={() => handleOpenAdd(null)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-black hover:bg-neutral-800 text-white text-sm font-semibold transition-colors shadow-xs"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#FAFAFA] hover:bg-[#E4E4E7] text-[#090909] text-xs font-semibold transition-colors"
         >
-          <Icons.Plus size={16} />
+          <Icons.Plus size={15} />
           <span>Add Root Topic</span>
         </button>
       </div>
 
       {/* Subject Selector Tabs */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-2 shadow-xs">
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+      <div className="bg-[#111111] rounded-2xl border border-[#262626] p-2">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
           {subjects.map((sub) => {
             const count = topics.filter((t) => t.subject_id === sub.id).length
             const isSelected = sub.id === selectedSubjectId
@@ -181,16 +181,16 @@ export default function TopicsPage() {
                 key={sub.id}
                 type="button"
                 onClick={() => setSelectedSubjectId(sub.id)}
-                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all flex items-center gap-2 ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 ${
                   isSelected
-                    ? 'bg-black text-white shadow-xs'
-                    : 'text-gray-700 hover:text-black hover:bg-gray-100'
+                    ? 'bg-[#191919] text-[#FAFAFA] border border-[#3F3F46] font-semibold'
+                    : 'text-[#71717A] hover:text-[#FAFAFA] hover:bg-[#151515] border border-transparent'
                 }`}
               >
                 <span>{sub.name}</span>
                 <span
-                  className={`px-2 py-0.5 rounded-full text-[10px] font-mono ${
-                    isSelected ? 'bg-neutral-800 text-white' : 'bg-gray-100 text-gray-700'
+                  className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
+                    isSelected ? 'bg-[#252525] text-[#FAFAFA]' : 'bg-[#151515] text-[#71717A]'
                   }`}
                 >
                   {count}
@@ -202,30 +202,30 @@ export default function TopicsPage() {
       </div>
 
       {/* Tree controls bar */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="bg-[#111111] rounded-2xl border border-[#262626] p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="relative w-full sm:w-80">
           <Icons.Search
-            size={18}
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
+            size={16}
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#71717A]"
           />
           <input
             type="text"
             placeholder="Search topics in this subject..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-black font-medium"
+            className="w-full pl-9 pr-4 py-2 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs placeholder-[#71717A] focus:outline-none focus:border-[#52525B]"
           />
         </div>
-        <div className="text-xs font-bold text-gray-500">
+        <div className="text-xs font-mono font-medium text-[#71717A]">
           Showing {filteredTree.length} nodes in {currentSubject?.name}
         </div>
       </div>
 
       {/* Tree Display */}
-      <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-xs">
-        <div className="p-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between text-xs font-bold text-gray-600 uppercase tracking-wider">
+      <div className="bg-[#111111] rounded-2xl border border-[#262626] overflow-hidden">
+        <div className="p-4 bg-[#151515] border-b border-[#262626] flex items-center justify-between text-[11px] font-mono font-medium text-[#71717A] uppercase tracking-wider">
           <span className="flex items-center gap-2">
-            <Icons.Topics size={16} />
+            <Icons.Topics size={15} />
             {currentSubject?.name} Syllabus Hierarchy
           </span>
           <span>Actions</span>
@@ -234,56 +234,56 @@ export default function TopicsPage() {
         {loading ? (
           <CardsGridSkeleton count={6} />
         ) : filteredTree.length === 0 ? (
-          <div className="p-12 text-center text-gray-500 space-y-3">
-            <p className="text-sm font-semibold text-gray-700">No topics added for this subject yet.</p>
+          <div className="p-12 text-center text-[#71717A] space-y-3">
+            <p className="text-xs font-semibold text-[#A1A1AA]">No topics added for this subject yet.</p>
             <button
               type="button"
               onClick={() => handleOpenAdd(null)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-black text-white text-xs font-semibold hover:bg-neutral-800"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#FAFAFA] text-[#090909] text-xs font-semibold hover:bg-[#E4E4E7]"
             >
               <Icons.Plus size={14} /> Add First Root Topic
             </button>
           </div>
         ) : (
-          <div className="divide-y divide-gray-100">
+          <div className="divide-y divide-[#1F1F1F]">
             {filteredTree.map((node) => {
               const indentPadding = Math.min(node.depth * 28, 140)
 
               return (
                 <div
                   key={node.id}
-                  className="p-3.5 sm:p-4 hover:bg-gray-50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 group"
+                  className="p-3.5 sm:p-4 hover:bg-[#151515]/60 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 group"
                   style={{ paddingLeft: `${Math.max(16, indentPadding + 16)}px` }}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center text-gray-400">
+                    <div className="flex items-center text-[#71717A]">
                       {node.depth > 0 ? (
-                        <span className="text-gray-400 font-mono text-sm mr-1">↳</span>
+                        <span className="text-[#52525B] font-mono text-xs mr-1">↳</span>
                       ) : (
-                        <span className="w-2.5 h-2.5 rounded-full bg-black mr-1.5"></span>
+                        <span className="w-2 h-2 rounded-full bg-[#FAFAFA] mr-1.5"></span>
                       )}
                     </div>
 
                     <div className="space-y-0.5">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span
-                          className={`text-sm ${
-                            node.depth === 0 ? 'text-black font-extrabold' : 'text-gray-900 font-semibold'
+                          className={`text-xs sm:text-sm ${
+                            node.depth === 0 ? 'text-[#FAFAFA] font-bold' : 'text-[#A1A1AA] font-medium'
                           }`}
                         >
                           {node.name}
                         </span>
                         <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border ${
+                          className={`text-[9px] font-mono font-bold px-1.5 py-0.2 rounded uppercase border ${
                             node.priority === 'high'
-                              ? 'bg-black text-white border-black'
-                              : 'bg-gray-100 text-gray-700 border-gray-300'
+                              ? 'bg-[#191919] text-[#FAFAFA] border-[#3F3F46]'
+                              : 'bg-[#151515] text-[#71717A] border-[#262626]'
                           }`}
                         >
-                          {node.priority} priority
+                          {node.priority}
                         </span>
                       </div>
-                      <div className="text-[11px] text-gray-500 font-mono">
+                      <div className="text-[10px] text-[#71717A] font-mono">
                         Level {node.depth + 1} Node • {node.questions_count || 0} Questions Linked
                       </div>
                     </div>
@@ -293,29 +293,29 @@ export default function TopicsPage() {
                     <button
                       type="button"
                       onClick={() => handleOpenAdd(node.id)}
-                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-gray-100 hover:bg-black hover:text-white text-gray-800 text-xs font-semibold transition-colors"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#171717] hover:bg-[#202020] hover:border-[#3F3F46] border border-[#262626] text-[#FAFAFA] text-xs font-medium transition-colors"
                       title="Add nested subtopic"
                     >
-                      <Icons.Plus size={14} />
+                      <Icons.Plus size={13} />
                       <span>Add Sub-topic</span>
                     </button>
 
                     <button
                       type="button"
                       onClick={() => handleOpenEdit(node)}
-                      className="p-1.5 rounded-lg text-gray-500 hover:text-black hover:bg-gray-100 transition-colors"
+                      className="p-1.5 rounded-lg text-[#71717A] hover:text-[#FAFAFA] hover:bg-[#202020] transition-colors"
                       title="Edit Topic"
                     >
-                      <Icons.Edit size={16} />
+                      <Icons.Edit size={14} />
                     </button>
 
                     <button
                       type="button"
                       onClick={() => setDeleteConfirmId(node.id)}
-                      className="p-1.5 rounded-lg text-gray-500 hover:text-black hover:bg-gray-100 transition-colors"
+                      className="p-1.5 rounded-lg text-[#71717A] hover:text-red-400 hover:bg-red-950/30 transition-colors"
                       title="Delete Topic"
                     >
-                      <Icons.Trash size={16} />
+                      <Icons.Trash size={14} />
                     </button>
                   </div>
                 </div>
@@ -340,7 +340,7 @@ export default function TopicsPage() {
       >
         <form onSubmit={handleSave} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+            <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
               Topic Name *
             </label>
             <input
@@ -349,36 +349,36 @@ export default function TopicsPage() {
               value={topicName}
               onChange={(e) => setTopicName(e.target.value)}
               placeholder="e.g. Blood Relation, Direct Relationship, CPU Architecture"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-black font-medium"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs placeholder-[#71717A] focus:outline-none focus:border-[#52525B]"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+            <label className="block text-[11px] font-mono font-medium text-[#71717A] uppercase mb-1">
               Exam Weightage Priority
             </label>
             <select
               value={priority}
               onChange={(e) => setPriority(e.target.value as 'low' | 'medium' | 'high')}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-black bg-white font-medium"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-[#262626] bg-[#151515] text-[#FAFAFA] text-xs focus:outline-none focus:border-[#52525B]"
             >
-              <option value="high">High Priority (High frequency in government exams)</option>
-              <option value="medium">Medium Priority</option>
-              <option value="low">Low Priority</option>
+              <option value="high" className="bg-[#151515] text-[#FAFAFA]">High Priority (High frequency in government exams)</option>
+              <option value="medium" className="bg-[#151515] text-[#FAFAFA]">Medium Priority</option>
+              <option value="low" className="bg-[#151515] text-[#FAFAFA]">Low Priority</option>
             </select>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-end gap-2 pt-4 border-t border-[#1F1F1F]">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-600 hover:bg-gray-100 transition-colors"
+              className="px-4 py-2 rounded-xl text-xs font-medium text-[#A1A1AA] hover:bg-[#202020] hover:text-[#FAFAFA] transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 rounded-xl bg-black hover:bg-neutral-800 text-white text-xs font-semibold shadow-xs transition-colors"
+              className="px-5 py-2 rounded-xl bg-[#FAFAFA] hover:bg-[#E4E4E7] text-[#090909] text-xs font-semibold transition-colors"
             >
               {editingTopic ? 'Update Topic' : 'Create Topic'}
             </button>
@@ -395,21 +395,21 @@ export default function TopicsPage() {
         maxWidth="sm"
       >
         <div className="space-y-4">
-          <p className="text-xs text-gray-600 leading-relaxed">
+          <p className="text-xs text-[#A1A1AA] leading-relaxed">
             Deleting this topic node will delete its children subtopics and decouple associated questions. This action is permanent.
           </p>
-          <div className="flex items-center justify-end gap-3 pt-2">
+          <div className="flex items-center justify-end gap-2 pt-2">
             <button
               type="button"
               onClick={() => setDeleteConfirmId(null)}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-600 hover:bg-gray-100 transition-colors"
+              className="px-4 py-2 rounded-xl text-xs font-medium text-[#A1A1AA] hover:bg-[#202020] hover:text-[#FAFAFA] transition-colors"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={() => deleteConfirmId && handleDelete(deleteConfirmId)}
-              className="px-4 py-2 rounded-xl bg-black hover:bg-neutral-800 text-white text-xs font-semibold transition-colors"
+              className="px-4 py-2 rounded-xl bg-red-950/40 text-red-400 border border-red-900/40 hover:bg-red-900/50 hover:text-red-300 text-xs font-medium transition-colors"
             >
               Confirm Delete
             </button>

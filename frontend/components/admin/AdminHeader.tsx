@@ -10,27 +10,27 @@ interface AdminHeaderProps {
 
 export default function AdminHeader({ onToggleMobile }: AdminHeaderProps) {
   return (
-    <header className="sticky top-0 z-30 h-16 bg-white/95 backdrop-blur-md border-b border-gray-200 px-4 sm:px-6 lg:px-8 flex items-center justify-between shadow-2xs">
+    <header className="sticky top-0 z-30 h-16 bg-[#0C0C0C]/90 backdrop-blur-md border-b border-[#262626] px-4 sm:px-6 lg:px-8 flex items-center justify-between">
       {/* Left section: mobile hamburger & breadcrumb badge */}
       <div className="flex items-center gap-3">
         <button
           type="button"
           onClick={onToggleMobile}
-          className="lg:hidden p-2 rounded-xl text-gray-700 hover:text-black hover:bg-gray-100 transition-colors"
+          className="lg:hidden p-2 rounded-xl text-[#A1A1AA] hover:text-[#FAFAFA] hover:bg-[#202020] transition-colors"
           aria-label="Open Navigation"
         >
-          <Icons.Menu size={20} />
+          <Icons.Menu size={18} />
         </button>
 
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-black text-white flex items-center justify-center font-bold text-xs">
+          <div className="w-6 h-6 rounded-md bg-[#191919] border border-[#3F3F46] text-[#FAFAFA] flex items-center justify-center font-bold text-[11px] font-mono">
             IA
           </div>
           <div className="flex flex-col">
-            <span className="text-xs font-black text-black leading-tight tracking-tight">
+            <span className="text-xs font-bold text-[#FAFAFA] leading-tight tracking-tight">
               Rajasthan Informatics Assistant
             </span>
-            <span className="text-[10px] text-gray-500 font-medium">
+            <span className="text-[10px] font-mono text-[#71717A]">
               Administrative Control Console
             </span>
           </div>
@@ -40,8 +40,8 @@ export default function AdminHeader({ onToggleMobile }: AdminHeaderProps) {
       {/* Right section: System state, quick buttons & candidate link */}
       <div className="flex items-center gap-3">
         {/* Status chip */}
-        <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 border border-neutral-300 text-neutral-800 text-[11px] font-bold">
-          <span className="w-2 h-2 rounded-full bg-black"></span>
+        <div className="hidden md:flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#151515] border border-[#262626] text-[#A1A1AA] text-[11px] font-mono font-medium">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#FAFAFA] animate-pulse"></span>
           <span>Database Live</span>
         </div>
 
@@ -49,19 +49,19 @@ export default function AdminHeader({ onToggleMobile }: AdminHeaderProps) {
         <Link
           href="/practice"
           target="_blank"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-900 hover:bg-black text-white text-xs font-semibold transition-colors shadow-xs"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#FAFAFA] hover:bg-[#E4E4E7] text-[#090909] text-xs font-semibold transition-colors shadow-2xs"
           title="Open Student MCQ Practice Portal"
         >
           <Icons.CandidatePortal size={14} />
           <span>Student Portal ↗</span>
         </Link>
 
-        {/* Candidate Profile Pill */}
-        <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-xl bg-gray-100 border border-gray-200 text-xs">
-          <div className="w-5 h-5 rounded-full bg-black text-white font-bold flex items-center justify-center text-[10px]">
+        {/* Admin Profile Pill */}
+        <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-xl bg-[#151515] border border-[#262626] text-xs">
+          <div className="w-5 h-5 rounded-full bg-[#202020] border border-[#3F3F46] text-[#FAFAFA] font-bold flex items-center justify-center text-[10px]">
             P
           </div>
-          <span className="font-bold text-black text-[11px]">Puneet</span>
+          <span className="font-semibold text-[#FAFAFA] text-[11px]">Puneet</span>
         </div>
       </div>
     </header>

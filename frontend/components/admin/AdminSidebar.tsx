@@ -91,34 +91,34 @@ export default function AdminSidebar({
       {/* Mobile Backdrop */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 lg:hidden"
+          className="fixed inset-0 z-40 bg-black/80 backdrop-blur-xs lg:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
       {/* Sidebar container */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 flex flex-col bg-white border-r border-gray-200 transition-all duration-300 ease-in-out ${
+        className={`fixed top-0 bottom-0 left-0 z-50 flex flex-col bg-[#0C0C0C] border-r border-[#262626] transition-all duration-300 ease-in-out ${
           collapsed ? 'w-20' : 'w-64'
         } ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
         {/* Logo / Header */}
-        <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200 bg-white">
+        <div className="h-16 flex items-center justify-between px-4 border-b border-[#262626] bg-[#0C0C0C]">
           <Link
             href="/admin"
             className="flex items-center gap-3 overflow-hidden focus:outline-none"
           >
-            <div className="w-10 h-10 rounded-xl bg-black text-white flex items-center justify-center font-black text-lg shadow-sm shrink-0 border border-black">
+            <div className="w-9 h-9 rounded-xl bg-[#FAFAFA] text-[#090909] flex items-center justify-center font-black text-sm tracking-tight shrink-0 shadow-xs">
               EF
             </div>
             {!collapsed && (
               <div className="flex flex-col">
-                <span className="font-black text-black text-lg leading-tight tracking-tight">
+                <span className="font-bold text-[#FAFAFA] text-sm leading-tight tracking-tight">
                   ExamForge
                 </span>
-                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                <span className="text-[10px] font-mono font-medium text-[#71717A] uppercase tracking-wider">
                   Admin Platform
                 </span>
               </div>
@@ -129,11 +129,11 @@ export default function AdminSidebar({
           <button
             type="button"
             onClick={() => setCollapsed(!collapsed)}
-            className="hidden lg:flex p-1.5 rounded-lg text-gray-500 hover:text-black hover:bg-gray-100 transition-colors"
+            className="hidden lg:flex p-1.5 rounded-lg text-[#71717A] hover:text-[#FAFAFA] hover:bg-[#202020] transition-colors"
             title={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
           >
             <Icons.ChevronRight
-              size={18}
+              size={16}
               className={`transform transition-transform duration-200 ${
                 collapsed ? '' : 'rotate-180'
               }`}
@@ -144,9 +144,9 @@ export default function AdminSidebar({
           <button
             type="button"
             onClick={() => setMobileOpen(false)}
-            className="lg:hidden p-1.5 rounded-lg text-gray-500 hover:text-black hover:bg-gray-100"
+            className="lg:hidden p-1.5 rounded-lg text-[#71717A] hover:text-[#FAFAFA] hover:bg-[#202020]"
           >
-            <Icons.Close size={20} />
+            <Icons.Close size={18} />
           </button>
         </div>
 
@@ -155,21 +155,21 @@ export default function AdminSidebar({
           <Link
             href="/practice"
             target="_blank"
-            className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold bg-gray-100 text-gray-900 border border-gray-200 hover:bg-black hover:text-white transition-all ${
+            className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium bg-[#171717] text-[#A1A1AA] border border-[#262626] hover:bg-[#202020] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-all ${
               collapsed ? 'justify-center' : ''
             }`}
             title="Open Student MCQ Practice Portal"
           >
-            <Icons.CandidatePortal size={16} className="shrink-0" />
+            <Icons.CandidatePortal size={15} className="shrink-0 text-[#FAFAFA]" />
             {!collapsed && (
-              <span className="truncate flex-1">Student Portal ↗</span>
+              <span className="truncate flex-1 font-sans">Student Portal ↗</span>
             )}
           </Link>
         </div>
 
         {/* Navigation list */}
         <div className="flex-1 overflow-y-auto px-3 py-3 space-y-1">
-          <div className="px-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+          <div className="px-3 pb-1 text-[10px] font-mono font-semibold text-[#52525B] uppercase tracking-wider">
             {!collapsed ? 'Modules' : '•'}
           </div>
 
@@ -183,18 +183,18 @@ export default function AdminSidebar({
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
                 title={collapsed ? item.label : undefined}
-                className={`group flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 ${
+                className={`group flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150 ${
                   active
-                    ? 'bg-black text-white shadow-xs'
-                    : 'text-gray-700 hover:bg-gray-100 hover:text-black'
+                    ? 'bg-[#191919] text-[#FAFAFA] border border-[#3F3F46] shadow-2xs font-semibold'
+                    : 'text-[#71717A] hover:bg-[#202020] hover:text-[#FAFAFA] border border-transparent'
                 }`}
               >
                 <div
-                  className={`shrink-0 ${
-                    active ? 'text-white' : 'text-gray-500 group-hover:text-black'
+                  className={`shrink-0 transition-colors ${
+                    active ? 'text-[#FAFAFA]' : 'text-[#71717A] group-hover:text-[#FAFAFA]'
                   }`}
                 >
-                  <IconComponent size={19} />
+                  <IconComponent size={17} />
                 </div>
 
                 {!collapsed && (
@@ -206,22 +206,22 @@ export default function AdminSidebar({
         </div>
 
         {/* Footer info in sidebar */}
-        <div className="p-3 border-t border-gray-200 bg-gray-50/50">
+        <div className="p-3 border-t border-[#262626] bg-[#0C0C0C]">
           <div
-            className={`flex items-center gap-3 p-2 rounded-xl bg-white border border-gray-200 ${
+            className={`flex items-center gap-3 p-2 rounded-xl bg-[#111111] border border-[#262626] ${
               collapsed ? 'justify-center' : ''
             }`}
           >
-            <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-xs shrink-0">
+            <div className="w-7 h-7 rounded-lg bg-[#191919] border border-[#3F3F46] text-[#FAFAFA] flex items-center justify-center font-bold text-xs shrink-0">
               A
             </div>
             {!collapsed && (
               <div className="overflow-hidden flex-1">
-                <div className="text-xs font-bold text-gray-900 truncate">
+                <div className="text-xs font-bold text-[#FAFAFA] truncate">
                   Super Admin
                 </div>
-                <div className="text-[10px] text-gray-500 truncate">
-                  Raj. Informatics Assistant
+                <div className="text-[10px] font-mono text-[#71717A] truncate">
+                  puneet_a1 • IA Console
                 </div>
               </div>
             )}
