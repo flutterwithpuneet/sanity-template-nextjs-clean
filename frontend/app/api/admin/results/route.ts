@@ -152,7 +152,7 @@ export async function GET(req: NextRequest) {
 
     // Distinct students list who have submissions
     const [studentsList]: any = await db.query(`
-      SELECT DISTINCT s.id, s.full_name, s.email, COUNT(att.id) as attempts_count
+      SELECT s.id, s.full_name, s.email, COUNT(att.id) as attempts_count
       FROM students s
       JOIN assessment_attempts att ON s.id = att.student_id AND att.status = 'submitted'
       GROUP BY s.id, s.full_name, s.email
@@ -171,7 +171,7 @@ export async function GET(req: NextRequest) {
       FROM students s
       JOIN assessment_attempts att ON s.id = att.student_id
       WHERE att.status = 'submitted'
-      GROUP BY s.id
+      GROUP BY s.id, s.full_name
       ORDER BY avg_percentage DESC, avg_accuracy DESC
       LIMIT 10
     `)
