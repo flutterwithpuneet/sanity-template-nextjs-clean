@@ -85,7 +85,7 @@ function LoginForm() {
             </svg>
             <div>
               <p className="font-semibold text-white">Session Expired</p>
-              <p className="text-xs text-neutral-400 mt-0.5">You were logged out automatically due to 20 minutes of inactivity. Please sign in again.</p>
+              <p className="text-xs text-neutral-400 mt-0.5">You were logged out automatically due to 3 hours of inactivity. Please sign in again.</p>
             </div>
           </div>
         )}

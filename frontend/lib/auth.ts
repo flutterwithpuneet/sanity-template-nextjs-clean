@@ -4,8 +4,8 @@ import db from '@/lib/db'
 
 const SESSION_SECRET = process.env.SESSION_SECRET || 'examforge-secure-secret-key-992019283-sha512'
 
-// Inactivity timeout: 20 minutes in milliseconds
-export const INACTIVITY_TIMEOUT_MS = 20 * 60 * 1000
+// Inactivity timeout: 3 hours in milliseconds (auto logout only if idle for 3 hours)
+export const INACTIVITY_TIMEOUT_MS = 3 * 60 * 60 * 1000
 
 // Max failed attempts before lockout: 5 attempts
 export const MAX_FAILED_LOGIN_ATTEMPTS = 5

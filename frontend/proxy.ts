@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifySession } from '@/lib/auth'
+import { verifySession, signSession } from '@/lib/auth'
 
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
@@ -23,7 +23,20 @@ export function proxy(req: NextRequest) {
           { status: 403 }
         )
       }
-      return NextResponse.next()
+      
+      const res = NextResponse.next()
+      // Roll active session if older than 5 minutes
+      if (user.lastActivity && Date.now() - user.lastActivity > 5 * 60 * 1000) {
+        const refreshedToken = signSession(user, user.sessionToken)
+        res.cookies.set('examforge_session', refreshedToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          path: '/',
+          maxAge: 7 * 24 * 60 * 60,
+        })
+      }
+      return res
     }
 
     // For Page routes (/admin/*)
@@ -38,6 +51,20 @@ export function proxy(req: NextRequest) {
       unauthorizedUrl.searchParams.set('error', 'unauthorized')
       return NextResponse.redirect(unauthorizedUrl)
     }
+
+    const res = NextResponse.next()
+    // Roll active session if older than 5 minutes
+    if (user.lastActivity && Date.now() - user.lastActivity > 5 * 60 * 1000) {
+      const refreshedToken = signSession(user, user.sessionToken)
+      res.cookies.set('examforge_session', refreshedToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 7 * 24 * 60 * 60,
+      })
+    }
+    return res
   }
 
   return NextResponse.next()

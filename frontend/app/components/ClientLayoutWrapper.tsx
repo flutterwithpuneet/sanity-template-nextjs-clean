@@ -12,8 +12,8 @@ interface ClientLayoutWrapperProps {
   initialSession: any | null
 }
 
-const INACTIVITY_LIMIT_MS = 20 * 60 * 1000 // 20 minutes of continuous inactivity
-const REFRESH_INTERVAL_MS = 60 * 1000 // Ping server at most once per minute during active use
+const INACTIVITY_LIMIT_MS = 3 * 60 * 60 * 1000 // 3 hours of continuous inactivity (180 minutes)
+const REFRESH_INTERVAL_MS = 5 * 60 * 1000 // Ping server once per 5 minutes during active use to roll session token
 
 export default function ClientLayoutWrapper({
   header,
